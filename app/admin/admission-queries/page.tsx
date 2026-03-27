@@ -157,11 +157,6 @@ export default function AdmissionQueriesPage() {
       render: (row: AdmissionQuery) => <span>{row.program}</span>,
     },
     {
-      key: 'createdAt',
-      label: 'Submitted',
-      render: (row: AdmissionQuery) => new Date(row.createdAt).toLocaleDateString(),
-    },
-    {
       key: 'status',
       label: 'Status',
       render: (row: AdmissionQuery) => (
@@ -171,7 +166,8 @@ export default function AdmissionQueriesPage() {
     {
       key: 'message',
       label: 'Message',
-      render: (row: AdmissionQuery) => <span className="whitespace-pre-wrap text-foreground/80">{row.message}</span>,
+      className: 'max-w-96 min-w-64',
+      render: (row: AdmissionQuery) => <span className="truncate block text-foreground/80">{row.message}</span>,
     },
   ];
 
@@ -225,8 +221,8 @@ export default function AdmissionQueriesPage() {
       />
       <Dialog open={statusDialogOpen} onOpenChange={setStatusDialogOpen}>
         <DialogContent className="max-w-2xl w-[95vw] max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Send Status Update Email</DialogTitle>
+          <DialogHeader className="">
+            <DialogTitle className="">Send Status Update Email</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-muted/50 p-4 rounded-lg">
@@ -238,10 +234,10 @@ export default function AdmissionQueriesPage() {
                 <p className="text-sm text-muted-foreground">Email</p>
                 <p className="font-semibold text-foreground">{statusQuery?.email}</p>
               </div>
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <p className="text-sm text-muted-foreground">Program</p>
                 <p className="font-semibold text-foreground">{statusQuery?.program}</p>
-              </div>
+              </div> */}
               <div className="space-y-2">
                 <p className="text-sm text-muted-foreground">New Status</p>
                 <p className={`font-semibold px-2 py-1 rounded w-fit ${statusQuery?.status === 'replied' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
@@ -277,3 +273,4 @@ export default function AdmissionQueriesPage() {
     </div>
   );
 }
+

@@ -9,6 +9,7 @@ interface ContactCardProps {
   subText?: string;
   link?: string;
   className?: string;
+  textColor?: 'white' | 'default';
 }
 
 export function ContactCard({
@@ -18,6 +19,7 @@ export function ContactCard({
   subText,
   link,
   className,
+  textColor = 'default',
 }: ContactCardProps) {
   const CardWrapper = link ? "a" : "div";
   const wrapperProps = link ? { href: link } : {};
@@ -35,10 +37,10 @@ export function ContactCard({
         <Icon className="w-6 h-6 text-primary group-hover:text-white transition-colors" />
       </div>
       <div>
-        <p className="text-xs font-black uppercase tracking-widest text-muted-foreground mb-1 group-hover:text-primary transition-colors">
+        <p className={cn("text-xs font-bold uppercase tracking-widest mb-1 group-hover:text-primary transition-colors", textColor === 'white' ? 'text-white/80' : 'text-muted-foreground')}>
           {title}
         </p>
-        <p className="text-lg font-black text-foreground leading-none mb-1">
+        <p className={cn("text-lg font-bold leading-none mb-1", textColor === 'white' ? 'text-white' : 'text-foreground')}>
           {content}
         </p>
         {subText && (

@@ -11,7 +11,7 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Meridian's Group of Education - Excellence in Learning",
+  title: "Meridian's Group of Education",
   description:
     "Meridian's Group of Education - Premier educational institution committed to excellence, innovation, and student success. Explore our programs, admissions, and resources.",
   keywords: ["education", "school", "admissions", "learning", "programs"],

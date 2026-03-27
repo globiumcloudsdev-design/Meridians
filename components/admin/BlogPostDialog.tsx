@@ -261,9 +261,9 @@ export function BlogPostDialog({ open, onClose, onSubmit, initialData }: BlogPos
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>{initialData ? 'Edit Blog Post' : 'Create New Blog Post'}</DialogTitle>
-          <DialogDescription>
+        <DialogHeader className="">
+          <DialogTitle className="">{initialData ? 'Edit Blog Post' : 'Create New Blog Post'}</DialogTitle>
+          <DialogDescription className="">
             {initialData
               ? 'Update the blog post details below.'
               : 'Fill in the details to create a new blog post.'}
@@ -273,9 +273,9 @@ export function BlogPostDialog({ open, onClose, onSubmit, initialData }: BlogPos
         <form onSubmit={handleSubmit}>
           <Tabs defaultValue="basic" className="w-full">
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="basic">Basic Info</TabsTrigger>
-              <TabsTrigger value="content">Content</TabsTrigger>
-              <TabsTrigger value="seo">SEO</TabsTrigger>
+<TabsTrigger value="basic" className="flex-1">Basic Info</TabsTrigger>
+<TabsTrigger value="content" className="flex-1">Content</TabsTrigger>
+<TabsTrigger value="seo" className="flex-1">SEO</TabsTrigger>
             </TabsList>
 
             {/* Basic Info Tab */}

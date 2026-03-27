@@ -81,7 +81,7 @@ export default function Home() {
           badge="Scientific Discovery"
           title="Nurturing the Next Generation of Innovators"
           description="Our state-of-the-art laboratories and STEM-focused curriculum provide students with the tools they need to explore, experiment, and excel in the sciences."
-          image="https://images.unsplash.com/photo-1564910443496-5fd2d068dd82?auto=format&fit=crop&w=1200&q=80"
+          image="/assets/image.png"
         />
 
         {/* New Image-Rich Facilities Section */}

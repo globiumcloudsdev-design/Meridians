@@ -104,7 +104,7 @@ export default function Admissions() {
                   </h2>
                 </div>
 
-                <div className="relative space-y-8 before:absolute before:left-[1.625rem] before:top-4 before:bottom-4 before:w-[2px] before:bg-gradient-to-b before:from-primary/50 before:via-primary/20 before:to-transparent">
+                <div className="relative space-y-8 before:absolute before:left-[1.625rem] before:top-4 before:bottom-4 before:w-[2px] before:bg-gradient-to-b before:from-primary/80 before:via-primary/50 before:to-transparent">
                   {[
                     {
                       step: 1,
@@ -253,20 +253,23 @@ export default function Admissions() {
                     description="Our expert admission counselors are available to walk you through the nuances of our curriculum and campus culture."
                     className="text-white"
                     accentItalic={true}
+                    textColor="white"
                   />
 
-                  <div className="space-y-6">
+                  <div className="space-y-6 text-white mt-12 lg:mt-20">
                     <ContactCard
                       icon={Phone}
                       title="Call Center"
                       content="0303 3569000"
-                      className="bg-white/10 border-white/10"
+                      className="bg-white/10 border-white/10 text-white"
+                      textColor="white"
                     />
                     <ContactCard
                       icon={Mail}
                       title="Email Support"
                       content="meridians36109@gmail.com"
-                      className="bg-white/10 border-white/10"
+                      className="bg-white/10 border-white/10 text-white"
+                      textColor="white"
                     />
                   </div>
                 </div>
@@ -305,7 +308,7 @@ export default function Admissions() {
                       asChild
                       variant="outline"
                       size="lg"
-                      className="border-primary/30 hover:bg-white h-16 rounded-2xl px-10 text-lg font-bold flex-1"
+                      className="border-primary/30 bg-white h-16 rounded-2xl px-10 text-lg font-bold flex-1"
                     >
                       <Link href="/contact">Visit Campus</Link>
                     </Button>

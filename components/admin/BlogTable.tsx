@@ -22,8 +22,8 @@ export function BlogTable({ posts, onEdit, onDelete, onView }: BlogTableProps) {
         label: 'Title',
         sortable: true,
         searchable: true,
-        className: 'font-medium max-w-75 min-w-48',
-        render: (post) => <span className="truncate block">{post.title}</span>,
+className: 'font-medium max-w-75 min-w-48',
+        render: (post) => <span className="truncate block text-black">{post.title}</span>,
       },
       {
         key: 'author',

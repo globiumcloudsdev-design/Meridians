@@ -56,15 +56,15 @@ const heroSlides = [
       "Extensive extracurricular programs including sports, arts, and leadership activities for a well-rounded growth.",
     badge: "Holistic Development",
   },
-  {
-    image:
-      "https://images.unsplash.com/photo-1564927435849-9a74083d882f?auto=format&fit=crop&w=1920&q=80",
-    title: "Inquiry Based",
-    highlight: "Scientific Minds",
-    description:
-      "State-of-the-art laboratories and STEM programs that prepare students for the careers of tomorrow.",
-    badge: "Innovation & STEM",
-  },
+  // {
+  //   image:
+  //     "https://images.unsplash.com/photo-1564927435849-9a74083d882f?auto=format&fit=crop&w=1920&q=80",
+  //   title: "Inquiry Based",
+  //   highlight: "Scientific Minds",
+  //   description:
+  //     "State-of-the-art laboratories and STEM programs that prepare students for the careers of tomorrow.",
+  //   badge: "Innovation & STEM",
+  // },
   {
     image:
       "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=1920&q=80",
@@ -151,7 +151,7 @@ export const Hero: React.FC = () => {
                     asChild
                     variant="outline"
                     size="xl"
-                    className="w-full sm:w-auto border-white/30 text-white hover:bg-white/10 backdrop-blur-sm transition-all"
+                    className="w-full sm:w-auto border-white/30 text-black hover:bg-white/10 backdrop-blur-sm transition-all"
                   >
                     <Link href="/about">Explore Campus</Link>
                   </Button>
@@ -237,11 +237,10 @@ export const Hero: React.FC = () => {
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`h-1.5 transition-all duration-500 rounded-full ${
-                currentIndex === index
+              className={`h-1.5 transition-all duration-500 rounded-full ${currentIndex === index
                   ? "w-12 bg-primary shadow-[0_0_15px_rgba(var(--primary),0.5)]"
                   : "w-4 bg-white/30 hover:bg-white/50"
-              }`}
+                }`}
             />
           ))}
         </div>
@@ -416,24 +415,21 @@ export const Features: React.FC = () => (
             icon: GraduationCap,
             title: "Academic Excellence",
             desc: "Rigorous curriculum focused on critical thinking and practical application in real-world scenarios.",
-            image:
-              "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80",
+            image: "/assets/images/program1.png",
             color: "text-info",
           },
           {
             icon: Lightbulb,
             title: "Creative Classes",
             desc: "Art, music, and drama programs designed to spark imagination and nurture artistic innovation.",
-            image:
-              "https://images.unsplash.com/photo-1513258496099-48168024adb0?auto=format&fit=crop&w=800&q=80",
+            image: "/assets/images/program2.jpg",
             color: "text-warning",
           },
           {
             icon: Trophy,
             title: "Sports & Arts",
             desc: "Comprehensive extracurricular activities for holistic physical, mental, and social growth.",
-            image:
-              "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80",
+            image: "/assets/images/program3.png",
             color: "text-success",
           },
         ].map((feature, idx) => (
@@ -521,7 +517,7 @@ export const FunGallery: React.FC = () => (
             className="relative rounded-3xl overflow-hidden cursor-pointer"
           >
             <img
-              src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80"
+              src="/assets/images/program3.png"
               alt="Sports"
               className="w-full h-full object-cover"
             />
@@ -531,7 +527,7 @@ export const FunGallery: React.FC = () => (
             className="relative rounded-3xl overflow-hidden cursor-pointer"
           >
             <img
-              src="https://images.unsplash.com/photo-1577891720206-896aff95f68b?auto=format&fit=crop&w=600&q=80"
+              src="/assets/images/program1.png"
               alt="Science"
               className="w-full h-full object-cover"
             />
@@ -657,12 +653,12 @@ export const CampusFacilities: React.FC = () => (
               "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
             category: "Innovation",
           },
-          {
-            title: "Digital Smart Lab",
-            image:
-              "https://images.unsplash.com/photo-1509062522246-373b1d7971d6?auto=format&fit=crop&w=800&q=80",
-            category: "Technology",
-          },
+          // {
+          //   title: "Digital Smart Lab",
+          //   image:
+          //     "https://images.unsplash.com/photo-1509062522246-373b1d7971d6?auto=format&fit=crop&w=800&q=80",
+          //   category: "Technology",
+          // },
           {
             title: "Indoor Sports Arena",
             image:

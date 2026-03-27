@@ -64,7 +64,7 @@ export const Preloader: React.FC = () => {
               className="h-[2px] bg-gradient-to-r from-transparent via-primary/50 to-transparent mx-auto mb-4"
             />
             <p className="text-muted-foreground uppercase tracking-[0.3em] text-xs md:text-sm font-bold">
-              Excellence in Education
+              Group Of Education
             </p>
           </motion.div>
         </div>

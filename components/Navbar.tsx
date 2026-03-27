@@ -68,7 +68,7 @@ export function Navbar() {
               <p
                 className={`text-[10px] uppercase tracking-widest font-bold transition-colors ${!isScrolled && isTransparentPage && !isOpen ? "text-white/70" : "text-muted-foreground"}`}
               >
-                Excellence in Education
+                Group of Education
               </p>
             </div>
           </Link>
