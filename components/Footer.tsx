@@ -15,10 +15,12 @@ import {
 import { useState } from "react";
 import { toast } from "sonner";
 import { API_SUBSCRIBERS } from "@/lib/api/endpoints";
+import { AlreadySubscribedModal } from "./AlreadySubscribedModal";
 
 export function Footer() {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showAlreadySubscribedModal, setShowAlreadySubscribedModal] = useState(false);
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,7 +41,12 @@ export function Footer() {
         toast.success("Subscribed successfully!");
         setEmail("");
       } else {
-        toast.error("Subscription failed. Please try again.");
+        const data = await response.json();
+        if (response.status === 400 && data.error === "Already subscribed with this email") {
+          setShowAlreadySubscribedModal(true);
+        } else {
+          toast.error("Subscription failed. Please try again.");
+        }
       }
     } catch (error) {
       toast.error("Error subscribing. Please try again.");
@@ -171,6 +178,11 @@ export function Footer() {
               </Button>
             </form>
           </div>
+
+          <AlreadySubscribedModal 
+            isOpen={showAlreadySubscribedModal} 
+            onClose={() => setShowAlreadySubscribedModal(false)} 
+          />
         </div>
 
         <div className="border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-8">

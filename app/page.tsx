@@ -43,27 +43,27 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchFeaturedBlogs = async () => {
+  const fetchLatestBlogs = async () => {
       try {
         const response = await fetch(API_BLOG);
         if (response.ok) {
           const data = await response.json();
-          // Filter for featured and published blogs
-          const featured = data
+          // Get latest 6 published blogs
+          const latest = data
             .filter(
-              (blog: BlogPost) => blog.featured && blog.status === "published",
+              (blog: BlogPost) => blog.status === "published",
             )
             .slice(0, 6);
-          setFeaturedBlogs(featured);
+          setFeaturedBlogs(latest);
         }
       } catch (error) {
-        console.error("Error fetching featured blogs:", error);
+        console.error("Error fetching latest blogs:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchFeaturedBlogs();
+    fetchLatestBlogs();
   }, []);
 
   return (
