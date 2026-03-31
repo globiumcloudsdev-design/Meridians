@@ -1,8 +1,1 @@
-# Task Progress: Remove localStorage saving for hero poster dismissal
-
-## Steps to complete:
-- [x] 1. Create TODO.md with plan steps
-- [x] 2. Edit components/HomeSections.tsx to remove localStorage logic in useEffect and handleClosePoster
-- [ ] 3. Test the changes (reload page, dismiss poster, reload again - should show every time)
-- [ ] 4. Mark complete and attempt_completion
-
+# Task: Fix Campus Locations and Email\n\n## Steps to Complete:\n\n- [ ] **Step 1**: Edit `app/contact/page.tsx` to update email to `meridians35102@gmail.com` and add two new campus ContactCards (Boys Alfalah Town & Girls Main Campus) with Google Maps links.\n- [ ] **Step 2**: Edit `components/Footer.tsx` to update email and location text.\n- [ ] **Step 3**: Verify changes by running `npm run dev` and testing links/contact form.\n- [ ] **Step 4**: Mark complete and attempt_completion.\n\n**Status**: In progress...

@@ -121,7 +121,7 @@ export function Footer() {
                   <MapPin className="w-5 h-5" />
                 </div>
                 <span className="text-white/60 font-medium leading-relaxed">
-                  Lahore & Bedian, <br /> Punjab, Pakistan
+                  Alfalah Town (Boys) & Main Girls College Campus, <br /> Lahore, Pakistan
                 </span>
               </li>
               <li className="flex items-center gap-4 group">
@@ -140,10 +140,10 @@ export function Footer() {
                   <Mail className="w-5 h-5" />
                 </div>
                 <a
-                  href="mailto:meridians36109@gmail.com"
+href="mailto:meridians35102@gmail.com"
                   className="text-white/60 hover:text-primary font-bold truncate"
                 >
-                  meridians36109@gmail.com
+                  meridians35102@gmail.com
                 </a>
               </li>
             </ul>

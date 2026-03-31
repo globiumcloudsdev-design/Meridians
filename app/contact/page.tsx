@@ -130,16 +130,23 @@ export default function Contact() {
                     {
                       icon: Mail,
                       title: "Email Us",
-                      content: "meridians36109@gmail.com",
+                      content: "meridians35102@gmail.com",
                       sub: "We reply within 24hrs",
-                      link: "mailto:meridians36109@gmail.com",
+                      link: "mailto:meridians35102@gmail.com",
                     },
                     {
                       icon: MapPin,
-                      title: "Visit Us",
-                      content: "Lahore & Bedian, Punjab",
+                      title: "Boys Campus",
+                      content: "Alfalah Town",
                       sub: "Get Directions",
-                      link: "#",
+                      link: "https://www.google.com/maps?q=31.4837883,74.4195471&z=17&hl=en",
+                    },
+                    {
+                      icon: MapPin,
+                      title: "Main Campus",
+                      content: "Girls College",
+                      sub: "Get Directions",
+                      link: "https://www.google.com/maps?q=31.4849921,74.4181172&z=17&hl=en",
                     },
                   ].map((item, idx) => (
                     <a
