@@ -1,3 +1,4 @@
+/// Contact Page - A comprehensive contact page with a form, contact details, office hours, and social media links. 
 "use client";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { Navbar } from "@/components/Navbar";
