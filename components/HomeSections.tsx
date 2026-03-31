@@ -488,9 +488,9 @@ export const FunGallery: React.FC = () => (
             and learn together every day.
           </p>
         </div>
-        <Button asChild variant="outline" className="rounded-full">
+        {/* <Button asChild variant="outline" className="rounded-full">
           <Link href="/gallery">View Full Gallery</Link>
-        </Button>
+        </Button> */}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-[600px]">
