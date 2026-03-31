@@ -94,17 +94,6 @@ export const Hero: React.FC = () => {
   useEffect(() => {
     const fetchActivePoster = async () => {
       try {
-        const dismissed = localStorage.getItem("heroPosterDismissed");
-        const dismissedAt = localStorage.getItem("heroPosterDismissedAt");
-
-        if (dismissed === "true" && dismissedAt) {
-          const elapsed = Date.now() - Number(dismissedAt);
-          const oneDayMs = 24 * 60 * 60 * 1000;
-          if (elapsed < oneDayMs) {
-            return;
-          }
-        }
-
         const response = await fetch(API_POSTERS_ACTIVE);
         if (!response.ok) {
           return;
@@ -124,8 +113,6 @@ export const Hero: React.FC = () => {
   }, []);
 
   const handleClosePoster = () => {
-    localStorage.setItem("heroPosterDismissed", "true");
-    localStorage.setItem("heroPosterDismissedAt", String(Date.now()));
     setShowPoster(false);
   };
 
@@ -568,9 +555,9 @@ export const FunGallery: React.FC = () => (
             and learn together every day.
           </p>
         </div>
-        <Button asChild variant="outline" className="rounded-full">
+        {/* <Button asChild variant="outline" className="rounded-full">
           <Link href="/gallery">View Full Gallery</Link>
-        </Button>
+        </Button> */}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-[600px]">
