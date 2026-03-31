@@ -7,6 +7,7 @@ import {
   Users,
   MessageSquare,
   FileCheck,
+  CalendarDays,
   Menu,
   X,
   ChevronLeft,
@@ -48,6 +49,12 @@ const navItems = [
     href: "/admin/admission-queries",
     icon: FileCheck,
     description: "Applications",
+  },
+  {
+    label: "Timeline",
+    href: "/admin/timeline",
+    icon: CalendarDays,
+    description: "Admission milestones",
   },
 ];
 

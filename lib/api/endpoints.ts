@@ -22,3 +22,7 @@ export const API_SUBSCRIBERS = '/api/subscribers';
 
 // Email endpoints
 export const API_SEND_EMAIL = '/api/send-email';
+
+// Timeline endpoints
+export const API_TIMELINE = '/api/timeline';
+export const API_TIMELINE_BY_ID = (id: string) => `/api/timeline/${id}`;

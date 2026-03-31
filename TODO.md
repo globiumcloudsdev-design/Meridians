@@ -1,6 +1,11 @@
-# Blog Latest First on Homepage
+# Timeline Datepicker Implementation TODO
 
 ## Steps:
-- [x] Step 1: Create TODO.md
-- [x] Step 2: Update app/page.tsx to fetch latest 6 published blogs
-- [x] Step 3: Test and complete (verified: fetches latest published blogs first via API sort publishedAt: -1)
+- [x] 1. Create TODO.md with plan steps
+- [x] 2. Implement DatePicker in components/admin/TimelineDialog.tsx (add imports, DatePicker component, replace date Input)
+- [x] 3. Update useEffect and handleChange for date parsing/formatting
+- [x] 4. Test the implementation (navigate to admin/timeline, create/edit event, verify datepicker)
+- [x] 5. Mark complete and attempt_completion
+
+Progress: Complete! Datepicker added to admin timeline create/edit form.
+

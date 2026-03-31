@@ -6,3 +6,4 @@ export * from './admission';
 export * from './contact';
 export * from './subscriber';
 export * from './api';
+export * from './timeline';

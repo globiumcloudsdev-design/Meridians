@@ -1,9 +1,11 @@
 "use client";
+import { useEffect, useState, type ComponentType } from "react";
 import { Navbar } from "@/components/Navbar";
 import { PageHero } from "@/components/PageHero";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import {
   CheckCircle,
@@ -23,12 +25,46 @@ import {
   Globe,
   Star,
 } from "lucide-react";
+import * as LucideIcons from "lucide-react";
 import { SectionHeader } from "@/components/SectionHeader";
 import { ContactCard } from "@/components/ContactCard";
 import { FinalCTA } from "@/components/FinalCTA";
 import { AnimatedSection } from "@/components/AnimatedSection";
+import { API_TIMELINE } from "@/lib/api/endpoints";
+import { TimelineEvent } from "@/lib/types";
 
 export default function Admissions() {
+  const [timelineEvents, setTimelineEvents] = useState<TimelineEvent[]>([]);
+  const [timelineLoading, setTimelineLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTimelineEvents = async () => {
+      try {
+        const response = await fetch(API_TIMELINE);
+        if (!response.ok) {
+          throw new Error("Failed to fetch timeline events");
+        }
+
+        const data = await response.json();
+        setTimelineEvents(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error("Error fetching timeline events:", error);
+        setTimelineEvents([]);
+      } finally {
+        setTimelineLoading(false);
+      }
+    };
+
+    fetchTimelineEvents();
+  }, []);
+
+  const resolveIcon = (iconName: string): ComponentType<{ className?: string }> => {
+    const iconCandidate = (LucideIcons as Record<string, unknown>)[iconName];
+    return typeof iconCandidate === "function"
+      ? (iconCandidate as ComponentType<{ className?: string }>)
+      : Calendar;
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -166,7 +202,7 @@ export default function Admissions() {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-black tracking-tight mb-4">
               Timeline for{" "}
-              <span className="text-primary italic font-serif">2024-25</span>
+              <span className="text-primary italic font-serif">Admissions</span>
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Mark your calendars for these critical milestones in the upcoming
@@ -174,68 +210,56 @@ export default function Admissions() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                date: "15 Jan 2024",
-                event: "Portal Opens",
-                desc: "Digital registration goes live.",
-                icon: Globe,
-              },
-              {
-                date: "28 Feb 2024",
-                event: "Registration Close",
-                desc: "Final day to submit applications.",
-                icon: Clock,
-              },
-              {
-                date: "15 Mar 2024",
-                event: "Assessment Week",
-                desc: "Interactive tests and reviews.",
-                icon: ClipboardCheck,
-              },
-              {
-                date: "05 Apr 2024",
-                event: "Selection List",
-                desc: "Announcement of selected students.",
-                icon: Award,
-              },
-              {
-                date: "15 Apr 2024",
-                event: "Fee Submission",
-                desc: "Secure your child's seat officially.",
-                icon: Building2,
-              },
-              {
-                date: "01 Jun 2024",
-                event: "Session Start",
-                desc: "Grand welcome for the new batch.",
-                icon: Star,
-              },
-            ].map((item, idx) => (
-              <AnimatedSection key={idx} direction="up" delay={idx * 0.1}>
-                <div className="group bg-card p-1 rounded-3xl border border-primary/10 hover:border-primary/30 transition-all duration-300 shadow-sm hover:shadow-2xl hover:shadow-primary/5 overflow-hidden">
-                  <div className="bg-primary/5 rounded-[22px] p-6 h-full relative overflow-hidden">
-                    <div className="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full group-hover:scale-150 transition-transform duration-700" />
-                    <div className="flex justify-between items-start mb-6">
-                      <div className="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center text-primary">
-                        <item.icon className="w-6 h-6" />
-                      </div>
-                      <span className="text-[10px] font-black bg-primary text-white px-3 py-1 rounded-full uppercase tracking-widest shadow-lg shadow-primary/20">
-                        {item.date}
-                      </span>
+          {timelineLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {Array.from({ length: 6 }).map((_, idx) => (
+                <div
+                  key={`timeline-skeleton-${idx}`}
+                  className="bg-card p-1 rounded-3xl border border-primary/10 overflow-hidden"
+                >
+                  <div className="bg-primary/5 rounded-[22px] p-6 h-full space-y-5">
+                    <div className="flex justify-between items-start">
+                      <Skeleton className="h-12 w-12 rounded-xl" />
+                      <Skeleton className="h-6 w-24 rounded-full" />
                     </div>
-                    <h3 className="text-xl font-black text-foreground mb-2">
-                      {item.event}
-                    </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {item.desc}
-                    </p>
+                    <Skeleton className="h-6 w-2/3" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-4/5" />
                   </div>
                 </div>
-              </AnimatedSection>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {timelineEvents.map((item, idx) => {
+                const Icon = resolveIcon(item.icon);
+
+                return (
+                  <AnimatedSection key={item._id || `${item.title}-${idx}`} direction="up" delay={idx * 0.1}>
+                    <div className="group bg-card p-1 rounded-3xl border border-primary/10 hover:border-primary/30 transition-all duration-300 shadow-sm hover:shadow-2xl hover:shadow-primary/5 overflow-hidden">
+                      <div className="bg-primary/5 rounded-[22px] p-6 h-full relative overflow-hidden">
+                        <div className="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full group-hover:scale-150 transition-transform duration-700" />
+                        <div className="flex justify-between items-start mb-6">
+                          <div className="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center text-primary">
+                            <Icon className="w-6 h-6" />
+                          </div>
+                          <span className="text-[10px] font-black bg-primary text-white px-3 py-1 rounded-full uppercase tracking-widest shadow-lg shadow-primary/20">
+                            {item.date}
+                          </span>
+                        </div>
+                        <h3 className="text-xl font-black text-foreground mb-2">
+                          {item.title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {item.description}
+                        </p>
+                      </div>
+                    </div>
+                  </AnimatedSection>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
 
