@@ -14,5 +14,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["scripts/**/*.ts"]
+  "include": ["scripts/**/*.ts"],
+  "files": ["seed-admin.ts", "seed-all.ts", "seed-blog-posts.ts", "seed-timeline.ts"]
 }

@@ -26,3 +26,8 @@ export const API_SEND_EMAIL = '/api/send-email';
 // Timeline endpoints
 export const API_TIMELINE = '/api/timeline';
 export const API_TIMELINE_BY_ID = (id: string) => `/api/timeline/${id}`;
+
+// Poster endpoints
+export const API_POSTERS = '/api/posters';
+export const API_POSTERS_BY_ID = (id: string) => `/api/posters/${id}`;
+export const API_POSTERS_ACTIVE = '/api/posters/active';

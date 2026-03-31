@@ -13,11 +13,14 @@ import {
   Star,
   Award,
   CheckCircle2,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { THEME } from "@/lib/theme";
 import { SectionHeader } from "./SectionHeader";
+import { API_POSTERS_ACTIVE } from "@/lib/api/endpoints";
+import { IPoster } from "@/lib/types";
 
 const heroSlides = [
   {
@@ -78,6 +81,8 @@ const heroSlides = [
 
 export const Hero: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [activePoster, setActivePoster] = useState<IPoster | null>(null);
+  const [showPoster, setShowPoster] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -86,8 +91,83 @@ export const Hero: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const fetchActivePoster = async () => {
+      try {
+        const dismissed = localStorage.getItem("heroPosterDismissed");
+        const dismissedAt = localStorage.getItem("heroPosterDismissedAt");
+
+        if (dismissed === "true" && dismissedAt) {
+          const elapsed = Date.now() - Number(dismissedAt);
+          const oneDayMs = 24 * 60 * 60 * 1000;
+          if (elapsed < oneDayMs) {
+            return;
+          }
+        }
+
+        const response = await fetch(API_POSTERS_ACTIVE);
+        if (!response.ok) {
+          return;
+        }
+
+        const data = await response.json();
+        if (data?._id && data?.imageUrl && data?.isActive) {
+          setActivePoster(data);
+          setShowPoster(true);
+        }
+      } catch (error) {
+        console.error("Error fetching active poster:", error);
+      }
+    };
+
+    fetchActivePoster();
+  }, []);
+
+  const handleClosePoster = () => {
+    localStorage.setItem("heroPosterDismissed", "true");
+    localStorage.setItem("heroPosterDismissedAt", String(Date.now()));
+    setShowPoster(false);
+  };
+
   return (
     <>
+      {activePoster && showPoster && (
+        <div className="fixed inset-0 z-[120] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="relative w-full max-w-6xl h-[80vh] rounded-2xl overflow-hidden shadow-2xl">
+            <img
+              src={activePoster.imageUrl}
+              alt={activePoster.title || "Poster"}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/20" />
+
+            <button
+              onClick={handleClosePoster}
+              className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/60 text-white border border-white/20 flex items-center justify-center hover:bg-black/80 transition-colors"
+              aria-label="Close poster"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10 z-10">
+              <div className="max-w-3xl text-white space-y-4">
+                {activePoster.title && (
+                  <h2 className="text-2xl sm:text-4xl font-black tracking-tight">{activePoster.title}</h2>
+                )}
+                {activePoster.subtitle && (
+                  <p className="text-sm sm:text-lg text-white/85 leading-relaxed">{activePoster.subtitle}</p>
+                )}
+                {activePoster.buttonText && activePoster.buttonUrl && (
+                  <Button asChild className="bg-primary hover:bg-primary/90 text-white">
+                    <Link href={activePoster.buttonUrl}>{activePoster.buttonText}</Link>
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <section className="relative min-h-[100dvh] w-full overflow-hidden flex items-center bg-black">
         {/* Background Carousel */}
         <AnimatePresence mode="wait">
@@ -488,9 +568,9 @@ export const FunGallery: React.FC = () => (
             and learn together every day.
           </p>
         </div>
-        {/* <Button asChild variant="outline" className="rounded-full">
+        <Button asChild variant="outline" className="rounded-full">
           <Link href="/gallery">View Full Gallery</Link>
-        </Button> */}
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-[600px]">
@@ -627,7 +707,7 @@ export const CampusFacilities: React.FC = () => (
             physical well-being.
           </p>
         </div>
-        <Button
+        {/* <Button
           asChild
           variant="outline"
           className="rounded-full shadow-sm hover:shadow-md transition-all"
@@ -635,7 +715,7 @@ export const CampusFacilities: React.FC = () => (
           <Link href="/gallery" className="flex items-center gap-2">
             Explore More Facilities <ArrowRight className="w-4 h-4" />
           </Link>
-        </Button>
+        </Button> */}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

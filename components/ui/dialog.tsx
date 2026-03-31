@@ -8,34 +8,40 @@ import { XIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
-function Dialog({
-  ...props
-}) {
+interface DialogProps extends React.ComponentProps<typeof DialogPrimitive.Root> {}
+
+function Dialog({ ...props }: DialogProps) {
   return <DialogPrimitive.Root data-slot="dialog" {...props} />;
 }
 
-function DialogTrigger({
-  ...props
-}) {
+interface DialogTriggerProps extends DialogPrimitive.DialogTriggerProps {}
+
+function DialogTrigger({ ...props }: DialogTriggerProps) {
   return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
 }
 
-function DialogPortal({
-  ...props
-}) {
+interface DialogPortalProps extends DialogPrimitive.DialogPortalProps {}
+
+function DialogPortal({ ...props }: DialogPortalProps) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />;
 }
 
-function DialogClose({
-  ...props
-}) {
+interface DialogCloseProps extends DialogPrimitive.DialogCloseProps {}
+
+function DialogClose({ ...props }: DialogCloseProps) {
   return <DialogPrimitive.Close data-slot="dialog-close" {...props} />;
+}
+
+interface DialogOverlayProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    DialogPrimitive.DialogOverlayProps {
+  className?: string;
 }
 
 function DialogOverlay({
   className,
   ...props
-}) {
+}: DialogOverlayProps) {
   return (
     <DialogPrimitive.Overlay
       data-slot="dialog-overlay"
@@ -47,15 +53,23 @@ function DialogOverlay({
   );
 }
 
+interface DialogContentProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    DialogPrimitive.DialogContentProps {
+  className?: string;
+  children: React.ReactNode;
+  showCloseButton?: boolean;
+}
+
 function DialogContent({
   className,
   children,
   showCloseButton = true,
   ...props
-}) {
+}: DialogContentProps) {
   return (
     <DialogPortal data-slot="dialog-portal">
-      <DialogOverlay />
+      <DialogOverlay className="" />
       <DialogPrimitive.Content
         data-slot="dialog-content"
         // className={cn(
@@ -82,10 +96,15 @@ function DialogContent({
   );
 }
 
+interface DialogHeaderProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string;
+}
+
 function DialogHeader({
   className,
   ...props
-}) {
+}: DialogHeaderProps) {
   return (
     <div
       data-slot="dialog-header"
@@ -94,12 +113,19 @@ function DialogHeader({
   );
 }
 
+interface DialogFooterProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string;
+  children: React.ReactNode;
+  showCloseButton?: boolean;
+}
+
 function DialogFooter({
   className,
   showCloseButton = false,
   children,
   ...props
-}) {
+}: DialogFooterProps) {
   return (
     <div
       data-slot="dialog-footer"
@@ -115,10 +141,14 @@ function DialogFooter({
   );
 }
 
+interface DialogTitleProps extends React.ComponentProps<typeof DialogPrimitive.Title> {
+  className?: string;
+}
+
 function DialogTitle({
   className,
   ...props
-}) {
+}: DialogTitleProps) {
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
@@ -127,10 +157,14 @@ function DialogTitle({
   );
 }
 
+interface DialogDescriptionProps extends React.ComponentProps<typeof DialogPrimitive.Description> {
+  className?: string;
+}
+
 function DialogDescription({
   className,
   ...props
-}) {
+}: DialogDescriptionProps) {
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"

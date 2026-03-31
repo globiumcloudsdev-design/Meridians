@@ -4,6 +4,7 @@ import Image from "next/image";
 import {
   LayoutDashboard,
   FileText,
+  Image as ImageIcon,
   Users,
   MessageSquare,
   FileCheck,
@@ -31,6 +32,12 @@ const navItems = [
     href: "/admin/blog",
     icon: FileText,
     description: "Manage articles",
+  },
+  {
+    label: "Posters",
+    href: "/admin/posters",
+    icon: ImageIcon,
+    description: "Homepage overlays",
   },
   {
     label: "Subscribers",

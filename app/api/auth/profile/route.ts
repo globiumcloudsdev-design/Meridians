@@ -18,8 +18,13 @@ export async function GET(req: NextRequest) {
     } catch {
       return NextResponse.json({ message: 'Invalid or expired token' }, { status: 401 });
     }
+    
+    if (typeof payload !== 'object' || payload === null || !('id' in payload)) {
+      return NextResponse.json({ message: 'Invalid token payload' }, { status: 401 });
+    }
+    
     await connectDB();
-    const user = await User.findById(payload.id).select('-password');
+    const user = await User.findById((payload as any).id).select('-password');
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
