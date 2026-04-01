@@ -1,4 +1,4 @@
-/// Contact Page - A comprehensive contact page with a form, contact details, office hours, and social media links. 
+/// Contact Page - A comprehensive contact page with maps in single row 40% width grid
 "use client";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { Navbar } from "@/components/Navbar";
@@ -37,6 +37,7 @@ export default function Contact() {
     message: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [loadedMaps, setLoadedMaps] = useState<Record<number, boolean>>({});
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -135,24 +136,12 @@ export default function Contact() {
                       sub: "We reply within 24hrs",
                       link: "mailto:meridians35102@gmail.com",
                     },
-                    {
-                      icon: MapPin,
-                      title: "Boys Campus",
-                      content: "Alfalah Town",
-                      sub: "Get Directions",
-                      link: "https://www.google.com/maps?q=31.4837883,74.4195471&z=17&hl=en",
-                    },
-                    {
-                      icon: MapPin,
-                      title: "Main Campus",
-                      content: "Girls College",
-                      sub: "Get Directions",
-                      link: "https://www.google.com/maps?q=31.4849921,74.4181172&z=17&hl=en",
-                    },
                   ].map((item, idx) => (
                     <a
                       key={idx}
                       href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="group flex gap-5 p-5 rounded-[24px] bg-card border border-primary/10 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300"
                     >
                       <div className="w-14 h-14 rounded-2xl bg-primary/5 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-300">
@@ -350,25 +339,27 @@ export default function Contact() {
                       {
                         icon: Facebook,
                         color: "hover:bg-[#1877F2]",
-                        link: "#",
+                        link: "https://www.facebook.com/p/Meridians-Group-Of-Education-100095628877699/",
                       },
                       {
                         icon: Instagram,
                         color:
                           "hover:bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF]",
-                        link: "#",
+                        link: "https://www.instagram.com/meridiansgroupofeducation?fbclid=IwY2xjawQ4g5BleHRuA2FlbQIxMABicmlkETFSZDl6NFlzMjVnbkFjUVhHc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHsloEWwEW3_psm30P4ECMHbJ9O6LuHnTsUWYyv46PHJGmJ5xkym-jf1ud8eV_aem_knxBwc3v2ZC5FEgPA__n1w",
                       },
-                      { icon: Twitter, color: "hover:bg-[#1DA1F2]", link: "#" },
-                      {
-                        icon: Linkedin,
-                        color: "hover:bg-[#0077B5]",
-                        link: "#",
-                      },
-                      { icon: Youtube, color: "hover:bg-[#FF0000]", link: "#" },
+                      // { icon: Twitter, color: "hover:bg-[#1DA1F2]", link: "#" },
+                      // {
+                      //   icon: Linkedin,
+                      //   color: "hover:bg-[#0077B5]",
+                      //   link: "#",
+                      // },
+                      // { icon: Youtube, color: "hover:bg-[#FF0000]", link: "#" },
                     ].map((Social, idx) => (
                       <a
                         key={idx}
                         href={Social.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className={`w-12 h-12 rounded-xl bg-white border border-primary/10 flex items-center justify-center text-muted-foreground hover:text-white ${Social.color} shadow-sm transition-all duration-300 transform hover:-translate-y-1`}
                       >
                         <Social.icon className="w-5 h-5" />
@@ -376,9 +367,64 @@ export default function Contact() {
                     ))}
                   </div>
                 </div>
+
+
               </AnimatedSection>
+              
             </div>
           </div>
+                          {/* Maps - 90% laptop width, no grid */}
+                <div className="w-full mt-10 border border-primary/10 rounded-3xl overflow-hidden shadow-xl shadow-primary/5 bg-card flex flex-col">
+                  {[
+
+{
+                      title: "Boys Campus Map",
+                      src: "https://maps.google.com/maps?q=31.4837883,74.4195471&z=17&output=embed",
+                      googleUrl: "https://maps.google.com/maps?q=31.4837883,74.4195471&z=17",
+                    },
+                    {
+                      title: "Main Girls Campus Map",
+                      src: "https://maps.google.com/maps?q=31.4849921,74.4181172&z=17&output=embed",
+                      googleUrl: "https://maps.google.com/maps?q=31.4849921,74.4181172&z=17",
+                    },
+
+                  ].map((mapItem, idx) => (
+                    <div
+                      key={idx}
+                      className={`w-full ${idx === 0 ? "border-b border-primary/15" : ""}`}
+                    >
+                      <div className="p-6 bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/5 border-b border-primary/20">
+                        <p className="text-sm font-black uppercase tracking-wider text-foreground">
+                          {mapItem.title}
+                        </p>
+                      </div>
+                      <div className="relative h-[300px]">
+                        {!loadedMaps[idx] && (
+                          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-background/80 backdrop-blur-sm">
+                            <div className="w-10 h-10 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
+                            <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">
+                              Loading map...
+                            </p>
+                          </div>
+                        )}
+                        <iframe
+                          title={mapItem.title}
+                          src={mapItem.src}
+                          className="w-full h-full cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                          loading="lazy"
+                          referrerPolicy="no-referrer-when-downgrade"
+                          onLoad={() =>
+                            setLoadedMaps((prev) => ({
+                              ...prev,
+                              [idx]: true,
+                            }))
+                          }
+                          onClick={() => window.open(mapItem.googleUrl, "_blank")}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
         </div>
       </section>
 

@@ -28,6 +28,7 @@ export default function Blog() {
   const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [isLoading, setIsLoading] = useState(true);
+  const [failedPostImages, setFailedPostImages] = useState<Record<string, boolean>>({});
 
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
@@ -171,18 +172,31 @@ export default function Blog() {
                     key={post._id}
                     className="h-full"
                   >
-                    <Card className="group h-full bg-card rounded-[32px] border border-primary/10 overflow-hidden hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 flex flex-col">
+                    <Card className="group h-full bg-card rounded-[32px] border border-primary/10 overflow-hidden hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 flex flex-col py-0">
                       {/* Image Container */}
-                      <div className="relative aspect-[16/10] overflow-hidden">
-                        {post.imageUrl ? (
+                      <div className="relative aspect-[26/16] overflow-hidden">
+                        {post.imageUrl && !failedPostImages[post._id] ? (
                           <img
                             src={post.imageUrl}
                             alt={post.title}
+                            onError={() =>
+                              setFailedPostImages((prev) => ({
+                                ...prev,
+                                [post._id]: true,
+                              }))
+                            }
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                           />
                         ) : (
-                          <div className="w-full h-full bg-primary/5 flex items-center justify-center">
-                            <Newspaper className="w-12 h-12 text-primary/20" />
+                          <div className="w-full h-full bg-gradient-to-br from-primary/10 via-primary/5 to-secondary/10 flex items-center justify-center">
+                            <div className="text-center px-6">
+                              <div className="w-16 h-16 rounded-2xl bg-white/80 border border-primary/20 flex items-center justify-center mx-auto mb-4 shadow-sm">
+                                <Newspaper className="w-8 h-8 text-primary/50" />
+                              </div>
+                              <p className="text-xs font-black uppercase tracking-[0.25em] text-primary/50">
+                                No Image Uploaded
+                              </p>
+                            </div>
                           </div>
                         )}
 

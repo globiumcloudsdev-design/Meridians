@@ -1,10 +1,8 @@
-# Fix TypeScript/JSX Errors in app/admin/admission-queries/page.tsx
+# Task: Make Contact and Apply Now links open the same page (/contact)
 
 ## Steps:
-- [x] 1. Create this TODO.md
-- [x] 2. Fix View Details Dialog JSX structure (close main details div, nest conditional Message properly, match all Dialog tags)
-- [x] 3. Verify no remaining errors
-- [x] 4. Mark complete and attempt_completion
-
-**Status:** All steps completed. JSX errors fixed: proper tag nesting, no syntax issues.
+- [ ] 1. Edit components/Navbar.tsx: Update "Apply Now" and "Apply for Admission" links from /admission-form to /contact
+- [ ] 2. Edit app/admissions/page.tsx: Update "Apply Online Now" link from /admission-form to /contact
+- [ ] 3. Verify changes and test navigation
+- [ ] 4. Mark complete
 

@@ -386,7 +386,7 @@ export function BlogPostDialog({ open, onClose, onSubmit, initialData }: BlogPos
                       <img
                         src={imagePreview}
                         alt="Preview"
-                        className="w-full h-48 object-cover rounded-lg border"
+className="w-full h-48 object-cover rounded-lg"
                       />
                       <button
                         type="button"

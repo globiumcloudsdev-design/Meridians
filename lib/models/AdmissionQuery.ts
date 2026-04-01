@@ -2,7 +2,6 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 
 export interface IAdmissionQuery extends Document {
-  regFee?: string;
   admissionDate?: string;
   name: string;
   class: string;
@@ -24,7 +23,6 @@ export interface IAdmissionQuery extends Document {
 }
 
 const AdmissionQuerySchema = new Schema<IAdmissionQuery>({
-  regFee: { type: String },
   admissionDate: { type: String },
   name: { type: String, required: true },
   class: { type: String, required: true },

@@ -83,6 +83,8 @@ export function Footer() {
                 <a
                   key={i}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center hover:bg-primary hover:text-white hover:-translate-y-1 transition-all duration-300 border border-white/10"
                 >
                   <social.icon className="w-5 h-5" />
@@ -101,6 +103,8 @@ export function Footer() {
                 <li key={item}>
                   <Link
                     href={`/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-white/60 hover:text-primary transition-colors text-lg font-medium flex items-center gap-3 group"
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary group-hover:scale-150 transition-all" />
@@ -117,20 +121,15 @@ export function Footer() {
               Get in Touch
             </h4>
             <ul className="space-y-6">
-              <li className="flex items-start gap-4 group">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20 group-hover:bg-primary group-hover:text-white transition-colors">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <span className="text-white/60 font-medium leading-relaxed">
-                  Alfalah Town (Boys) & Main Girls College Campus, <br /> Lahore, Pakistan
-                </span>
-              </li>
+            
               <li className="flex items-center gap-4 group">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20 group-hover:bg-primary group-hover:text-white transition-colors">
                   <Phone className="w-5 h-5" />
                 </div>
                 <a
                   href="tel:03033569000"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-white/60 hover:text-primary font-bold"
                 >
                   0303 3569000
@@ -142,6 +141,8 @@ export function Footer() {
                 </div>
                 <a
 href="mailto:meridians35102@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-white/60 hover:text-primary font-bold truncate"
                 >
                   meridians35102@gmail.com

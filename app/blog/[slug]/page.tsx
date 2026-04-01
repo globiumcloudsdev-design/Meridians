@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import Markdown from 'react-markdown';
-import { ArrowLeft, Calendar, User, Clock, Tag, Share2, BookOpen, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Calendar, User, Clock, Tag, Share2, BookOpen, ChevronRight, Newspaper } from 'lucide-react';
 import type { BlogPost } from '@/lib/types';
 import { API_BLOG_BY_SLUG } from '@/lib/api/endpoints';
 import { AnimatedSection } from '@/components/AnimatedSection';
@@ -23,6 +23,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
   const [post, setPost] = useState<BlogPost | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [slug, setSlug] = useState<string | null>(null);
+  const [coverImageError, setCoverImageError] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -43,6 +44,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
       if (response.ok) {
         const data = await response.json();
         setPost(data);
+        setCoverImageError(false);
       } else {
         toast.error('Blog post not found');
       }
@@ -105,16 +107,26 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
           initial={{ scale: 1.1 }}
           animate={{ scale: 1 }}
           transition={{ duration: 2, ease: 'easeOut' }}
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-0 h-full w-full"
         >
-          {post.imageUrl ? (
+          {post.imageUrl && !coverImageError ? (
             <img
               src={post.imageUrl}
               alt={post.title}
+              onError={() => setCoverImageError(true)}
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-primary/20 via-primary/10 to-secondary/20" />
+            <div className="w-full h-full bg-gradient-to-br from-primary/20 via-primary/10 to-secondary/20 flex items-center justify-center">
+              <div className="text-center px-6">
+                <div className="w-20 h-20 rounded-3xl bg-white/80 border border-primary/20 flex items-center justify-center mx-auto mb-5 shadow-lg">
+                  <Newspaper className="w-10 h-10 text-primary/60" />
+                </div>
+                <p className="text-xs font-black uppercase tracking-[0.3em] text-primary/70">
+                  No Cover Image
+                </p>
+              </div>
+            </div>
           )}
           <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px]" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
@@ -311,9 +323,9 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
                       <div className="h-1 w-12 bg-primary/20 rounded-full" />
                     </div>
                   ),
-                  img: ({ src, alt, ...props }) => (
-                    <span className="block my-8 rounded-[24px] overflow-hidden border border-primary/10 shadow-xl shadow-primary/5">
-                      <img src={src} alt={alt || ''} className="w-full h-auto object-cover" {...props} />
+img: ({ src, alt, ...props }) => (
+                    <span className="block my-8 rounded-[24px] overflow-hidden shadow-xl shadow-primary/5">
+                      <img src={src} alt={alt || ''} className="w-full h-auto object-contain max-h-96 mx-auto block rounded-[20px]" {...props} />
                     </span>
                   ),
                   strong: ({ ...props }) => (

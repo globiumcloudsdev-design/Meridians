@@ -238,7 +238,7 @@ export default function Programs() {
                           className="w-full h-12 bg-primary hover:bg-primary/90 rounded-xl shadow-lg shadow-primary/20 group-hover:scale-[1.02] transition-transform"
                         >
                           <Link
-                            href="/admissions"
+                            href="/admission-form"
                             className="flex items-center justify-center gap-2 font-bold"
                           >
                             Enroll Now
@@ -290,9 +290,9 @@ export default function Programs() {
       <FinalCTA
         title="Choose Your Path to"
         titleAccent="Excellence"
-        description="Find the perfect program that matches your interests and aspirations. Join our community of learners and achievers today."
+        description="Find the perfect program that matchers your interests and aspirations. Join our community of learners and achievers today."
         primaryBtnText="Explore Admissions"
-        primaryBtnLink="/admissions"
+        primaryBtnLink="/admission-form"
       />
 
       <Footer />

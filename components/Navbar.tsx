@@ -39,6 +39,11 @@ export function Navbar() {
     { label: "Contact", href: "/contact" },
   ];
 
+  const showHeroLogo = !isScrolled && isTransparentPage;
+  const logoSrc = showHeroLogo
+    ? "/assets/MERIDIANS-LOGO white-01.png"
+    : "/logo.jpg";
+
   return (
     <nav
       className={`fixed top-0 z-50 w-full transition-all duration-500 ${
@@ -51,9 +56,9 @@ export function Navbar() {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="relative w-26 h-12">
+            <div className="relative w-32 h-16">
               <Image
-                src="/logo.jpg"
+                src={logoSrc}
                 alt="Meridian's Logo"
                 fill
                 className="object-contain"

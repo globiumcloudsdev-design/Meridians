@@ -8,7 +8,6 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const {
-      regFee,
       admissionDate,
       name,
       class: className,
@@ -27,7 +26,13 @@ export async function POST(request: NextRequest) {
       message
     } = body;
 
-    if (!name || !parentEmail || !className || !contact1 || !program) {
+    const cleanedName = typeof name === 'string' ? name.trim() : '';
+    const cleanedClass = typeof className === 'string' ? className.trim() : '';
+    const cleanedContact1 = typeof contact1 === 'string' ? contact1.trim() : '';
+    const cleanedParentEmail = typeof parentEmail === 'string' ? parentEmail.trim().toLowerCase() : '';
+    const cleanedProgram = typeof program === 'string' ? program.trim() : '';
+
+    if (!cleanedName || !cleanedParentEmail || !cleanedClass || !cleanedContact1 || !cleanedProgram) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -35,10 +40,9 @@ export async function POST(request: NextRequest) {
     }
 
     const admissionQuery = new AdmissionQuery({
-      regFee,
       admissionDate,
-      name,
-      class: className,
+      name: cleanedName,
+      class: cleanedClass,
       fatherName,
       shift,
       fatherOccupation,
@@ -46,14 +50,12 @@ export async function POST(request: NextRequest) {
       homeAddress,
       subjects,
       dob,
-      contact1,
+      contact1: cleanedContact1,
       contact2,
-      phone: contact1,
-      email: parentEmail,
-      parentEmail,
+      parentEmail: cleanedParentEmail,
       principal,
-      program,
-      message: message || '',
+      program: cleanedProgram,
+      message: typeof message === 'string' ? message.trim() : '',
       status: 'pending',
     });
 

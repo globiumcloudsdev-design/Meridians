@@ -33,26 +33,27 @@ const PROGRAMS = [
   "Senior Secondary (Classes 9-12)",
 ];
 
+const INITIAL_FORM_DATA = {
+  admissionDate: "",
+  name: "",
+  class: "",
+  fatherName: "",
+  shift: "",
+  fatherOccupation: "",
+  fatherCnic: "",
+  homeAddress: "",
+  subjects: "",
+  dob: "",
+  contact1: "",
+  contact2: "",
+  parentEmail: "",
+  principal: "",
+  program: "",
+  message: "",
+};
+
 export default function AdmissionForm() {
-  const [formData, setFormData] = useState({
-    regFee: "5000",
-    admissionDate: "",
-    name: "",
-    class: "",
-    fatherName: "",
-    shift: "",
-    fatherOccupation: "",
-    fatherCnic: "",
-    homeAddress: "",
-    subjects: "",
-    dob: "",
-    contact1: "",
-    contact2: "",
-    parentEmail: "",
-    principal: "",
-    program: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (
@@ -75,12 +76,28 @@ export default function AdmissionForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const payload = {
+      ...formData,
+      name: formData.name.trim(),
+      class: formData.class.trim(),
+      parentEmail: formData.parentEmail.trim().toLowerCase(),
+      contact1: formData.contact1.replace(/\s+/g, "").trim(),
+      contact2: formData.contact2.replace(/\s+/g, "").trim(),
+      fatherName: formData.fatherName.trim(),
+      fatherOccupation: formData.fatherOccupation.trim(),
+      fatherCnic: formData.fatherCnic.trim(),
+      homeAddress: formData.homeAddress.trim(),
+      subjects: formData.subjects.trim(),
+      principal: formData.principal.trim(),
+      message: formData.message.trim(),
+    };
+
     if (
-      !formData.name ||
-      !formData.class ||
-      !formData.contact1 ||
-      !formData.parentEmail ||
-      !formData.program
+      !payload.name ||
+      !payload.class ||
+      !payload.contact1 ||
+      !payload.parentEmail ||
+      !payload.program
     ) {
       toast.error("Please fill in all required fields");
       return;
@@ -91,34 +108,19 @@ export default function AdmissionForm() {
       const response = await fetch(API_ADMISSION, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
         toast.success(
           "Application submitted successfully! We will contact you soon.",
         );
-        setFormData({
-          regFee: "5000",
-          admissionDate: "",
-          name: "",
-          class: "",
-          fatherName: "",
-          shift: "",
-          fatherOccupation: "",
-          fatherCnic: "",
-          homeAddress: "",
-          subjects: "",
-          dob: "",
-          contact1: "",
-          contact2: "",
-          parentEmail: "",
-          principal: "",
-          program: "",
-          message: "",
-        });
+        setFormData(INITIAL_FORM_DATA);
       } else {
-        toast.error("Failed to submit application. Please try again.");
+        const data = await response.json().catch(() => ({}));
+        toast.error(
+          data?.error || "Failed to submit application. Please try again.",
+        );
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -140,19 +142,19 @@ export default function AdmissionForm() {
         description="Begin your child's journey towards excellence. Fill out the application form below to get started."
       />
 
-      <section className="py-24 bg-background relative overflow-hidden">
+      <section className="py-32 bg-background relative overflow-hidden">
         {/* Background Decorative Elements */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -z-10" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[120px] -z-10" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
             {/* Left Column: Form */}
             <div className="lg:col-span-7">
               <AnimatedSection direction="left">
                 <div className="relative p-1 rounded-[40px] bg-gradient-to-br from-primary/20 via-transparent to-secondary/20 shadow-2xl">
                   <Card className="border-none rounded-[39px] bg-card/80 backdrop-blur-xl overflow-hidden">
-                    <CardHeader className="p-8 md:p-12 pb-4">
+                    <CardHeader className="p-8 md:p-12 pb-8">
                       <div className="flex items-center gap-4 mb-6">
                         <div className="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center shadow-lg shadow-primary/20">
                           <FileText className="w-6 h-6" />
@@ -169,27 +171,12 @@ export default function AdmissionForm() {
                       <div className="h-[1px] w-full bg-gradient-to-r from-primary/10 via-primary/20 to-transparent" />
                     </CardHeader>
 
-                    <CardContent className="p-8 md:p-12 pt-4">
-                      <form onSubmit={handleSubmit} className="space-y-8">
-
-                        {/* Row 1: Reg Fee, Date of Admission */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                          <div className="space-y-2.5">
-                            <Label htmlFor="regFee" className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">
-                              Reg Fee (Rs)
-                            </Label>
-                            <Input
-                              id="regFee"
-                              name="regFee"
-                              type="text"
-                              value={formData.regFee}
-                              onChange={handleChange}
-                              readOnly
-                              className="h-14 rounded-2xl border-primary/10 bg-primary/5 focus:bg-white transition-all focus:ring-2 focus:ring-primary/20"
-                            />
-                          </div>
-                          <div className="space-y-2.5">
-                            <Label htmlFor="admissionDate" className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">
+                    <CardContent className="p-6 md:p-10 pt-0">
+                      <form onSubmit={handleSubmit} className="space-y-0">
+                        {/* Row 1: Date of Admission */}
+                        <div className="grid grid-cols-1 gap-6 sm:gap-8">
+                          <div className="space-y-3">
+                            <Label htmlFor="admissionDate" className="text-sm font-black uppercase tracking-widest text-muted-foreground">
                               Date of Admission
                             </Label>
                             <Input
@@ -476,7 +463,7 @@ export default function AdmissionForm() {
                         </div> */}
 
                         {/* Submit Button */}
-                        <div className="pt-4">
+                        <div className="pt-8">
                           <Button
                             type="submit"
                             disabled={isLoading}
@@ -497,7 +484,7 @@ export default function AdmissionForm() {
                           </Button>
                         </div>
 
-                        <p className="text-[11px] text-muted-foreground text-center font-medium max-w-lg mx-auto leading-relaxed">
+                        <p className="text-sm text-muted-foreground text-center font-medium max-w-lg mx-auto leading-relaxed">
                           By clicking submit, you agree to our terms of
                           enrollment. Our admissions office will process your
                           data securely and contact you within 48 hours.
@@ -510,7 +497,7 @@ export default function AdmissionForm() {
             </div>
 
             {/* Right Column: Info Cards */}
-            <div className="lg:col-span-5 space-y-8">
+            <div className="lg:col-span-5 space-y-10">
               <AnimatedSection direction="right">
                 <div className="mb-10">
                   <span className="inline-block px-4 py-1.5 rounded-full bg-secondary/10 border border-secondary/20 text-secondary text-[10px] font-black uppercase tracking-[0.2em] mb-4">
@@ -543,14 +530,14 @@ export default function AdmissionForm() {
                       content:
                         "Need help with certificates? Our helpdesk is available 24/7 to guide you through the paperwork.",
                       icon: FileText,
-                      color: "secondary",
+                      color: "primary",
                     },
                     {
                       title: "Campus Visit",
                       content:
                         "After form submission, we'll schedule a personalized campus tour for you and your child.",
                       icon: Users,
-                      color: "info",
+                      color: "primary",
                     },
                   ].map((item, idx) => (
                     <div

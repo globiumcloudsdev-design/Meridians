@@ -2,7 +2,6 @@
 
 export interface AdmissionQuery {
   _id: string;
-  regFee: string;
   admissionDate: string;
   name: string;
   class: string;
@@ -29,7 +28,6 @@ export interface CreateAdmissionQueryInput {
   class: string;
   contact1: string;
   program: string;
-  regFee?: string;
   admissionDate?: string;
   fatherName?: string;
   shift?: string;

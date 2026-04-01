@@ -43,6 +43,7 @@ import { getCurrentAcademicSession } from "@/lib/utils";
 export default function Home() {
   const [featuredBlogs, setFeaturedBlogs] = useState<BlogPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [failedFeaturedImages, setFailedFeaturedImages] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
   const fetchLatestBlogs = async () => {
@@ -137,20 +138,37 @@ export default function Home() {
                       className="pl-4 md:basis-1/2 lg:basis-1/3"
                     >
                       <Card className="border-none shadow-sm hover:shadow-xl transition-all h-full flex flex-col group overflow-hidden rounded-3xl group">
-                        {blog.imageUrl && (
                           <div className="relative w-full h-64 overflow-hidden bg-muted">
-                            <img
-                              src={blog.imageUrl}
-                              alt={blog.title}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            />
+                            {blog.imageUrl && !failedFeaturedImages[blog._id] ? (
+                              <img
+                                src={blog.imageUrl}
+                                alt={blog.title}
+                                onError={() =>
+                                  setFailedFeaturedImages((prev) => ({
+                                    ...prev,
+                                    [blog._id]: true,
+                                  }))
+                                }
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gradient-to-br from-primary/10 via-primary/5 to-secondary/10 flex items-center justify-center">
+                                <div className="text-center px-6">
+                                  <div className="w-16 h-16 rounded-2xl bg-white/80 border border-primary/20 flex items-center justify-center mx-auto mb-4 shadow-sm">
+                                    <Newspaper className="w-8 h-8 text-primary/50" />
+                                  </div>
+                                  <p className="text-xs font-black uppercase tracking-[0.25em] text-primary/50">
+                                    No Image Uploaded
+                                  </p>
+                                </div>
+                              </div>
+                            )}
                             <div className="absolute top-4 left-4">
                               <span className="text-xs font-bold uppercase tracking-widest text-white bg-primary px-3 py-1 rounded-full">
                                 {blog.category || "General"}
                               </span>
                             </div>
                           </div>
-                        )}
                         <div className="p-8 flex-1 flex flex-col">
                           <p className="text-xs text-muted-foreground mb-4 font-medium uppercase tracking-widest">
                             {new Date(blog.publishedAt).toLocaleDateString(

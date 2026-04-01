@@ -368,7 +368,6 @@ export default function AdmissionQueriesPage() {
                 <dl className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div><dt className="text-sm font-medium text-muted-foreground mb-1">Shift</dt><dd className="text-foreground font-medium">{selectedQuery.shift || 'N/A'}</dd></div>
                   <div><dt className="text-sm font-medium text-muted-foreground mb-1">Subjects</dt><dd className="text-foreground font-medium">{selectedQuery.subjects || 'N/A'}</dd></div>
-                  <div><dt className="text-sm font-medium text-muted-foreground mb-1">Registration Fee</dt><dd className="text-foreground font-medium">{selectedQuery.regFee || 'N/A'}</dd></div>
                   <div><dt className="text-sm font-medium text-muted-foreground mb-1">Admission Date</dt><dd className="text-foreground font-medium">{selectedQuery.admissionDate || 'N/A'}</dd></div>
                   <div><dt className="text-sm font-medium text-muted-foreground mb-1">Principal</dt><dd className="text-foreground font-medium">{selectedQuery.principal || 'N/A'}</dd></div>
                 </dl>
