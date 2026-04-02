@@ -15,9 +15,11 @@ import worldFacilityArena from "../assets/home/World-Class Facilities/Indoor Spo
 import worldFacilitySmartLab from "../assets/home/World-Class Facilities/Digital Smart Lab-02.jpg";
 
 import aboutInspiration1 from "../assets/About/Our Inspirations/about pics-01.jpg";
+
 import aboutInspiration2 from "../assets/About/Our Inspirations/about pics-02.jpg";
 import aboutInspiration3 from "../assets/About/Our Inspirations/about pics-03.jpg";
 import aboutInspiration4 from "../assets/About/Our Inspirations/about pics-04.jpg";
+import aboutInspiration5 from "../assets/About/Our Inspirations/about pics-05.jpg";
 import aboutFoundation from "../assets/About/The Foundation/The Foundation-01-01.jpg";
 
 import admissionsImage from "../assets/Admissions/Admissions-01.jpg";
@@ -48,6 +50,7 @@ export const aboutAssets = {
         aboutInspiration2,
         aboutInspiration3,
         aboutInspiration4,
+        aboutInspiration5,
     ],
     "The Foundation": [aboutFoundation],
 } as const;

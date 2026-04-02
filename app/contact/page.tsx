@@ -371,61 +371,71 @@ export default function Contact() {
 
 
               </AnimatedSection>
-              
+
             </div>
           </div>
-                          {/* Maps - 90% laptop width, no grid */}
-                <div className="w-full mt-10 border border-primary/10 rounded-3xl overflow-hidden shadow-xl shadow-primary/5 bg-card flex flex-col">
-                  {[
+          {/* Maps - 90% laptop width, no grid */}
+          <div className="w-full mt-10 border border-primary/10 rounded-3xl overflow-hidden shadow-xl shadow-primary/5 bg-card flex flex-col">
+            {[
+              {
+                title: "Boys Campus Map",
+                src: "https://maps.google.com/maps?q=31.4837883,74.4195471&z=17&output=embed",
+                googleUrl: "https://maps.google.com/maps?q=31.4837883,74.4195471&z=17",
+              },
+              {
+                title: "Main Girls Campus Map",
+                src: "https://maps.google.com/maps?q=31.4849921,74.4181172&z=17&output=embed",
+                googleUrl: "https://maps.google.com/maps?q=31.4849921,74.4181172&z=17",
+              },
+              {
+                title: "Alfalah Town Campus Map",
+                address: "Bedian Road, Alfalah Town, near Toheed Mart",
+                src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3402.477221151887!2d74.41746457430202!3d31.483564048961952!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39190f10d82ef259%3A0xc8950709f77ff8d0!2sTauheed%20Store!5e0!3m2!1sen!2s!4v1775135276995!5m2!1sen!2s",
+                googleUrl: "https://maps.app.goo.gl/CtDWuJqEo1aXbPTN9",
+              },
 
-{
-                      title: "Boys Campus Map",
-                      src: "https://maps.google.com/maps?q=31.4837883,74.4195471&z=17&output=embed",
-                      googleUrl: "https://maps.google.com/maps?q=31.4837883,74.4195471&z=17",
-                    },
-                    {
-                      title: "Main Girls Campus Map",
-                      src: "https://maps.google.com/maps?q=31.4849921,74.4181172&z=17&output=embed",
-                      googleUrl: "https://maps.google.com/maps?q=31.4849921,74.4181172&z=17",
-                    },
-
-                  ].map((mapItem, idx) => (
-                    <div
-                      key={idx}
-                      className={`w-full ${idx === 0 ? "border-b border-primary/15" : ""}`}
-                    >
-                      <div className="p-6 bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/5 border-b border-primary/20">
-                        <p className="text-sm font-black uppercase tracking-wider text-foreground">
-                          {mapItem.title}
-                        </p>
-                      </div>
-                      <div className="relative h-[300px]">
-                        {!loadedMaps[idx] && (
-                          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-background/80 backdrop-blur-sm">
-                            <div className="w-10 h-10 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
-                            <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">
-                              Loading map...
-                            </p>
-                          </div>
-                        )}
-                        <iframe
-                          title={mapItem.title}
-                          src={mapItem.src}
-                          className="w-full h-full cursor-pointer hover:opacity-90 transition-opacity duration-200"
-                          loading="lazy"
-                          referrerPolicy="no-referrer-when-downgrade"
-                          onLoad={() =>
-                            setLoadedMaps((prev) => ({
-                              ...prev,
-                              [idx]: true,
-                            }))
-                          }
-                          onClick={() => window.open(mapItem.googleUrl, "_blank")}
-                        />
-                      </div>
-                    </div>
-                  ))}
+            ].map((mapItem, idx) => (
+              <div
+                key={idx}
+                className={`w-full ${idx === 0 ? "border-b border-primary/15" : ""}`}
+              >
+                <div className="p-6 bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/5 border-b border-primary/20">
+                  <p className="text-sm font-black uppercase tracking-wider text-foreground">
+                    {mapItem.title}
+                  </p>
+                  {"address" in mapItem && mapItem.address ? (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {mapItem.address}
+                    </p>
+                  ) : null}
                 </div>
+                <div className="relative h-[300px]">
+                  {!loadedMaps[idx] && (
+                    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-background/80 backdrop-blur-sm">
+                      <div className="w-10 h-10 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
+                      <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">
+                        Loading map...
+                      </p>
+                    </div>
+                  )}
+                  <iframe
+                    title={mapItem.title}
+                    src={mapItem.src}
+                    className="w-full h-full cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    onLoad={() =>
+                      setLoadedMaps((prev) => ({
+                        ...prev,
+                        [idx]: true,
+                      }))
+                    }
+                    onClick={() => window.open(mapItem.googleUrl, "_blank")}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

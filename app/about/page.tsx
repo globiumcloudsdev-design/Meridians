@@ -23,6 +23,13 @@ import {
 } from "lucide-react";
 import { SectionHeader } from "@/components/SectionHeader";
 import { FinalCTA } from "@/components/FinalCTA";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { THEME } from "@/lib/theme";
 import { getCurrentAcademicSession, getImageSrc } from "@/lib/utils";
 import { aboutAssets } from "@/lib/assets";
@@ -30,6 +37,46 @@ import { motion } from "framer-motion";
 import homeImage1 from "@/assets/home/home images/home-1.jpeg";
 
 export default function About() {
+  const inspirations = [
+    {
+      name: "Asad Siddique ",
+      role: "Chairman of MERIDIANS group of education",
+      color: "info",
+      icon: BookOpen,
+      image: getImageSrc(aboutAssets["Our Inspirations"][4]),
+    },
+    {
+      name: "Maam Anum Ilyas",
+      role: "Principal of Main Campus",
+      color: "info",
+      icon: BookOpen,
+      image: getImageSrc(aboutAssets["Our Inspirations"][0]),
+    },
+    {
+      name: "Sir Muhammad",
+      role: "Senior Managing Director of Main Campus",
+      color: "success",
+      icon: Users,
+      image: getImageSrc(aboutAssets["Our Inspirations"][1]),
+    },
+    {
+      name: "Maam tahira",
+      role: "voice Principal of Hair campus",
+      color: "warning",
+      icon: Target,
+      image: getImageSrc(aboutAssets["Our Inspirations"][2]),
+    },
+    {
+      name: "Hafiz Taseen",
+      role: "sab Principal of hair Campus",
+      color: "secondary",
+      icon: Heart,
+      image: getImageSrc(aboutAssets["Our Inspirations"][3]),
+    },
+  ];
+
+  const shouldUseInspirationsCarousel = inspirations.length > 4;
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Navbar />
@@ -256,7 +303,7 @@ export default function About() {
       </section>
 
       {/* Faculty - Premium Grid */}
-      {/* <section className="py-24 bg-background">
+      <section className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <SectionHeader
@@ -266,70 +313,75 @@ export default function About() {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-            {[
-              {
-                name: "Dr. Rajesh Kumar",
-                role: "Principal",
-                color: "info",
-                icon: BookOpen,
-                image: getImageSrc(aboutAssets["Our Inspirations"][0]),
-              },
-              {
-                name: "Prof. Anita Singh",
-                role: "Academics Head",
-                color: "success",
-                icon: Users,
-                image: getImageSrc(aboutAssets["Our Inspirations"][1]),
-              },
-              {
-                name: "Mr. Vikram Sharma",
-                role: "STEM Director",
-                color: "warning",
-                icon: Target,
-                image: getImageSrc(aboutAssets["Our Inspirations"][2]),
-              },
-              {
-                name: "Ms. Priya Patel",
-                role: "Arts Dean",
-                color: "secondary",
-                icon: Heart,
-                image: getImageSrc(aboutAssets["Our Inspirations"][3]),
-              },
-            ].map((faculty, idx) => (
-              <AnimatedSection direction="up" delay={idx * 0.1} key={idx}>
-                <div className="group text-center">
-                  <div className="relative mb-8 pt-4">
-                    <div
-                      className={`absolute inset-0 bg-${faculty.color}/10 rounded-[48px] rotate-6 group-hover:rotate-0 transition-transform duration-500`}
-                    />
-                    <div className="relative aspect-[4/5] rounded-[40px] overflow-hidden border-4 border-white shadow-xl">
-                      <img
-                        src={faculty.image}
-                        alt={faculty.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
-                        <div className="flex justify-center gap-3">
-                          <button className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md text-white hover:bg-white hover:text-primary transition-all">
-                            <ArrowRight className="w-5 h-5" />
-                          </button>
+          {shouldUseInspirationsCarousel ? (
+            <Carousel className="w-full" opts={{ align: "start", loop: true }}>
+              <CarouselContent className="-ml-6">
+                {inspirations.map((faculty, idx) => (
+                  <CarouselItem
+                    key={idx}
+                    className="pl-6 md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+                  >
+                    <AnimatedSection direction="up" delay={idx * 0.1}>
+                      <div className="group text-center">
+                        <div className="relative mb-8 pt-4">
+                          <div
+                            className={`absolute inset-0 bg-${faculty.color}/10 rounded-[48px] rotate-6 group-hover:rotate-0 transition-transform duration-500`}
+                          />
+                          <div className="relative aspect-[4/5] rounded-[40px] overflow-hidden border-4 border-white shadow-xl">
+                            <img
+                              src={faculty.image}
+                              alt={faculty.name}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                            />
+                          </div>
                         </div>
+                        <h3 className="text-2xl font-black mb-1 group-hover:text-primary transition-colors">
+                          {faculty.name}
+                        </h3>
+                        <p className="text-primary font-black uppercase tracking-[0.2em] text-[10px]">
+                          {faculty.role}
+                        </p>
+                      </div>
+                    </AnimatedSection>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+
+              <div className="flex justify-center gap-3 mt-10">
+                <CarouselPrevious className="relative left-0 translate-y-0" />
+                <CarouselNext className="relative right-0 translate-y-0" />
+              </div>
+            </Carousel>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+              {inspirations.map((faculty, idx) => (
+                <AnimatedSection direction="up" delay={idx * 0.1} key={idx}>
+                  <div className="group text-center">
+                    <div className="relative mb-8 pt-4">
+                      <div
+                        className={`absolute inset-0 bg-${faculty.color}/10 rounded-[48px] rotate-6 group-hover:rotate-0 transition-transform duration-500`}
+                      />
+                      <div className="relative aspect-[4/5] rounded-[40px] overflow-hidden border-4 border-white shadow-xl">
+                        <img
+                          src={faculty.image}
+                          alt={faculty.name}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        />
                       </div>
                     </div>
+                    <h3 className="text-2xl font-black mb-1 group-hover:text-primary transition-colors">
+                      {faculty.name}
+                    </h3>
+                    <p className="text-primary font-black uppercase tracking-[0.2em] text-[10px]">
+                      {faculty.role}
+                    </p>
                   </div>
-                  <h3 className="text-2xl font-black mb-1 group-hover:text-primary transition-colors">
-                    {faculty.name}
-                  </h3>
-                  <p className="text-primary font-black uppercase tracking-[0.2em] text-[10px]">
-                    {faculty.role}
-                  </p>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
+                </AnimatedSection>
+              ))}
+            </div>
+          )}
         </div>
-      </section> */}
+      </section>
 
       <FinalCTA
         title="Be Part of Our"
