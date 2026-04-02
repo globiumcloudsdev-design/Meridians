@@ -27,6 +27,7 @@ import { THEME } from "@/lib/theme";
 import { getCurrentAcademicSession, getImageSrc } from "@/lib/utils";
 import { aboutAssets } from "@/lib/assets";
 import { motion } from "framer-motion";
+import homeImage1 from "@/assets/home/home images/home-1.jpeg";
 
 export default function About() {
   return (
@@ -37,7 +38,7 @@ export default function About() {
         badge="Our Legacy"
         titleMain="About"
         titleAccent="Meridians"
-        image="https://images.unsplash.com/photo-1523050335392-9bc5675e7d53?auto=format&fit=crop&w=1920&q=80"
+        image={homeImage1}
         description="Nurturing curiosity, fostering creativity, and building the foundation for lifelong excellence since our inception."
       />
 
@@ -255,7 +256,7 @@ export default function About() {
       </section>
 
       {/* Faculty - Premium Grid */}
-      <section className="py-24 bg-background">
+      {/* <section className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <SectionHeader
@@ -328,7 +329,7 @@ export default function About() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       <FinalCTA
         title="Be Part of Our"

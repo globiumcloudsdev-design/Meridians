@@ -39,7 +39,7 @@ export const Preloader: React.FC = () => {
             }}
             className="mb-8"
           >
-            <div className="w-32 h-32 md:w-48 md:h-48 relative bg-white rounded-3xl p-4 shadow-2xl shadow-primary/10">
+            <div className="w-32 h-32 md:w-48 md:h-48 relative ">
               <Image
                 src="/logo.jpg"
                 alt="Meridian's Logo"

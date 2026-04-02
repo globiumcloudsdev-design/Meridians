@@ -1,4 +1,4 @@
-import homeImage1 from "../assets/home/home images/home-1.jpg";
+import homeImage1 from "../assets/home/home images/home-1.jpeg";
 import homeImage2 from "../assets/home/home images/home-2.jpg";
 import buildingConfidenceImage from "../assets/home/Building Confidence Through Expression/Building Confidence Through Expression-01.jpg";
 import empoweringNextGenerationImage from "../assets/home/Empowering the Next Generations/Empowering the Next Generations iamge-01.jpg";

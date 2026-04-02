@@ -29,6 +29,7 @@ import {
 import { API_CONTACT } from "@/lib/api/endpoints";
 import { SectionHeader } from "@/components/SectionHeader";
 import { ContactCard } from "@/components/ContactCard";
+import homeImage1 from "@/assets/home/home images/home-1.jpeg";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -89,7 +90,7 @@ export default function Contact() {
         badge="Get in Touch"
         titleMain="Connect"
         titleAccent="With Us"
-        image="https://images.unsplash.com/photo-1523966211575-ef4aebc2444e?auto=format&fit=crop&w=1920&q=80"
+        image={homeImage1}
         description="Have questions? We're here to help you on your educational journey."
       />
 
