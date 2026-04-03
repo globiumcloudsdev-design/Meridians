@@ -25,6 +25,7 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { FinalCTA } from "@/components/FinalCTA";
 import { LeadershipMessages } from "@/components/LeadershipMessages";
 import {
+  type CarouselApi,
   Carousel,
   CarouselContent,
   CarouselItem,
@@ -35,6 +36,7 @@ import { THEME } from "@/lib/theme";
 import { getCurrentAcademicSession, getImageSrc } from "@/lib/utils";
 import { aboutAssets } from "@/lib/assets";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import homeImage1 from "@/assets/home/home images/home-1.jpeg";
 
 export default function About() {
@@ -62,14 +64,14 @@ export default function About() {
     },
     {
       name: "Maam tahira",
-      role: "voice Principal of Hair campus",
+      role: "vice Principal of Heir campus",
       color: "warning",
       icon: Target,
       image: getImageSrc(aboutAssets["Our Inspirations"][2]),
     },
     {
       name: "Hafiz Taseen Sab",
-      role: "sab Principal of hair Campus",
+      role: "Principal of heir Campus",
       color: "secondary",
       icon: Heart,
       image: getImageSrc(aboutAssets["Our Inspirations"][3]),
@@ -84,6 +86,18 @@ export default function About() {
   ];
 
   const shouldUseInspirationsCarousel = inspirations.length > 4;
+  const [inspirationsCarouselApi, setInspirationsCarouselApi] =
+    useState<CarouselApi>();
+
+  useEffect(() => {
+    if (!shouldUseInspirationsCarousel || !inspirationsCarouselApi) return;
+
+    const autoplayInterval = window.setInterval(() => {
+      inspirationsCarouselApi.scrollNext();
+    }, 3000);
+
+    return () => window.clearInterval(autoplayInterval);
+  }, [inspirationsCarouselApi, shouldUseInspirationsCarousel]);
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
@@ -332,7 +346,11 @@ export default function About() {
           </div>
 
           {shouldUseInspirationsCarousel ? (
-            <Carousel className="w-full" opts={{ align: "start", loop: true }}>
+            <Carousel
+              className="w-full"
+              opts={{ align: "start", loop: true }}
+              setApi={setInspirationsCarouselApi}
+            >
               <CarouselContent className="-ml-6">
                 {inspirations.map((faculty, idx) => (
                   <CarouselItem

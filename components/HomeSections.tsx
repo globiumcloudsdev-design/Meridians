@@ -168,8 +168,8 @@ export const Hero: React.FC = () => {
             transition={{ duration: HERO_SLIDE_TRANSITION_SECONDS, ease: "easeOut" }}
             className="absolute inset-0 z-0"
           >
-            <div className="absolute inset-0 bg-black/50 z-10" />
-            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/90 via-black/40 to-transparent z-10" />
+            <div className="absolute inset-0 bg-black/10 z-0" />
+            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/40 via-black/10 to-transparent z-10" />
             <img
               src={getImageSrc(heroSlides[currentIndex].image)}
               alt="Hero Background"
@@ -529,12 +529,7 @@ export const Features: React.FC = () => (
                 <p className="text-muted-foreground leading-relaxed font-medium">
                   {feature.desc}
                 </p>
-                {/* <div className="mt-8 pt-6 border-t border-border/50 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                  <span className="text-primary font-black text-sm uppercase tracking-tighter">
-                    Read More
-                  </span>
-                  <ArrowRight className="w-5 h-5 text-primary" />
-                </div> */}
+              
               </div>
             </div>
           </AnimatedSection>
