@@ -32,11 +32,11 @@ export function Navbar() {
 
   const navItems = [
     { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Programs", href: "/programs" },
+    { label: "About Us", href: "/about" },
+    { label: "Course Details", href: "/programs" },
     { label: "Blog", href: "/blog" },
     { label: "Admissions", href: "/admissions" },
-    { label: "Contact", href: "/contact" },
+    { label: "Contact Address", href: "/contact" },
   ];
 
   const showHeroLogo = !isScrolled && isTransparentPage;
