@@ -83,6 +83,13 @@ export default function About() {
       icon: BookOpen,
       image: getImageSrc(aboutAssets["Our Inspirations"][5]),
     },
+    {
+      name: "SULEMAN Sab",
+      role: "Coordinator of boys campus",
+      color: "info",
+      icon: BookOpen,
+      image: getImageSrc(aboutAssets["Our Inspirations"][6]),
+    },
   ];
 
   const shouldUseInspirationsCarousel = inspirations.length > 4;

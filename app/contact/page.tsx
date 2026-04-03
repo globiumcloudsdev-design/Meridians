@@ -381,15 +381,19 @@ export default function Contact() {
                 title: "Boys Campus Map",
                 src: "https://maps.google.com/maps?q=31.4837883,74.4195471&z=17&output=embed",
                 googleUrl: "https://maps.google.com/maps?q=31.4837883,74.4195471&z=17",
+                contacts: ["03214712207", "03033569000"],
               },
               {
-                title: "Main Girls Campus Map",
+                title: "Campus II Map",
+                address: "Amjad Colony, Tatla Road, Heir Bedian Road, Lahore",
+                contacts: ["03044641590", "03034027152"],
                 src: "https://maps.google.com/maps?q=31.4849921,74.4181172&z=17&output=embed",
                 googleUrl: "https://maps.google.com/maps?q=31.4849921,74.4181172&z=17",
               },
               {
-                title: "Alfalah Town Campus Map",
-                address: "Bedian Road, Alfalah Town, near Toheed Mart",
+                title: "Campus III Map",
+                address: "Alfalah Town, near Toheed Mart, Main Bedian Road, Lahore",
+                contacts: ["03214712207", "03044230664"],
                 src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3402.477221151887!2d74.41746457430202!3d31.483564048961952!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39190f10d82ef259%3A0xc8950709f77ff8d0!2sTauheed%20Store!5e0!3m2!1sen!2s!4v1775135276995!5m2!1sen!2s",
                 googleUrl: "https://maps.app.goo.gl/CtDWuJqEo1aXbPTN9",
               },
@@ -406,6 +410,11 @@ export default function Contact() {
                   {"address" in mapItem && mapItem.address ? (
                     <p className="text-xs text-muted-foreground mt-1">
                       {mapItem.address}
+                    </p>
+                  ) : null}
+                  {"contacts" in mapItem && mapItem.contacts?.length ? (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Contact: {mapItem.contacts.join(" , ")}
                     </p>
                   ) : null}
                 </div>
