@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { SectionHeader } from "@/components/SectionHeader";
 import { FinalCTA } from "@/components/FinalCTA";
+import { LeadershipMessages } from "@/components/LeadershipMessages";
 import {
   Carousel,
   CarouselContent,
@@ -67,7 +68,7 @@ export default function About() {
       image: getImageSrc(aboutAssets["Our Inspirations"][2]),
     },
     {
-      name: "Hafiz Taseen",
+      name: "Hafiz Taseen Sab",
       role: "sab Principal of hair Campus",
       color: "secondary",
       icon: Heart,
@@ -163,7 +164,7 @@ export default function About() {
                       Chairman
                     </p>
                     <p className="text-xl font-black tracking-tight text-foreground">
-                      Asad Siddique
+                      Asad Siddique Sab
                     </p>
                   </div>
                 </div>
@@ -309,6 +310,8 @@ export default function About() {
           </div>
         </div>
       </section>
+
+      <LeadershipMessages />
 
       {/* Faculty - Premium Grid */}
       <section className="py-24 bg-background">

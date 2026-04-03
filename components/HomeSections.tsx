@@ -25,6 +25,8 @@ import { homeAssets, homeAllImages, homeFeatureImages, homeFacilityImages } from
 import { IPoster } from "@/lib/types";
 
 const academicSession = getCurrentAcademicSession();
+const HERO_SLIDE_INTERVAL_MS = 3200;
+const HERO_SLIDE_TRANSITION_SECONDS = 1;
 
 const heroSlides = [
   {
@@ -87,7 +89,7 @@ export const Hero: React.FC = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % heroSlides.length);
-    }, 5000);
+    }, HERO_SLIDE_INTERVAL_MS);
     return () => clearInterval(timer);
   }, []);
 
@@ -163,7 +165,7 @@ export const Hero: React.FC = () => {
             initial={{ opacity: 0, scale: 1.1 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
+            transition={{ duration: HERO_SLIDE_TRANSITION_SECONDS, ease: "easeOut" }}
             className="absolute inset-0 z-0"
           >
             <div className="absolute inset-0 bg-black/50 z-10" />
