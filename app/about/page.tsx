@@ -107,13 +107,13 @@ export default function About() {
                     {
                       icon: Target,
                       title: "Our Mission",
-                      desc: "To provide transformative education that develops intellectually curious, morally grounded, and socially responsible individuals.",
+                      desc: "At MERIDIAN'S group of education system, we came to know that education is for all and that all children can succeed. We not only provide opportunities to students to reach their academic potential but also prepare them to play compound roles in society. While teaching our students we care to meet their social spiritual physical and intellectual requirements to accomplish the demands of 21st century as being a perfect person to his nation as well as to his religion.",
                       color: "primary",
                     },
                     {
                       icon: Eye,
                       title: "Our Vision",
-                      desc: "To be a leading global institution recognized for character development and academic excellence.",
+                      desc: "Meridian's Science School is an institution which makes sure that each and every student can get equal attention. I have been educated, encouraged and most importantly challenged during my time at meridians. I am grateful for the endless efforts of our experienced instructors, dedicated administration, and my very capable fellows.",
                       color: "secondary",
                     },
                     {
@@ -158,6 +158,14 @@ export default function About() {
                     className="w-full aspect-[4/5] object-cover hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent mix-blend-multiply" />
+                  <div className="absolute bottom-20 md:bottom-24 left-6 right-6 rounded-2xl bg-white/85 backdrop-blur-md border border-white/30 px-5 py-4 shadow-lg">
+                    <p className="text-xs font-black uppercase tracking-[0.18em] text-primary/80">
+                      Chairman
+                    </p>
+                    <p className="text-xl font-black tracking-tight text-foreground">
+                      Asad Siddique
+                    </p>
+                  </div>
                 </div>
 
                 {/* Floating Counter Card */}
