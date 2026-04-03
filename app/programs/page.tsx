@@ -56,7 +56,7 @@ const programs = [
   },
   {
     id: 2,
-    name: "Secondary (Classes 6-8)",
+    name: "Secondary (Classes 6-10)",
     icon: Beaker,
     color: "blue",
     gradient: "from-blue-500/20 to-blue-500/5",
@@ -69,12 +69,12 @@ const programs = [
       "Leadership programs",
       "Analytical skills",
     ],
-    duration: "3 Years",
-    ageGroup: "11-14 Years",
+    duration: "5 Years",
+    ageGroup: "11-16 Years",
   },
   {
     id: 3,
-    name: "Senior Secondary (Classes 9-12)",
+    name: "Senior Secondary (Classes 11-12)",
     icon: Globe,
     color: "amber",
     gradient: "from-amber-500/20 to-amber-500/5",
@@ -87,8 +87,8 @@ const programs = [
       "Research projects",
       "Career counseling",
     ],
-    duration: "4 Years",
-    ageGroup: "14-18 Years",
+    duration: "2 Years",
+    ageGroup: "16-18 Years",
   },
 ];
 
