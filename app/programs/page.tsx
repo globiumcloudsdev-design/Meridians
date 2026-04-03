@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import {
+  Baby,
   BookOpen,
   Beaker,
   Globe,
@@ -34,10 +35,35 @@ import {
 import { SectionHeader } from "@/components/SectionHeader";
 import { FinalCTA } from "@/components/FinalCTA";
 import { programHeroImage } from "@/lib/assets";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const programs = [
   {
     id: 1,
+    name: "Pre Section (PG to Prep)",
+    icon: Baby,
+    color: "violet",
+    gradient: "from-violet-500/20 to-violet-500/5",
+    description:
+      "A playful early-learning stage for PG to Prep that builds social skills, curiosity, and school readiness.",
+    highlights: [
+      "PG to Prep",
+      "Play-based learning",
+      "Early literacy and numeracy",
+      "Social and motor skill development",
+      "School readiness support",
+    ],
+    duration: "3 Years",
+    ageGroup: "PG to Prep",
+  },
+  {
+    id: 2,
     name: "Primary Education",
     icon: BookOpen,
     color: "emerald",
@@ -55,7 +81,7 @@ const programs = [
     ageGroup: "Grades 1-5",
   },
   {
-    id: 2,
+    id: 3,
     name: "Elementary Education",
     icon: Beaker,
     color: "blue",
@@ -70,10 +96,10 @@ const programs = [
       "Independent study habits",
     ],
     duration: "3 Years",
-    ageGroup: "Grades 11-14",
+    ageGroup: "Grades 6-8",
   },
   {
-    id: 3,
+    id: 4,
     name: "Secondary Education",
     icon: Globe,
     color: "amber",
@@ -88,10 +114,10 @@ const programs = [
       "Exam strategy and revision support",
     ],
     duration: "2 Years",
-    ageGroup: "Grades 14-15",
+    ageGroup: "Grades 9-10",
   },
   {
-    id: 4,
+    id: 5,
     name: "Higher Secondary Education",
     icon: Award,
     color: "rose",
@@ -106,7 +132,7 @@ const programs = [
       "Career guidance and counseling",
     ],
     duration: "2 Years",
-    ageGroup: "Grades 16-18",
+    ageGroup: "Grades 11-12",
   },
 ];
 
@@ -177,99 +203,110 @@ export default function Programs() {
             align="center"
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1">
-            {programs.map((program, idx) => {
-              const Icon = program.icon;
-              return (
-                <AnimatedSection
-                  direction="up"
-                  delay={0.1 * idx}
-                  key={program.id}
-                  className="h-full"
-                >
-                  <Card className="group relative h-full border-primary/20 bg-card/50 backdrop-blur-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 flex flex-col overflow-hidden border-t-4 border-t-primary">
-                    <div
-                      className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${program.gradient} blur-3xl -z-10 group-hover:scale-150 transition-transform duration-700`}
-                    />
+          <Carousel
+            opts={{ align: "start", loop: false }}
+            className="relative mt-4"
+          >
+            <CarouselContent className="-ml-4">
+              {programs.map((program, idx) => {
+                const Icon = program.icon;
+                return (
+                  <CarouselItem
+                    key={program.id}
+                    className="pl-4 basis-full md:basis-1/2 xl:basis-1/3"
+                  >
+                    <AnimatedSection
+                      direction="up"
+                      delay={0.1 * idx}
+                      className="h-full"
+                    >
+                      <Card className="group relative h-full border-primary/20 bg-card/50 backdrop-blur-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 flex flex-col overflow-hidden border-t-4 border-t-primary">
+                        <div
+                          className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${program.gradient} blur-3xl -z-10 group-hover:scale-150 transition-transform duration-700`}
+                        />
 
-                    <CardHeader className="pb-4">
-                      <div className="flex items-center gap-4 mb-4">
-                        <div className="p-3 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                          <Icon className="w-8 h-8" />
-                        </div>
-                        <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/30 to-transparent" />
-                      </div>
-                      <CardTitle className="text-2xl font-black tracking-tight group-hover:text-primary transition-colors">
-                        {program.name}
-                      </CardTitle>
-                      <CardDescription className="text-base leading-relaxed text-muted-foreground/90 pt-2">
-                        {program.description}
-                      </CardDescription>
-                    </CardHeader>
+                        <CardHeader className="pb-4">
+                          <div className="flex items-center gap-4 mb-4">
+                            <div className="p-3 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                              <Icon className="w-8 h-8" />
+                            </div>
+                            <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/30 to-transparent" />
+                          </div>
+                          <CardTitle className="text-2xl font-black tracking-tight group-hover:text-primary transition-colors">
+                            {program.name}
+                          </CardTitle>
+                          <CardDescription className="text-base leading-relaxed text-muted-foreground/90 pt-2">
+                            {program.description}
+                          </CardDescription>
+                        </CardHeader>
 
-                    <CardContent className="flex-1 flex flex-col pt-0">
-                      <div className="grid grid-cols-2 gap-4 py-4 border-y border-primary/10 mb-6 bg-primary/5 rounded-xl px-4">
-                        <div className="space-y-1">
-                          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-black">
-                            Duration
-                          </p>
-                          <p className="text-sm font-bold flex items-center gap-1.5">
-                            <Clock className="w-3.5 h-3.5 text-primary" />
-                            {program.duration}
-                          </p>
-                        </div>
-                        <div className="space-y-1">
-                          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-black">
-                            Age Group
-                          </p>
-                          <p className="text-sm font-bold flex items-center gap-1.5">
-                            <User className="w-3.5 h-3.5 text-primary" />
-                            {program.ageGroup}
-                          </p>
-                        </div>
-                      </div>
+                        <CardContent className="flex-1 flex flex-col pt-0">
+                          <div className="grid grid-cols-2 gap-4 py-4 border-y border-primary/10 mb-6 bg-primary/5 rounded-xl px-4">
+                            <div className="space-y-1">
+                              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-black">
+                                Duration
+                              </p>
+                              <p className="text-sm font-bold flex items-center gap-1.5">
+                                <Clock className="w-3.5 h-3.5 text-primary" />
+                                {program.duration}
+                              </p>
+                            </div>
+                            <div className="space-y-1">
+                              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-black">
+                                Age Group
+                              </p>
+                              <p className="text-sm font-bold flex items-center gap-1.5">
+                                <User className="w-3.5 h-3.5 text-primary" />
+                                {program.ageGroup}
+                              </p>
+                            </div>
+                          </div>
 
-                      <div className="space-y-4 flex-1">
-                        <p className="text-xs font-black uppercase tracking-[0.2em] text-primary/70">
-                          Key Highlights
-                        </p>
-                        <ul className="space-y-3">
-                          {program.highlights.map((highlight, idx2) => (
-                            <li
-                              key={idx2}
-                              className="flex items-center gap-3 group/item"
+                          <div className="space-y-4 flex-1">
+                            <p className="text-xs font-black uppercase tracking-[0.2em] text-primary/70">
+                              Key Highlights
+                            </p>
+                            <ul className="space-y-3">
+                              {program.highlights.map((highlight, idx2) => (
+                                <li
+                                  key={idx2}
+                                  className="flex items-center gap-3 group/item"
+                                >
+                                  <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center group-hover/item:bg-primary transition-colors">
+                                    <CheckCircle2 className="w-3 h-3 text-primary group-hover/item:text-white" />
+                                  </div>
+                                  <span className="text-sm font-medium text-foreground/80 group-hover/item:text-primary transition-colors">
+                                    {highlight}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+
+                          <div className="mt-8 pt-6 border-t border-primary/10">
+                            <Button
+                              asChild
+                              className="w-full h-12 bg-primary hover:bg-primary/90 rounded-xl shadow-lg shadow-primary/20 group-hover:scale-[1.02] transition-transform"
                             >
-                              <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center group-hover/item:bg-primary transition-colors">
-                                <CheckCircle2 className="w-3 h-3 text-primary group-hover/item:text-white" />
-                              </div>
-                              <span className="text-sm font-medium text-foreground/80 group-hover/item:text-primary transition-colors">
-                                {highlight}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <div className="mt-8 pt-6 border-t border-primary/10">
-                        <Button
-                          asChild
-                          className="w-full h-12 bg-primary hover:bg-primary/90 rounded-xl shadow-lg shadow-primary/20 group-hover:scale-[1.02] transition-transform"
-                        >
-                          <Link
-                            href="/admission-form"
-                            className="flex items-center justify-center gap-2 font-bold"
-                          >
-                            Enroll Now
-                            <Star className="w-4 h-4 fill-current" />
-                          </Link>
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </AnimatedSection>
-              );
-            })}
-          </div>
+                              <Link
+                                href="/admission-form"
+                                className="flex items-center justify-center gap-2 font-bold"
+                              >
+                                Enroll Now
+                                <Star className="w-4 h-4 fill-current" />
+                              </Link>
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </AnimatedSection>
+                  </CarouselItem>
+                );
+              })}
+            </CarouselContent>
+            <CarouselPrevious className="hidden lg:flex -left-2 border-primary/20 bg-background/95 backdrop-blur-sm" />
+            <CarouselNext className="hidden lg:flex -right-2 border-primary/20 bg-background/95 backdrop-blur-sm" />
+          </Carousel>
         </div>
       </AnimatedSection>
 
