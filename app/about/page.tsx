@@ -57,7 +57,7 @@ export default function About() {
     },
     {
       name: "Sir Muhammad",
-      role: "Managing Director of Main Campus",
+      role: "Managing Director of Heir Campus",
       color: "success",
       icon: Users,
       image: getImageSrc(aboutAssets["Our Inspirations"][1]),

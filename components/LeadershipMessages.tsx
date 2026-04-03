@@ -13,7 +13,7 @@ const leadershipMessages = [
     body: "Quality education of youth is always at the heart of every progressive civil society. As administrator of Meridian's, I take immense pride in an environment that addresses diverse educational needs and builds strong admissions, collaborative programs, and innovative learning methods for every child.",
   },
   {
-    label: "Message by Senior Managing Director of Main Campus",
+    label: "Message by Senior Managing Director of Heir Campus",
     name: "Sir Muhammad",
     role: "Managing Director",
     image: getImageSrc(aboutAssets["Our Inspirations"][1]),
