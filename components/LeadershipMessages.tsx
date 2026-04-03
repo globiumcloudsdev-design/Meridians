@@ -6,14 +6,14 @@ import { getImageSrc } from "@/lib/utils";
 const leadershipMessages = [
   {
     label: "Message by Administrator Meridians",
-    name: "Maam Anum Ilyas",
+    name: "Riffat Parveen",
     role: "Administrator",
     image: getImageSrc(aboutAssets["Our Inspirations"][5]),
     headingClassName: "text-emerald-800",
     body: "Quality education of youth is always at the heart of every progressive civil society. As administrator of Meridian's, I take immense pride in an environment that addresses diverse educational needs and builds strong admissions, collaborative programs, and innovative learning methods for every child.",
   },
   {
-    label: "Message by Senior Managing Director of Main Campus",
+    label: "Message by Senior Managing Director of Heir Campus",
     name: "Sir Muhammad",
     role: "Managing Director",
     image: getImageSrc(aboutAssets["Our Inspirations"][1]),
@@ -22,8 +22,8 @@ const leadershipMessages = [
   },
   {
     label: "Message by Principal Main Campus",
-    name: "Maam Tahira",
-    role: "Principal",
+    name: "Anum Ilyas",
+    role: "Main Campus Principal",
     image: getImageSrc(aboutAssets["Our Inspirations"][0]),
     headingClassName: "text-amber-700",
     body: "Welcome to Meridian's Group of Education. We are committed to positive students, collaborative staff culture, professional practice, and innovative learning so every child can become a confident leader of the future.",
