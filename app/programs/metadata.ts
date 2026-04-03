@@ -1,4 +1,4 @@
 export const metadata = {
   title: "Programs - Meridian's Group of Education",
-  description: "Explore our academic programs from Classes 1 to 12, designed for holistic student development at Meridian's.",
+  description: "Explore our academic programs for primary, elementary, secondary, and higher secondary education at Meridian's.",
 };

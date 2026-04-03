@@ -38,57 +38,75 @@ import { programHeroImage } from "@/lib/assets";
 const programs = [
   {
     id: 1,
-    name: "Primary (Classes 1-5)",
+    name: "Primary Education",
     icon: BookOpen,
     color: "emerald",
     gradient: "from-emerald-500/20 to-emerald-500/5",
     description:
-      "Foundation years focusing on building strong academic fundamentals and critical thinking skills.",
+      "Grades 1 to 5 focused on building strong reading, writing, numeracy, and learning habits.",
     highlights: [
+      "Grades 1 to 5",
       "Foundational literacy and numeracy",
-      "STEM integration",
-      "Language development",
-      "Creative arts",
-      "Values education",
+      "Curiosity-led classroom learning",
+      "Creative activities and expression",
+      "Values and confidence building",
     ],
     duration: "5 Years",
-    ageGroup: "6-11 Years",
+    ageGroup: "Grades 1-5",
   },
   {
     id: 2,
-    name: "Secondary (Classes 6-10)",
+    name: "Elementary Education",
     icon: Beaker,
     color: "blue",
     gradient: "from-blue-500/20 to-blue-500/5",
     description:
-      "Transitional phase introducing specialized subjects and developing analytical skills.",
+      "Grades 6 to 8 that strengthen subject understanding, discipline, and practical learning.",
     highlights: [
-      "Subject specialization",
-      "Advanced STEM labs",
-      "Competitive prep",
-      "Leadership programs",
-      "Analytical skills",
+      "Grades 6 to 8",
+      "Subject-wise concept strengthening",
+      "Activity-based science and math learning",
+      "Communication and teamwork",
+      "Independent study habits",
     ],
-    duration: "5 Years",
-    ageGroup: "11-16 Years",
+    duration: "3 Years",
+    ageGroup: "Grades 11-14",
   },
   {
     id: 3,
-    name: "Senior Secondary (Classes 11-12)",
+    name: "Secondary Education",
     icon: Globe,
     color: "amber",
     gradient: "from-amber-500/20 to-amber-500/5",
     description:
-      "Advanced academics preparing students for higher education and competitive exams.",
+      "Grades 9 to 10 with focused academic preparation for board examinations and future studies.",
     highlights: [
-      "Multiple Streams",
-      "Board exam prep",
-      "Coaching (JEE/NEET)",
-      "Research projects",
-      "Career counseling",
+      "Grades 9 to 10",
+      "Matric level preparation",
+      "Board exam readiness",
+      "Core subject mastery",
+      "Exam strategy and revision support",
     ],
     duration: "2 Years",
-    ageGroup: "16-18 Years",
+    ageGroup: "Grades 14-15",
+  },
+  {
+    id: 4,
+    name: "Higher Secondary Education",
+    icon: Award,
+    color: "rose",
+    gradient: "from-rose-500/20 to-rose-500/5",
+    description:
+      "Grades 11 to 12 designed for intermediate and college-level preparation with future career planning.",
+    highlights: [
+      "Grades 11 to 12",
+      "Intermediate / college preparation",
+      "Stream-based subject study",
+      "Board and entrance exam support",
+      "Career guidance and counseling",
+    ],
+    duration: "2 Years",
+    ageGroup: "Grades 16-18",
   },
 ];
 
@@ -142,24 +160,24 @@ export default function Programs() {
 
       <PageHero
         badge="Pathways to Success"
-        titleMain="Our"
+        titleMain="Our Academic"
         titleAccent="Programs"
         image={programHeroImage}
         imageFit="contain"
-        description="Comprehensive education from Classes 1 to 12, designed to nurture intellectual growth and character."
+        description="Primary, elementary, secondary, and higher secondary education designed to support every stage of student growth."
       />
 
       {/* Programs Overview */}
       <AnimatedSection direction="right" className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
-            title="Pathway to"
-            titleAccent="Excellence"
-            description="Our comprehensive curriculum is designed to nurture intellectual growth, character development, and academic excellence at every stage."
+            title="Learning Path"
+            titleAccent="By Stage"
+            description="Each program is structured to meet the academic needs of that grade band, from early foundations to college preparation."
             align="center"
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1">
             {programs.map((program, idx) => {
               const Icon = program.icon;
               return (
@@ -290,7 +308,7 @@ export default function Programs() {
       <FinalCTA
         title="Choose Your Path to"
         titleAccent="Excellence"
-        description="Find the perfect program that matchers your interests and aspirations. Join our community of learners and achievers today."
+        description="Find the right program for your grade level and take the next step with confidence."
         primaryBtnText="Explore Admissions"
         primaryBtnLink="/admission-form"
       />
