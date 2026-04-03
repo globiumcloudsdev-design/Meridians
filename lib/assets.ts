@@ -1,5 +1,5 @@
 import homeImage1 from "../assets/home/home images/home-1.jpeg";
-import homeImage2 from "../assets/home/home images/home-2.jpg";
+// import homeImage2 from "../assets/home/home images/home-2.jpg";
 import buildingConfidenceImage from "../assets/home/Building Confidence Through Expression/Building Confidence Through Expression-01.jpg";
 import empoweringNextGenerationImage from "../assets/home/Empowering the Next Generations/Empowering the Next Generations iamge-01.jpg";
 import academicExcellenceImage from "../assets/home/Innovative Learning Approach/Academic Excellence.jpg";
@@ -28,7 +28,7 @@ import admissionsImage from "../assets/Admissions/Admissions-01.jpg";
 import programHomeImage from "../assets/program/home-01.jpg";
 
 export const homeAssets = {
-    "home images": [homeImage1, homeImage2],
+    "home images": [homeImage1],
     "Building Confidence Through Expression": [buildingConfidenceImage],
     "Empowering the Next Generations": [empoweringNextGenerationImage],
     "Innovative Learning Approach": [

@@ -72,7 +72,7 @@ const heroSlides = [
   //   badge: "Innovation & STEM",
   // },
   {
-    image: homeAllImages[4],
+    image: homeAllImages[3],
     title: "Nurturing Global",
     highlight: "Citizens",
     description:
@@ -581,7 +581,7 @@ export const FunGallery: React.FC = () => (
             className="relative rounded-3xl overflow-hidden cursor-pointer"
           >
             <img
-              src={getImageSrc(homeAssets["home images"][1])}
+              src={getImageSrc(homeAssets["home images"][0])}
               alt="Interactive learning"
               className="w-full h-full object-cover"
             />

@@ -6,7 +6,7 @@ import { getImageSrc } from "@/lib/utils";
 const leadershipMessages = [
   {
     label: "Message by Administrator Meridians",
-    name: "Maam Anum Ilyas",
+    name: "Riffat Parveen",
     role: "Administrator",
     image: getImageSrc(aboutAssets["Our Inspirations"][5]),
     headingClassName: "text-emerald-800",
@@ -22,8 +22,8 @@ const leadershipMessages = [
   },
   {
     label: "Message by Principal Main Campus",
-    name: "Maam Tahira",
-    role: "Principal",
+    name: "Anum Ilyas",
+    role: "Main Campus Principal",
     image: getImageSrc(aboutAssets["Our Inspirations"][0]),
     headingClassName: "text-amber-700",
     body: "Welcome to Meridian's Group of Education. We are committed to positive students, collaborative staff culture, professional practice, and innovative learning so every child can become a confident leader of the future.",
