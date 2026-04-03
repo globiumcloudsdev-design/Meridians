@@ -74,6 +74,13 @@ export default function About() {
       icon: Heart,
       image: getImageSrc(aboutAssets["Our Inspirations"][3]),
     },
+    {
+      name: "Maam Riffat Perveen",
+      role: "Administrator",
+      color: "info",
+      icon: BookOpen,
+      image: getImageSrc(aboutAssets["Our Inspirations"][5]),
+    },
   ];
 
   const shouldUseInspirationsCarousel = inspirations.length > 4;

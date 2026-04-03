@@ -8,7 +8,7 @@ const leadershipMessages = [
     label: "Message by Administrator Meridians",
     name: "Maam Anum Ilyas",
     role: "Administrator",
-    image: getImageSrc(aboutAssets["Our Inspirations"][0]),
+    image: getImageSrc(aboutAssets["Our Inspirations"][5]),
     headingClassName: "text-emerald-800",
     body: "Quality education of youth is always at the heart of every progressive civil society. As administrator of Meridian's, I take immense pride in an environment that addresses diverse educational needs and builds strong admissions, collaborative programs, and innovative learning methods for every child.",
   },

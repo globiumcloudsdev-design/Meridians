@@ -529,12 +529,12 @@ export const Features: React.FC = () => (
                 <p className="text-muted-foreground leading-relaxed font-medium">
                   {feature.desc}
                 </p>
-                <div className="mt-8 pt-6 border-t border-border/50 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                {/* <div className="mt-8 pt-6 border-t border-border/50 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
                   <span className="text-primary font-black text-sm uppercase tracking-tighter">
                     Read More
                   </span>
                   <ArrowRight className="w-5 h-5 text-primary" />
-                </div>
+                </div> */}
               </div>
             </div>
           </AnimatedSection>
