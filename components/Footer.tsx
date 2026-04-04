@@ -71,7 +71,7 @@ export function Footer() {
             </h3>
             <p className="text-white/60 text-lg leading-relaxed font-medium">
               Empowering the next generation of leaders through excellence in
-              education and character building since 2009.
+              education and character building since 2004.
             </p>
             <div className="flex gap-4">
               {[

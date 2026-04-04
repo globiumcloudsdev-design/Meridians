@@ -126,7 +126,7 @@ export default function About() {
                   title="The"
                   titleAccent="Foundation"
                   titleAccentSuffix="of Our Future"
-                  description="Meridian's Group of Education, established in 2009, is a progressive and quality-focused educational institution committed to providing students with strong academic foundations along with moral values, discipline, and confidence. Our aim is not only to deliver classroom education but also to prepare students to become responsible, capable, and successful individuals in the modern world."
+                  description="Meridian's Group of Education, established in 2004, is a progressive and quality-focused educational institution committed to providing students with strong academic foundations along with moral values, discipline, and confidence. Our aim is not only to deliver classroom education but also to prepare students to become responsible, capable, and successful individuals in the modern world."
                 />
 
                 <div className="space-y-6">
