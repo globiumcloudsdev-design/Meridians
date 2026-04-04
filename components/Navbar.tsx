@@ -41,7 +41,7 @@ export function Navbar() {
 
   const showHeroLogo = !isScrolled && isTransparentPage;
   const logoSrc = showHeroLogo
-    ? "/assets/MERIDIANS-LOGO white-01.png"
+    ? "/logo-white.png"
     : "/logo.jpg";
 
   return (

@@ -26,19 +26,13 @@ import {
 } from "@/components/HomeSections";
 import { homeAssets } from "@/lib/assets";
 import { AnimatedSection } from "@/components/AnimatedSection";
-import { ArrowRight, LayoutGrid, Newspaper, Search } from "lucide-react";
+import { ArrowRight, LayoutGrid, Newspaper, Search, Calendar } from "lucide-react";
 import { SectionHeader } from "@/components/SectionHeader";
 import { FinalCTA } from "@/components/FinalCTA";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { API_BLOG } from "@/lib/api/endpoints";
 import { BlogPost } from "@/lib/types";
 import { getCurrentAcademicSession } from "@/lib/utils";
+
 
 export default function Home() {
   const [featuredBlogs, setFeaturedBlogs] = useState<BlogPost[]>([]);
@@ -127,85 +121,91 @@ export default function Home() {
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
               </div>
             ) : featuredBlogs.length > 0 ? (
-              <Carousel
-                className="w-full"
-                opts={{ align: "start", loop: true }}
-              >
-                <CarouselContent className="-ml-4">
-                  {featuredBlogs.map((blog) => (
-                    <CarouselItem
-                      key={blog._id}
-                      className="pl-4 md:basis-1/2 lg:basis-1/3"
-                    >
-                      <Card className="border-none shadow-sm hover:shadow-xl transition-all h-full flex flex-col group overflow-hidden rounded-3xl group">
-                          <div className="relative w-full h-64 overflow-hidden bg-muted">
-                            {blog.imageUrl && !failedFeaturedImages[blog._id] ? (
-                              <img
-                                src={blog.imageUrl}
-                                alt={blog.title}
-                                onError={() =>
-                                  setFailedFeaturedImages((prev) => ({
-                                    ...prev,
-                                    [blog._id]: true,
-                                  }))
-                                }
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                              />
-                            ) : (
-                              <div className="w-full h-full bg-gradient-to-br from-primary/10 via-primary/5 to-secondary/10 flex items-center justify-center">
-                                <div className="text-center px-6">
-                                  <div className="w-16 h-16 rounded-2xl bg-white/80 border border-primary/20 flex items-center justify-center mx-auto mb-4 shadow-sm">
-                                    <Newspaper className="w-8 h-8 text-primary/50" />
-                                  </div>
-                                  <p className="text-xs font-black uppercase tracking-[0.25em] text-primary/50">
-                                    No Image Uploaded
-                                  </p>
-                                </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {featuredBlogs.map((blog, idx) => (
+                  <AnimatedSection
+                    direction="up"
+                    delay={0.05 * idx}
+                    key={blog._id}
+                    className="h-full"
+                  >
+                    <Card className="group h-full bg-card rounded-[32px] border border-primary/10 overflow-hidden hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 flex flex-col py-0">
+                      {/* Image Container */}
+                      <div className="relative aspect-[26/16] overflow-hidden">
+                        {blog.imageUrl && !failedFeaturedImages[blog._id] ? (
+                          <img
+                            src={blog.imageUrl}
+                            alt={blog.title}
+                            onError={() =>
+                              setFailedFeaturedImages((prev) => ({
+                                ...prev,
+                                [blog._id]: true,
+                              }))
+                            }
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-primary/10 via-primary/5 to-secondary/10 flex items-center justify-center">
+                            <div className="text-center px-6">
+                              <div className="w-16 h-16 rounded-2xl bg-white/80 border border-primary/20 flex items-center justify-center mx-auto mb-4 shadow-sm">
+                                <Newspaper className="w-8 h-8 text-primary/50" />
                               </div>
-                            )}
-                            <div className="absolute top-4 left-4">
-                              <span className="text-xs font-bold uppercase tracking-widest text-white bg-primary px-3 py-1 rounded-full">
-                                {blog.category || "General"}
-                              </span>
+                              <p className="text-xs font-black uppercase tracking-[0.25em] text-primary/50">
+                                No Image Uploaded
+                              </p>
                             </div>
                           </div>
-                        <div className="p-8 flex-1 flex flex-col">
-                          <p className="text-xs text-muted-foreground mb-4 font-medium uppercase tracking-widest">
+                        )}
+
+                        {/* Category Badge overlay */}
+                        <div className="absolute top-4 left-4">
+                          <span className="px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md text-primary text-[10px] font-black uppercase tracking-widest shadow-lg">
+                            {blog.category || "General"}
+                          </span>
+                        </div>
+                      </div>
+
+                      <CardHeader className="p-8 pb-4">
+                        <div className="flex items-center gap-4 text-xs font-bold text-muted-foreground mb-4">
+                          <div className="flex items-center gap-1.5">
+                            <Calendar className="w-3.5 h-3.5 text-primary" />
                             {new Date(blog.publishedAt).toLocaleDateString(
                               "en-US",
                               {
-                                month: "long",
+                                month: "short",
                                 day: "numeric",
                                 year: "numeric",
                               },
                             )}
-                          </p>
-                          <CardTitle className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors leading-tight">
-                            {blog.title}
-                          </CardTitle>
-                          <p className="text-muted-foreground line-clamp-2 mb-6 flex-1">
-                            {blog.excerpt}
-                          </p>
+                          </div>
+                        </div>
+                        <CardTitle className="text-2xl font-black leading-tight tracking-tight group-hover:text-primary transition-colors duration-300 line-clamp-2">
+                          {blog.title}
+                        </CardTitle>
+                      </CardHeader>
+
+                      <CardContent className="px-8 pb-8 flex-1 flex flex-col">
+                        <p className="text-muted-foreground leading-relaxed text-sm mb-8 flex-1 line-clamp-3">
+                          {blog.excerpt}
+                        </p>
+
+                        <div className="pt-6 border-t border-primary/10">
                           <Button
                             asChild
-                            variant="link"
-                            className="p-0 h-auto text-primary font-bold group-hover:gap-2 transition-all"
+                            variant="ghost"
+                            className="p-0 h-auto hover:bg-transparent text-primary hover:text-primary/80 font-black text-sm uppercase tracking-widest flex items-center gap-2 group/btn"
                           >
                             <Link href={`/blog/${blog.slug}`}>
-                              Read Full Article{" "}
-                              <ArrowRight className="w-4 h-4" />
+                              Keep Reading
+                              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                             </Link>
                           </Button>
                         </div>
-                      </Card>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <div className="flex justify-end gap-2 mt-8 md:mt-12 mr-8">
-                  <CarouselPrevious className="relative translate-y-0 left-0 hover:bg-primary hover:text-white border-primary/20" />
-                  <CarouselNext className="relative translate-y-0 right-0 hover:bg-primary hover:text-white border-primary/20" />
-                </div>
-              </Carousel>
+                      </CardContent>
+                    </Card>
+                  </AnimatedSection>
+                ))}
+              </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {[
