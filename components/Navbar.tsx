@@ -36,7 +36,7 @@ export function Navbar() {
     { label: "Course Details", href: "/programs" },
     { label: "Blog", href: "/blog" },
     { label: "Admissions", href: "/admissions" },
-    { label: "Contact Address", href: "/contact" },
+    { label: "Contact Us", href: "/contact" },
   ];
 
   const showHeroLogo = !isScrolled && isTransparentPage;

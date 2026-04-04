@@ -72,7 +72,7 @@ const heroSlides = [
   //   badge: "Innovation & STEM",
   // },
   {
-    image: homeAllImages[3],
+    image: homeAllImages[4],
     title: "Nurturing Global",
     highlight: "Citizens",
     description:
