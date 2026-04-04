@@ -72,7 +72,7 @@ const heroSlides = [
   //   badge: "Innovation & STEM",
   // },
   {
-    image: homeAllImages[3],
+    image: homeAllImages[4],
     title: "Nurturing Global",
     highlight: "Citizens",
     description:
@@ -552,18 +552,16 @@ export const FunGallery: React.FC = () => (
             and learn together every day.
           </p>
         </div>
-        {/* <Button asChild variant="outline" className="rounded-full">
-          <Link href="/gallery">View Full Gallery</Link>
-        </Button> */}
+      
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-[600px]">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:h-[600px]">
         <motion.div
           whileHover={{ scale: 1.02 }}
           className="md:col-span-8 relative rounded-3xl overflow-hidden cursor-pointer"
         >
           <img
-            src={getImageSrc(homeAssets["home images"][0])}
+            src={getImageSrc(homeAssets["Life at Meridian's"][0])}
             alt="School activities"
             className="w-full h-full object-cover"
           />
@@ -581,7 +579,7 @@ export const FunGallery: React.FC = () => (
             className="relative rounded-3xl overflow-hidden cursor-pointer"
           >
             <img
-              src={getImageSrc(homeAssets["home images"][0])}
+              src={getImageSrc(homeAssets["Life at Meridian's"][1])}
               alt="Interactive learning"
               className="w-full h-full object-cover"
             />
@@ -591,7 +589,7 @@ export const FunGallery: React.FC = () => (
             className="relative rounded-3xl overflow-hidden cursor-pointer"
           >
             <img
-              src={getImageSrc(homeAssets["Life at Meridian's"][0])}
+              src={getImageSrc(homeAssets["Life at Meridian's"][2])}
               alt="Student life"
               className="w-full h-full object-cover"
             />

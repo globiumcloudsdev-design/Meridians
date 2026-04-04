@@ -39,9 +39,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 const programs = [
   {
@@ -204,8 +203,14 @@ export default function Programs() {
           />
 
           <Carousel
-            opts={{ align: "start", loop: false }}
+            opts={{ align: "start", loop: true }}
             className="relative mt-4"
+            plugins={[
+              Autoplay({
+                delay: 3000,
+                stopOnInteraction: false,
+              }),
+            ]}
           >
             <CarouselContent className="-ml-4">
               {programs.map((program, idx) => {
@@ -304,8 +309,7 @@ export default function Programs() {
                 );
               })}
             </CarouselContent>
-            <CarouselPrevious className="hidden lg:flex -left-2 border-primary/20 bg-background/95 backdrop-blur-sm" />
-            <CarouselNext className="hidden lg:flex -right-2 border-primary/20 bg-background/95 backdrop-blur-sm" />
+
           </Carousel>
         </div>
       </AnimatedSection>
