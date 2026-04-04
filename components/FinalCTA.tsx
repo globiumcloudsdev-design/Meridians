@@ -25,14 +25,6 @@ export function FinalCTA({
   secondaryBtnLink,
   className,
 }: FinalCTAProps) {
-  const isAdmissionFormLink = (link: string) =>
-    link === "/admission-form" || link.startsWith("/admission-form?");
-
-  const getLinkTargetProps = (link: string) =>
-    isAdmissionFormLink(link)
-      ? {}
-      : { target: "_blank", rel: "noopener noreferrer" };
-
   return (
     <section className={cn("relative py-24 overflow-hidden", className)}>
       <div className="absolute inset-0 bg-primary z-0">
@@ -57,7 +49,7 @@ export function FinalCTA({
               size="lg"
               className="bg-white text-primary hover:bg-white/90 rounded-full h-16 px-12 text-xl font-bold shadow-xl"
             >
-              <Link href={primaryBtnLink} {...getLinkTargetProps(primaryBtnLink)}>
+              <Link href={primaryBtnLink}>
                 {primaryBtnText}
               </Link>
             </Button>
@@ -68,10 +60,7 @@ export function FinalCTA({
                 size="lg"
                 className="bg-transparent text-white border-white/50 hover:bg-white/10 rounded-full h-16 px-12 text-xl font-bold"
               >
-                <Link
-                  href={secondaryBtnLink}
-                  {...getLinkTargetProps(secondaryBtnLink)}
-                >
+                <Link href={secondaryBtnLink}>
                   {secondaryBtnText}
                 </Link>
               </Button>

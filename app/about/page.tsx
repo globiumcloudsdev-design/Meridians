@@ -29,8 +29,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { THEME } from "@/lib/theme";
 import { getCurrentAcademicSession, getImageSrc } from "@/lib/utils";
@@ -128,7 +126,7 @@ export default function About() {
                   title="The"
                   titleAccent="Foundation"
                   titleAccentSuffix="of Our Future"
-                  description="At Meridian's Group of Education, we don't just teach; we inspire. Our educational philosophy is built on the belief that every child has a unique potential waiting to be discovered."
+                  description="Meridian's Group of Education, established in 2009, is a progressive and quality-focused educational institution committed to providing students with strong academic foundations along with moral values, discipline, and confidence. Our aim is not only to deliver classroom education but also to prepare students to become responsible, capable, and successful individuals in the modern world."
                 />
 
                 <div className="space-y-6">
@@ -157,14 +155,26 @@ export default function About() {
                       className="flex gap-6 p-8 rounded-[32px] bg-card/50 backdrop-blur-sm border border-primary/10 hover:border-primary/30 transition-all duration-500 group"
                     >
                       <div
-                        className={`w-16 h-16 rounded-2xl bg-${item.color}/10 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-${item.color} transition-all duration-500`}
+                        className={`w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-all duration-500 ${
+                          idx === 0 ? "bg-primary/10 group-hover:bg-primary" :
+                          idx === 1 ? "bg-secondary/10 group-hover:bg-secondary" :
+                          "bg-info/10 group-hover:bg-info"
+                        }`}
                       >
                         <item.icon
-                          className={`w-8 h-8 text-${item.color} group-hover:text-white transition-colors`}
+                          className={`w-8 h-8 transition-colors ${
+                            idx === 0 ? "text-primary group-hover:text-white" :
+                            idx === 1 ? "text-secondary group-hover:text-white" :
+                            "text-info group-hover:text-white"
+                          }`}
                         />
                       </div>
                       <div>
-                        <h3 className="text-2xl font-black mb-2 tracking-tight group-hover:text-primary transition-colors">
+                        <h3 className={`text-2xl font-black mb-2 tracking-tight transition-colors ${
+                          idx === 0 ? "group-hover:text-primary" :
+                          idx === 1 ? "group-hover:text-secondary" :
+                          "group-hover:text-info"
+                        }`}>
                           {item.title}
                         </h3>
                         <p className="text-muted-foreground leading-relaxed">
@@ -266,6 +276,97 @@ export default function About() {
                     {item.title}
                   </h3>
                   <p className="text-muted-foreground leading-relaxed text-sm">
+                    {item.desc}
+                  </p>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Facilities */}
+      <section className="py-24 bg-muted/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeader
+            title="Our"
+            titleAccent="Facilities"
+            titleAccentSuffix="& Resources"
+            description="To support effective learning, we provide state-of-the-art facilities designed to enhance the educational experience."
+            align="center"
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                icon: BookOpen,
+                title: "Spacious Classrooms",
+                desc: "Well-equipped classrooms with modern seating and learning aids",
+                color: "primary",
+              },
+              {
+                icon: Rocket,
+                title: "Computer Labs",
+                desc: "Computer learning facilities with latest technology and software",
+                color: "info",
+              },
+              {
+                icon: Sprout,
+                title: "Science Labs",
+                desc: "Science learning support environment with modern equipment",
+                color: "success",
+              },
+              {
+                icon: Star,
+                title: "Library",
+                desc: "Library resources for academic growth and research",
+                color: "warning",
+              },
+              {
+                icon: Heart,
+                title: "Co-curricular Activities",
+                desc: "Sports and creative activities for holistic development",
+                color: "secondary",
+              },
+              {
+                icon: ShieldCheck,
+                title: "Safe Campus",
+                desc: "A safe and disciplined campus environment",
+                color: "destructive",
+              },
+            ].map((item, idx) => (
+              <AnimatedSection direction="up" delay={idx * 0.1} key={idx}>
+                <div className="h-full bg-card/50 backdrop-blur-md p-8 rounded-[32px] border border-primary/10 hover:border-primary/30 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
+                  <div
+                    className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-300 ${
+                      idx === 0 ? "bg-primary/10 group-hover:bg-primary" :
+                      idx === 1 ? "bg-info/10 group-hover:bg-info" :
+                      idx === 2 ? "bg-success/10 group-hover:bg-success" :
+                      idx === 3 ? "bg-warning/10 group-hover:bg-warning" :
+                      idx === 4 ? "bg-secondary/10 group-hover:bg-secondary" :
+                      "bg-destructive/10 group-hover:bg-destructive"
+                    }`}
+                  >
+                    <item.icon className={`w-8 h-8 ${
+                      idx === 0 ? "text-primary group-hover:text-white" :
+                      idx === 1 ? "text-info group-hover:text-white" :
+                      idx === 2 ? "text-success group-hover:text-white" :
+                      idx === 3 ? "text-warning group-hover:text-white" :
+                      idx === 4 ? "text-secondary group-hover:text-white" :
+                      "text-destructive group-hover:text-white"
+                    }`} />
+                  </div>
+                  <h3 className={`text-xl font-black mb-3 tracking-tight transition-colors ${
+                    idx === 0 ? "group-hover:text-primary" :
+                    idx === 1 ? "group-hover:text-info" :
+                    idx === 2 ? "group-hover:text-success" :
+                    idx === 3 ? "group-hover:text-warning" :
+                    idx === 4 ? "group-hover:text-secondary" :
+                    "group-hover:text-destructive"
+                  }`}>
+                    {item.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
@@ -389,11 +490,6 @@ export default function About() {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-
-              <div className="flex justify-center gap-3 mt-10">
-                <CarouselPrevious className="relative left-0 translate-y-0" />
-                <CarouselNext className="relative right-0 translate-y-0" />
-              </div>
             </Carousel>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -430,7 +526,7 @@ export default function About() {
         title="Be Part of Our"
         titleAccent="Legacy"
         description={`Join Meridians Group of Education and give your child the foundation they deserve. Applications for ${getCurrentAcademicSession()} are filling up fast.`}
-        primaryBtnText="Enroll Successfully"
+        primaryBtnText="Enroll Now"
         primaryBtnLink="/admissions"
         secondaryBtnText="Contact Support"
         secondaryBtnLink="/contact"
