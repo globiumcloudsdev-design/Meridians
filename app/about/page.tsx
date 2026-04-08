@@ -90,7 +90,7 @@ export default function About() {
     },
     {
       name: "Muhammad Nawaz",
-      role: "Associate Teacher of Boys Campus",
+      role: "Senior Associate Teacher of Boys Campus",
       color: "info",
       icon: BookOpen,
       image: getImageSrc(aboutAssets["Our Inspirations"][7]),
