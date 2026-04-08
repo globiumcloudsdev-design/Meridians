@@ -23,6 +23,8 @@ import aboutInspiration5 from "../assets/About/Our Inspirations/about pics-05.jp
 import aboutInspiration6 from "../assets/About/Our Inspirations/about pics-06.jpg";
 import aboutInspiration7 from "../assets/About/Our Inspirations/about pics-07.jpg";
 import aboutFoundation from "../assets/About/The Foundation/The Foundation-01-01.jpg";
+import aboutInspiration8 from "../assets/About/Our Inspirations/about pics-08.jpg";
+import aboutInspiration9 from "../assets/About/Our Inspirations/about pics-09.jpg";
 
 import admissionsImage from "../assets/Admissions/Admissions-01.jpg";
 import programHomeImage from "../assets/program/home-01.jpg";
@@ -55,6 +57,8 @@ export const aboutAssets = {
         aboutInspiration5,
         aboutInspiration6,
         aboutInspiration7,
+        aboutInspiration8,
+        aboutInspiration9,
     ],
     "The Foundation": [aboutFoundation],
 } as const;

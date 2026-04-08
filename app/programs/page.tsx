@@ -178,6 +178,37 @@ const highlights = [
   },
 ];
 
+const additionalPrograms = [
+  {
+    title: "Computer Courses",
+    subtitle: "Basic to Advanced",
+    icon: Cpu,
+    description:
+      "Hands-on computer courses from fundamentals to advanced tools for academic and professional growth.",
+  },
+  {
+    title: "Language Courses",
+    subtitle: "Spoken English & Communication Skills",
+    icon: Languages,
+    description:
+      "Focused language and communication training to improve fluency, confidence, and presentation skills.",
+  },
+  {
+    title: "Entry Test Preparation",
+    subtitle: "For Colleges & Universities",
+    icon: Trophy,
+    description:
+      "Structured preparation with practice sessions and strategy support for college and university entry tests.",
+  },
+  {
+    title: "Skill Development Programs",
+    subtitle: "Practical and Career-Oriented",
+    icon: Briefcase,
+    description:
+      "Practical skill-building programs designed to strengthen confidence and readiness for future careers.",
+  },
+];
+
 export default function Programs() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -189,7 +220,7 @@ export default function Programs() {
         titleAccent="Programs"
         image={programHeroImage}
         imageFit="contain"
-        description="Primary, elementary, secondary, and higher secondary education designed to support every stage of student growth."
+        description="Pre-Sections, Primary, elementary, secondary, and higher secondary education designed to support every stage of student growth."
       />
 
       {/* Programs Overview */}
@@ -311,6 +342,52 @@ export default function Programs() {
             </CarouselContent>
 
           </Carousel>
+        </div>
+      </AnimatedSection>
+
+      {/* Additional Programs */}
+      <AnimatedSection direction="up" className="py-20 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeader
+            title="Additional Programs &"
+            titleAccent="Skill Development Courses"
+            description="At Meridian's Group of Education, we focus not only on academic excellence but also on practical skills and personal development. Along with our academic programs, we offer extra courses to enhance students' abilities and prepare them for future challenges."
+            align="center"
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+            {additionalPrograms.map((course, idx) => {
+              const Icon = course.icon;
+              return (
+                <AnimatedSection direction="up" delay={0.1 * idx} key={course.title}>
+                  <Card className="h-full border-primary/20 hover:border-primary/40 transition-colors bg-card/60 backdrop-blur-sm">
+                    <CardHeader>
+                      <div className="flex items-start gap-4">
+                        <div className="p-3 rounded-xl bg-primary/10 text-primary">
+                          <Icon className="w-6 h-6" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-xl font-bold">{course.title}</CardTitle>
+                          <CardDescription className="pt-1 text-sm font-medium text-primary/80">
+                            {course.subtitle}
+                          </CardDescription>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        {course.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </AnimatedSection>
+              );
+            })}
+          </div>
+
+          <p className="mt-10 text-center text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+            We also offer Computer Courses, Language Courses, Entry Test Preparation, and Skill Development Programs to support students beyond academics and help them succeed in their academic and professional journey.
+          </p>
         </div>
       </AnimatedSection>
 

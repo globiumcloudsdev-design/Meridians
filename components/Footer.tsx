@@ -71,7 +71,7 @@ export function Footer() {
             </h3>
             <p className="text-white/60 text-lg leading-relaxed font-medium">
               Empowering the next generation of leaders through excellence in
-              education and character building since 2009.
+              education and character building since 2004.
             </p>
             <div className="flex gap-4">
               {[
@@ -133,6 +133,19 @@ export function Footer() {
                   className="text-white/60 hover:text-primary font-bold"
                 >
                   0303 3569000
+                </a>
+              </li>
+              <li className="flex items-center gap-4 group">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20 group-hover:bg-primary group-hover:text-white transition-colors">
+                  <Phone className="w-5 h-5" />
+                </div>
+                <a
+                  href="tel:03214712207"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/60 hover:text-primary font-bold"
+                >
+                  03214712207
                 </a>
               </li>
               <li className="flex items-center gap-4 group">
