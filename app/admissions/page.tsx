@@ -294,7 +294,7 @@ export default function Admissions() {
                     <ContactCard
                       icon={Mail}
                       title="Email Support"
-                      content="meridians36109@gmail.com"
+                      content="meridians35102@gmail.com"
                       className="bg-white/10 border-white/10 text-white"
                       textColor="white"
                     />

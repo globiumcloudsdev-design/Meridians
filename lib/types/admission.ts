@@ -2,7 +2,6 @@
 
 export interface AdmissionQuery {
   _id: string;
-  admissionDate: string;
   name: string;
   class: string;
   fatherName?: string;
@@ -15,7 +14,6 @@ export interface AdmissionQuery {
   contact1: string;
   contact2?: string;
   parentEmail: string;
-  principal?: string;
   program: string;
   message?: string;
   status: 'pending' | 'replied';
@@ -28,7 +26,6 @@ export interface CreateAdmissionQueryInput {
   class: string;
   contact1: string;
   program: string;
-  admissionDate?: string;
   fatherName?: string;
   shift?: string;
   fatherOccupation?: string;
@@ -37,6 +34,5 @@ export interface CreateAdmissionQueryInput {
   subjects?: string;
   dob?: string;
   contact2?: string;
-  principal?: string;
   message?: string;
 }

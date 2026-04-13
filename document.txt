@@ -1,0 +1,131 @@
+# Project Documentation: Meridian's Group of Education
+
+## Overview
+Meridian's Group of Education is a modern, full-stack Next.js web application serving as the official website for an educational institution. It features a public-facing site for prospective students/parents and a comprehensive admin dashboard for content management. The site emphasizes innovative learning, STEM programs, arts, facilities, and student achievements.
+
+**Key Metadata (from app/layout.tsx):**
+- **Title**: Meridian's Group of Education
+- **Description**: Premier educational institution committed to excellence, innovation, and student success.
+- **Keywords**: education, school, admissions, learning, programs
+
+## Technology Stack
+### Core Framework & Languages
+- **Next.js** (^16.1.6) with App Router
+- **TypeScript** (5.7.3)
+- **React** (19.2.4) with React DOM
+- **Tailwind CSS** (^4.1.9) + PostCSS + Autoprefixer
+- **Node.js** runtime
+
+### UI & Components
+- **Shadcn UI** (extensive custom components: button, card, dialog, table, etc.)
+- **Framer Motion** (animations)
+- **Lucide React** (icons)
+- **Sonner** (toasts)
+- **Next Themes** (theme provider)
+- **React Hook Form** + Zod (forms/validation)
+- **Recharts** (charts)
+- **Embla Carousel** + React Resizable Panels
+
+### Backend & Database
+- **Mongoose** (^8.0.0) + MongoDB (lib/db.ts, models/)
+- **NextAuth** (v5 beta for authentication)
+- **JWT** + bcryptjs (auth)
+- **API Routes** (app/api/): admission, auth, blog, contact, posters, subscribers, timeline, send-email, upload
+
+### External Services
+- **Cloudinary** (image handling)
+- **Resend** + **Nodemailer** (emails)
+- **Vercel Analytics**
+
+### Utilities
+- **clsx**, **tailwind-merge**, **class-variance-authority** (CSS utilities)
+- **date-fns**, **react-day-picker** (dates)
+- Custom hooks (use-mobile, use-toast)
+
+## Project Structure
+```
+Meridians/ (root)
+├── app/                    # Next.js App Router pages & layouts
+│   ├── globals.css         # Global styles
+│   ├── layout.tsx          # Root layout (fonts: Geist, metadata)
+│   ├── page.tsx            # Home page (Hero, Stats, About, Blog preview)
+│   ├── about/              # About pages
+│   ├── admissions/         # Admissions info + form
+│   ├── admission-form/     # Admission form page
+│   ├── blog/               # Blog listing + [slug] dynamic
+│   ├── programs/           # Programs page
+│   ├── contact/            # Contact page
+│   └── admin/              # Admin dashboard (auth protected)
+│       ├── login/
+│       ├── dashboard/
+│       ├── blog/           # Blog CRUD
+│       ├── posters/
+│       ├── timeline/
+│       ├── admission-queries/
+│       ├── contact-messages/
+│       └── subscribers/
+├── components/             # Reusable UI components
+│   ├── ui/                 # Shadcn components (~50 files)
+│   ├── admin/              # Admin-specific (tables, dialogs, sidebar)
+│   ├── blog/               # Blog cards
+│   └── Shared: Navbar, Footer, Hero, Preloader, etc.
+├── lib/                    # Utilities & config
+│   ├── db.ts               # MongoDB connection
+│   ├── utils.ts            # Helpers (e.g., academic session)
+│   ├── models/             # Mongoose schemas (BlogPost, AdmissionQuery, etc.)
+│   ├── api/endpoints.ts    # API constants
+│   └── cloudinary.js, emailTemplates.ts
+├── assets/                 # Images (home sections, admissions, about)
+├── public/                 # Static assets (logos, placeholders, icons)
+├── hooks/                  # Custom React hooks
+├── scripts/                # Seeding scripts (admin, blogs, timeline)
+├── styles/                 # Additional CSS
+├── .gitignore, package.json, tsconfig.json, next.config.mjs (standard)
+└── TODO.md                 # Current tasks (e.g., link fixes)
+```
+
+## Key Features
+
+### Public Site
+- **Home** (app/page.tsx): Hero, stats, about, why-choose-us, features, facilities gallery, latest blogs (fetches from API), CTA for admissions.
+- **Dynamic Content**: Latest 6 published blogs displayed with images/categories/dates.
+- **Sections**: Admissions, Blog (with slugs), Programs, Contact, About.
+- **Responsive**: Mobile-first with animations (Framer Motion), themes.
+
+### Admin Dashboard (app/admin/)
+- **Authentication**: NextAuth login.
+- **CRUD Operations**:
+  | Section          | Components/Models          | Features                     |
+  |------------------|----------------------------|------------------------------|
+  | Blog             | BlogTable, BlogPostDialog | Create/Edit/Delete/Publish  |
+  | Posters          | PosterTable, PosterDialog | Upload/manage posters       |
+  | Timeline         | TimelineTable, TimelineDialog | Events timeline            |
+  | Admission Queries| -                        | View admission forms        |
+  | Contact Messages | -                        | View contact submissions    |
+  | Subscribers      | -                        | Email subscribers           |
+  | Dashboard        | Header, Sidebar           | Overview                    |
+
+- **UI**: Data tables, modals, delete confirms, rich editors (react-markdown).
+
+### APIs (app/api/)
+- `/api/admission/`, `/api/blog/`, `/api/contact/`, `/api/posters/`, `/api/timeline/`, `/api/subscribers/`
+- `/api/auth/` (NextAuth)
+- `/api/send-email/`, `/api/upload/` (Cloudinary)
+
+### Data Models (lib/models/)
+- `AdmissionQuery.ts`, `BlogPost.ts`, `ContactMessage.ts`, `Poster.ts`, etc.
+
+## Setup & Running
+1. `npm install`
+2. Set env vars: MongoDB URI, NextAuth secrets, Cloudinary/Resend keys.
+3. `npm run dev` (localhost:3000)
+4. Seeding: `ts-node scripts/seed-all.ts`
+
+## Current TODO (from TODO.md)
+- Update "Apply Now" links to point to /contact instead of /admission-form.
+
+This project is production-ready for an educational institute's website with full content management capabilities.
+
+---
+
+Document created: $(date)

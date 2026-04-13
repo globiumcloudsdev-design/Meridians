@@ -34,7 +34,6 @@ const PROGRAMS = [
 ];
 
 const INITIAL_FORM_DATA = {
-  admissionDate: "",
   name: "",
   class: "",
   fatherName: "",
@@ -47,7 +46,6 @@ const INITIAL_FORM_DATA = {
   contact1: "",
   contact2: "",
   parentEmail: "",
-  principal: "",
   program: "",
   message: "",
 };
@@ -88,7 +86,6 @@ export default function AdmissionForm() {
       fatherCnic: formData.fatherCnic.trim(),
       homeAddress: formData.homeAddress.trim(),
       subjects: formData.subjects.trim(),
-      principal: formData.principal.trim(),
       message: formData.message.trim(),
     };
 
@@ -173,24 +170,7 @@ export default function AdmissionForm() {
 
                     <CardContent className="p-6 md:p-10 pt-0">
                       <form onSubmit={handleSubmit} className="space-y-0">
-                        {/* Row 1: Date of Admission */}
-                        <div className="grid grid-cols-1 gap-6 sm:gap-8">
-                          <div className="space-y-3">
-                            <Label htmlFor="admissionDate" className="text-sm font-black uppercase tracking-widest text-muted-foreground">
-                              Date of Admission
-                            </Label>
-                            <Input
-                              id="admissionDate"
-                              name="admissionDate"
-                              type="date"
-                              value={formData.admissionDate}
-                              onChange={handleChange}
-                              className="h-14 rounded-2xl border-primary/10 bg-primary/5 focus:bg-white transition-all focus:ring-2 focus:ring-primary/20"
-                            />
-                          </div>
-                        </div>
-
-                        {/* Row 2: Name, Class */}
+                        {/* Row 1: Name, Class */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                           <div className="space-y-2.5">
                             <Label htmlFor="name" className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">
@@ -385,22 +365,8 @@ export default function AdmissionForm() {
                           </div>
                         </div>
 
-                        {/* Row 8: Principal, Program */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                          <div className="space-y-2.5">
-                            <Label htmlFor="principal" className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">
-                              Principal
-                            </Label>
-                            <Input
-                              id="principal"
-                              name="principal"
-                              type="text"
-                              value={formData.principal}
-                              onChange={handleChange}
-                              placeholder="Principal's name"
-                              className="h-14 rounded-2xl border-primary/10 bg-primary/5 focus:bg-white transition-all focus:ring-2 focus:ring-primary/20"
-                            />
-                          </div>
+                        {/* Row 7: Program */}
+                        <div className="grid grid-cols-1 gap-8">
                           <div className="space-y-2.5">
                             <Label htmlFor="program" className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">
                               Target Program <span className="text-destructive">*</span>

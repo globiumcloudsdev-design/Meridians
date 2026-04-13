@@ -152,8 +152,7 @@ export function Footer() {
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20 group-hover:bg-primary group-hover:text-white transition-colors">
                   <Mail className="w-5 h-5" />
                 </div>
-                <a
-href="mailto:meridians35102@gmail.com"
+                <a href="mailto:meridians35102@gmail.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white/60 hover:text-primary font-bold truncate"
