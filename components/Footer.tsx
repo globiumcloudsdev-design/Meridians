@@ -11,8 +11,8 @@ import {
   Linkedin,
   Twitter,
   Instagram,
-  YoutubeIcon,
 } from "lucide-react";
+import { YoutubeIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { API_SUBSCRIBERS } from "@/lib/api/endpoints";
@@ -78,9 +78,7 @@ export function Footer() {
               {[
                 { icon: Facebook, href: "https://www.facebook.com/p/Meridians-Group-Of-Education-100095628877699/" },
                 { icon: Instagram, href: "https://www.instagram.com/meridiansgroupofeducation?fbclid=IwY2xjawQ4g5BleHRuA2FlbQIxMABicmlkETFSZDl6NFlzMjVnbkFjUVhHc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHsloEWwEW3_psm30P4ECMHbJ9O6LuHnTsUWYyv46PHJGmJ5xkym-jf1ud8eV_aem_knxBwc3v2ZC5FEgPA__n1w" },
-                { icon: YoutubeIcon, href:  "https://www.youtube.com/@Meridian.Academy"},
-                // { icon: Twitter, href: "#" },
-                // { icon: Linkedin, href: "#" },
+                { icon: YoutubeIcon, href: "https://www.youtube.com/@Meridian.Academy" },
               ].map((social, i) => (
                 <a
                   key={i}
