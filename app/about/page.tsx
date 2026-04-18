@@ -61,7 +61,7 @@ export default function About() {
       image: getImageSrc(aboutAssets["Our Inspirations"][1]),
     },
     {
-      name: "Maam tahira",
+      name: "Maam Tahira",
       role: "vice Principal of Heir campus",
       color: "warning",
       icon: Target,
@@ -82,7 +82,7 @@ export default function About() {
       image: getImageSrc(aboutAssets["Our Inspirations"][5]),
     },
     {
-      name: "SULEMAN Sab",
+      name: "Suleman Sab",
       role: "Coordinator of boys campus",
       color: "info",
       icon: BookOpen,
@@ -154,7 +154,7 @@ export default function About() {
                     {
                       icon: Eye,
                       title: "Our Vision",
-                      desc: "Meridian's Science School is an institution which makes sure that each and every student can get equal attention. I have been educated, encouraged and most importantly challenged during my time at meridians. I am grateful for the endless efforts of our experienced instructors, dedicated administration, and my very capable fellows.",
+                      desc: "At MERIDIAN'S group of education system, we came to know that education is for all and that all children can succeed. We not only provide opportunities to students to reach their academic potential but also prepare them to play compound roles in society. While teaching our students we care to meet their social, spiritual, physical and intellectual requirements to accomplish the demands of 21st century as being a perfect person to his nation as well as to his religion.",
                       color: "secondary",
                     },
                     {

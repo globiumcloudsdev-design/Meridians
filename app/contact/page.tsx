@@ -379,6 +379,7 @@ export default function Contact() {
             {[
               {
                 title: "Boys Campus Map",
+                address: "CANTT VIEW MAIN BEDIAN ROAD LAHORE CANTT NEAR GO PETROLPUMP",
                 src: "https://maps.google.com/maps?q=31.4837883,74.4195471&z=17&output=embed",
                 googleUrl: "https://maps.google.com/maps?q=31.4837883,74.4195471&z=17",
                 contacts: ["03214712207", "03033569000"],
@@ -418,7 +419,7 @@ export default function Contact() {
                     </p>
                   ) : null}
                 </div>
-                <div className="relative h-[300px]">
+                <div className="relative h-[300px] group">
                   {!loadedMaps[idx] && (
                     <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-background/80 backdrop-blur-sm">
                       <div className="w-10 h-10 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
@@ -430,7 +431,7 @@ export default function Contact() {
                   <iframe
                     title={mapItem.title}
                     src={mapItem.src}
-                    className="w-full h-full cursor-pointer hover:opacity-90 transition-opacity duration-200"
+                    className="w-full h-full pointer-events-none"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     onLoad={() =>
@@ -439,7 +440,13 @@ export default function Contact() {
                         [idx]: true,
                       }))
                     }
-                    onClick={() => window.open(mapItem.googleUrl, "_blank")}
+                  />
+                  <a
+                    href={mapItem.googleUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 cursor-pointer hover:bg-black/10 transition-colors duration-200 flex items-center justify-center group-hover:bg-black/5 z-5"
+                    title="Open in Google Maps"
                   />
                 </div>
               </div>
