@@ -42,7 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-sans antialiased overflow-x-hidden">
+      <body className="font-sans antialiased overflow-x-hidden" suppressHydrationWarning>
         <UserProvider>
           <PageLoader />
           {children}

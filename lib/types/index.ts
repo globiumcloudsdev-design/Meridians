@@ -8,3 +8,6 @@ export * from './subscriber';
 export * from './api';
 export * from './timeline';
 export * from './poster';
+export * from './library';
+export * from './class';
+export * from './note';

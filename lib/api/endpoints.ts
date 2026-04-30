@@ -37,3 +37,15 @@ export const API_TIMELINE_BY_ID = (id: string) => `/api/timeline/${id}`;
 export const API_POSTERS = '/api/posters';
 export const API_POSTERS_BY_ID = (id: string) => `/api/posters/${id}`;
 export const API_POSTERS_ACTIVE = '/api/posters/active';
+
+// Library endpoints
+export const API_LIBRARY = '/api/library';
+export const API_LIBRARY_BY_ID = (id: string) => `/api/library/${id}`;
+
+// Note endpoints
+export const API_NOTES = '/api/notes';
+export const API_NOTE_BY_ID = (id: string) => `/api/notes/${id}`;
+
+// Class endpoints
+export const API_CLASSES = '/api/classes';
+export const API_CLASS_BY_ID = (id: string) => `/api/classes/${id}`;

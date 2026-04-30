@@ -26,6 +26,8 @@ export function Navbar() {
     pathname === "/about" ||
     pathname === "/programs" ||
     pathname === "/blog" ||
+    pathname === "/library" ||
+    pathname === "/notes" ||
     pathname === "/admission-form" ||
     pathname === "/admissions" ||
     pathname === "/contact";
@@ -35,6 +37,8 @@ export function Navbar() {
     { label: "About Us", href: "/about" },
     { label: "Course Details", href: "/programs" },
     { label: "Blog", href: "/blog" },
+    { label: "Library", href: "/library" },
+    { label: "Notes", href: "/notes" },
     { label: "Video", href: "/video" },
     { label: "Admissions", href: "/admissions" },
     { label: "Contact Us", href: "/contact" },

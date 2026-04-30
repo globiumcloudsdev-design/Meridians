@@ -19,11 +19,17 @@ export async function POST(request: NextRequest) {
     const bufferData = Buffer.from(buffer);
 
     // Upload to Cloudinary
-    const result = await cloudinaryService.uploadImage(bufferData, folder);
+    let result;
+    if (file.type === 'application/pdf') {
+      result = await cloudinaryService.uploadPdf(bufferData, folder, file.name);
+    } else {
+      result = await cloudinaryService.uploadImage(bufferData, folder);
+    }
 
     return NextResponse.json({
       success: true,
-      imageUrl: result.secure_url,
+      url: result.secure_url,
+      imageUrl: result.secure_url, // For backward compatibility
       publicId: result.public_id,
     });
   } catch (error) {

@@ -15,7 +15,10 @@ import {
   ChevronRight,
   LogOut,
   GraduationCap,
-  TvMinimalPlay
+  TvMinimalPlay,
+  Book,
+  School,
+  NotebookPen
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -69,6 +72,24 @@ const navItems = [
     href: "/admin/timeline",
     icon: CalendarDays,
     description: "Admission milestones",
+  },
+  {
+    label: "Library",
+    href: "/admin/library",
+    icon: Book,
+    description: "Manage books & PDFs",
+  },
+  {
+    label: "Notes",
+    href: "/admin/notes",
+    icon: NotebookPen,
+    description: "Manage study notes",
+  },
+  {
+    label: "Classes",
+    href: "/admin/classes",
+    icon: School,
+    description: "Manage class offerings",
   },
 ];
 
