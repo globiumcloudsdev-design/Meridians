@@ -2,7 +2,6 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 
 export interface IAdmissionQuery extends Document {
-  admissionDate?: string;
   name: string;
   class: string;
   fatherName?: string;
@@ -15,7 +14,6 @@ export interface IAdmissionQuery extends Document {
   contact1: string;
   contact2?: string;
   parentEmail: string;
-  principal?: string;
   program: string;
   message?: string;
   status: 'pending' | 'replied';
@@ -23,7 +21,6 @@ export interface IAdmissionQuery extends Document {
 }
 
 const AdmissionQuerySchema = new Schema<IAdmissionQuery>({
-  admissionDate: { type: String },
   name: { type: String, required: true },
   class: { type: String, required: true },
   fatherName: { type: String },
@@ -36,7 +33,6 @@ const AdmissionQuerySchema = new Schema<IAdmissionQuery>({
   contact1: { type: String, required: true },
   contact2: { type: String },
   parentEmail: { type: String, required: true, lowercase: true, trim: true },
-  principal: { type: String },
   program: { type: String, required: true },
   message: { type: String },
   status: { type: String, enum: ['pending', 'replied'], default: 'pending' },

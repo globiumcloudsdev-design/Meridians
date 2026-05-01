@@ -8,7 +8,6 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const {
-      admissionDate,
       name,
       class: className,
       fatherName,
@@ -21,7 +20,6 @@ export async function POST(request: NextRequest) {
       contact1,
       contact2,
       parentEmail,
-      principal,
       program,
       message
     } = body;
@@ -40,7 +38,6 @@ export async function POST(request: NextRequest) {
     }
 
     const admissionQuery = new AdmissionQuery({
-      admissionDate,
       name: cleanedName,
       class: cleanedClass,
       fatherName,
@@ -53,7 +50,6 @@ export async function POST(request: NextRequest) {
       contact1: cleanedContact1,
       contact2,
       parentEmail: cleanedParentEmail,
-      principal,
       program: cleanedProgram,
       message: typeof message === 'string' ? message.trim() : '',
       status: 'pending',
