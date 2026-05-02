@@ -1,4 +1,4 @@
-import TestTakingClient from "@/components/TestTakingClient";
+import TestTakingClient from "./TestTakingClient";
 
 interface PageProps {
   params: Promise<{ id: string }>;

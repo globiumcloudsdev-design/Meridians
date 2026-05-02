@@ -65,7 +65,6 @@ export default function AdminTests() {
         title: formData.title,
         description: formData.description,
         classId: formData.classId,
-        subject: formData.subject,
         mcqs: formData.mcqs,
         totalMarks: formData.totalMarks,
         correctAnswerMarks: formData.correctAnswerMarks,
