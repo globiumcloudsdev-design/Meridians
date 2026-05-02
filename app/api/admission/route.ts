@@ -78,8 +78,32 @@ export async function GET(request: NextRequest) {
   try {
     await connectDB();
 
-    const queries = await AdmissionQuery.find().sort({ createdAt: -1 });
+    const { searchParams } = new URL(request.url);
+    const token = searchParams.get('token');
 
+    // If token provided, return specific admission with limited fields
+    if (token) {
+      const admission = await AdmissionQuery.findOne({ 
+        testToken: token 
+      }).select('name class testToken testTokenExpiry');
+
+      if (!admission) {
+        return NextResponse.json(
+          { error: 'Invalid token' },
+          { status: 404 }
+        );
+      }
+
+      return NextResponse.json({
+        studentName: admission.name,
+        studentClass: admission.class,
+        testToken: admission.testToken,
+        testTokenExpiry: admission.testTokenExpiry
+      }, { status: 200 });
+    }
+
+    // Otherwise return all queries (admin view)
+    const queries = await AdmissionQuery.find().sort({ createdAt: -1 });
     return NextResponse.json(queries, { status: 200 });
   } catch (error) {
     console.error('Error fetching admission queries:', error);

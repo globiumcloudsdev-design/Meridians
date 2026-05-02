@@ -18,8 +18,17 @@ export interface IAdmissionQuery extends Document {
   principal?: string;
   program: string;
   message?: string;
-  status: 'pending' | 'replied';
+  status: 'pending' | 'replied' | 'test_sent' | 'contacted';
+  testToken?: string;
+  testTokenExpiry?: Date;
+  testScore?: number;
+  testPassed?: boolean;
+  bankSlipGenerated?: boolean;
+  bankSlipUrl?: string;
+  feeAmount?: number;
+  slipGeneratedAt?: Date;
   createdAt: Date;
+  updatedAt: Date;
 }
 
 const AdmissionQuerySchema = new Schema<IAdmissionQuery>({
@@ -39,8 +48,21 @@ const AdmissionQuerySchema = new Schema<IAdmissionQuery>({
   principal: { type: String },
   program: { type: String, required: true },
   message: { type: String },
-  status: { type: String, enum: ['pending', 'replied'], default: 'pending' },
-  createdAt: { type: Date, default: () => new Date() },
+  status: { 
+    type: String, 
+    enum: ['pending', 'replied', 'test_sent', 'contacted'],
+    default: 'pending'
+  },
+  testToken: { type: String, unique: true, sparse: true },
+  testTokenExpiry: { type: Date },
+  testScore: { type: Number },
+  testPassed: { type: Boolean, default: false },
+  bankSlipGenerated: { type: Boolean, default: false },
+  bankSlipUrl: { type: String },
+  feeAmount: { type: Number },
+  slipGeneratedAt: { type: Date },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
 });
 
 export default mongoose.models.AdmissionQuery || mongoose.model<IAdmissionQuery>('AdmissionQuery', AdmissionQuerySchema);

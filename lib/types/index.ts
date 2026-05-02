@@ -11,3 +11,4 @@ export * from './poster';
 export * from './library';
 export * from './class';
 export * from './note';
+export * from './test';

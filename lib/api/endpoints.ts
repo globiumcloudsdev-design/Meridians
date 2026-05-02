@@ -19,6 +19,9 @@ export const API_UPLOAD = '/api/upload';
 
 // Admission endpoints
 export const API_ADMISSION = '/api/admission';
+export const API_ADMISSION_BY_TOKEN = (token: string) => `/api/admission?token=${token}`;
+export const API_ADMISSION_SEND_TEST_LINK = '/api/admission/send-test-link';
+export const API_ADMISSION_GO_TO_TEST = '/api/admission/go-to-test';
 
 // Contact endpoints
 export const API_CONTACT = '/api/contact';
@@ -49,3 +52,7 @@ export const API_NOTE_BY_ID = (id: string) => `/api/notes/${id}`;
 // Class endpoints
 export const API_CLASSES = '/api/classes';
 export const API_CLASS_BY_ID = (id: string) => `/api/classes/${id}`;
+
+// Test endpoints
+export const API_TESTS = '/api/tests';
+export const API_TEST_BY_ID = (id: string) => `/api/tests/${id}`;

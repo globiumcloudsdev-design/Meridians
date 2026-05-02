@@ -7,6 +7,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useUser } from "@/lib/context/UserContext";
 import Sidebar from "@/components/admin/Sidebar";
 import Header from "@/components/admin/Header";
+import { Toaster } from "sonner";
 
 export default function AdminLayout({
   children,
@@ -78,6 +79,7 @@ export default function AdminLayout({
           </main>
         </div>
       </div>
+      <Toaster position="top-right" />
     </div>
   );
 }

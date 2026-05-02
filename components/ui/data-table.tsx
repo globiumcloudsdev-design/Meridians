@@ -59,7 +59,7 @@ export interface DataTableFilter {
 
 export interface DataTableAction<T> {
   label: string;
-  icon?: ReactNode;
+  icon?: ReactNode | ((row: T) => ReactNode);
   onClick: (row: T) => void;
   variant?: 'default' | 'ghost' | 'destructive' | 'outline' | 'secondary' | 'link';
   className?: string;
@@ -427,12 +427,12 @@ export function DataTable<T extends Record<string, any>>({
                                 <Button
                                   key={idx}
                                   variant={action.variant || 'ghost'}
-                                  size="sm"
+                                  size="icon"
                                   onClick={() => action.onClick(row)}
                                   className={action.className}
                                   title={action.label}
                                 >
-                                  {action.icon}
+                                  {typeof action.icon === 'function' ? action.icon(row) : action.icon}
                                 </Button>
                               ))}
                             </div>

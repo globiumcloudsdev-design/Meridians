@@ -4,13 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -28,6 +29,7 @@ export function Navbar() {
     pathname === "/blog" ||
     pathname === "/library" ||
     pathname === "/notes" ||
+    pathname === "/video" ||
     pathname === "/admission-form" ||
     pathname === "/admissions" ||
     pathname === "/contact";
@@ -37,9 +39,15 @@ export function Navbar() {
     { label: "About Us", href: "/about" },
     { label: "Course Details", href: "/programs" },
     { label: "Blog", href: "/blog" },
-    { label: "Library", href: "/library" },
-    { label: "Notes", href: "/notes" },
-    { label: "Video", href: "/video" },
+    {
+      label: "Resources",
+      href: "#",
+      children: [
+        { label: "Library", href: "/library" },
+        { label: "Notes", href: "/notes" },
+        { label: "Video", href: "/video" },
+      ],
+    },
     { label: "Admissions", href: "/admissions" },
     { label: "Contact Us", href: "/contact" },
   ];
@@ -89,6 +97,56 @@ export function Navbar() {
               const isActive =
                 pathname === item.href ||
                 (item.href !== "/" && pathname.startsWith(item.href));
+              const hasChildren = 'children' in item && item.children;
+
+              if (hasChildren) {
+                const isChildActive = item.children?.some(
+                  (child) => pathname === child.href || pathname.startsWith(child.href)
+                );
+                const isDropdownOpen = openDropdown === item.label;
+
+                return (
+                  <div key={item.href} className="relative">
+                    <button
+                      onClick={() => setOpenDropdown(isDropdownOpen ? null : item.label)}
+                      onMouseEnter={() => setOpenDropdown(item.label)}
+                      className={
+                        `px-4 py-2 text-sm font-bold rounded-full transition-all duration-300 flex items-center gap-1 ` +
+                        (isActive || isChildActive
+                          ? "bg-primary text-white shadow-lg"
+                          : !isScrolled && isTransparentPage
+                            ? "text-white/90 hover:text-white hover:bg-white/10"
+                            : "text-foreground hover:text-primary hover:bg-primary/5")
+                      }
+                    >
+                      {item.label}
+                      <ChevronDown className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    {isDropdownOpen && (
+                      <div
+                        onMouseLeave={() => setOpenDropdown(null)}
+                        className="absolute top-full left-0 mt-2 py-2 bg-card border border-border rounded-xl shadow-xl min-w-[160px] z-50"
+                      >
+                        {item.children?.map((child) => (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            className={
+                              `block px-4 py-2 text-sm font-bold transition-colors ` +
+                              (pathname === child.href
+                                ? "text-primary bg-primary/10"
+                                : "text-foreground hover:text-primary hover:bg-primary/5")
+                            }
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={item.href}
@@ -139,6 +197,12 @@ export function Navbar() {
                   const isActive =
                     pathname === item.href ||
                     (item.href !== "/" && pathname.startsWith(item.href));
+                  const hasChildren = 'children' in item && item.children;
+                  const isChildActive = hasChildren && item.children?.some(
+                    (child) => pathname === child.href || pathname.startsWith(child.href)
+                  );
+                  const isDropdownOpen = openDropdown === item.label;
+
                   return (
                     <motion.div
                       key={item.href}
@@ -146,21 +210,66 @@ export function Navbar() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: idx * 0.05 }}
                     >
-                      <Link
-                        href={item.href}
-                        className={
-                          `flex items-center justify-between p-4 rounded-2xl text-lg font-bold transition-all ` +
-                          (isActive
-                            ? "bg-primary text-white shadow-lg shadow-primary/20"
-                            : "text-foreground hover:bg-primary/5")
-                        }
-                        onClick={() => setIsOpen(false)}
-                      >
-                        {item.label}
-                        <ArrowRight
-                          className={`w-5 h-5 ${isActive ? "opacity-100" : "opacity-0"}`}
-                        />
-                      </Link>
+                      {hasChildren ? (
+                        <div>
+                          <button
+                            onClick={() => setOpenDropdown(isDropdownOpen ? null : item.label)}
+                            className={
+                              `w-full flex items-center justify-between p-4 rounded-2xl text-lg font-bold transition-all ` +
+                              (isActive || isChildActive
+                                ? "bg-primary text-white shadow-lg shadow-primary/20"
+                                : "text-foreground hover:bg-primary/5")
+                            }
+                          >
+                            {item.label}
+                            <ChevronDown className={`w-5 h-5 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                          </button>
+                          {isDropdownOpen && (
+                            <div className="mt-2 ml-4 space-y-2">
+                              {item.children?.map((child, childIdx) => (
+                                <motion.div
+                                  key={child.href}
+                                  initial={{ opacity: 0, x: -10 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: childIdx * 0.05 }}
+                                >
+                                  <Link
+                                    href={child.href}
+                                    className={
+                                      `flex items-center justify-between p-3 rounded-xl text-base font-bold transition-all ` +
+                                      (pathname === child.href
+                                        ? "bg-primary/10 text-primary"
+                                        : "text-foreground hover:bg-primary/5")
+                                    }
+                                    onClick={() => setIsOpen(false)}
+                                  >
+                                    {child.label}
+                                    <ArrowRight
+                                      className={`w-4 h-4 ${pathname === child.href ? "opacity-100" : "opacity-0"}`}
+                                    />
+                                  </Link>
+                                </motion.div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <Link
+                          href={item.href}
+                          className={
+                            `flex items-center justify-between p-4 rounded-2xl text-lg font-bold transition-all ` +
+                            (isActive
+                              ? "bg-primary text-white shadow-lg shadow-primary/20"
+                              : "text-foreground hover:bg-primary/5")
+                          }
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {item.label}
+                          <ArrowRight
+                            className={`w-5 h-5 ${isActive ? "opacity-100" : "opacity-0"}`}
+                          />
+                        </Link>
+                      )}
                     </motion.div>
                   );
                 })}

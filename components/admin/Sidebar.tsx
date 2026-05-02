@@ -18,7 +18,8 @@ import {
   TvMinimalPlay,
   Book,
   School,
-  NotebookPen
+  NotebookPen,
+  FileQuestion
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -84,6 +85,12 @@ const navItems = [
     href: "/admin/notes",
     icon: NotebookPen,
     description: "Manage study notes",
+  },
+  {
+    label: "Tests",
+    href: "/admin/tests",
+    icon: FileQuestion,
+    description: "Create MCQ tests with timer",
   },
   {
     label: "Classes",

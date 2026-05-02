@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Phone, Mail, Trash2, CheckCircle, Circle, Edit, Eye } from 'lucide-react';
+import { Phone, Mail, Trash2, CheckCircle, Circle, Edit, Eye, GraduationCap, Loader2 } from 'lucide-react';
 import { DataTable, DataTableColumn, DataTableAction } from '@/components/ui/data-table';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
@@ -10,7 +10,7 @@ import { DeleteConfirmDialog } from '@/components/admin/DeleteConfirmDialog';
 import { admissionStatusTemplate } from '@/lib/emailTemplates';
 import { toast } from 'sonner';
 import { AdmissionQuery } from '@/lib/types';
-import { API_ADMISSION } from '@/lib/api/endpoints';
+import { API_ADMISSION, API_ADMISSION_SEND_TEST_LINK } from '@/lib/api/endpoints';
 
 export default function AdmissionQueriesPage() {
   const [queries, setQueries] = useState<AdmissionQuery[]>([]);
@@ -26,6 +26,7 @@ export default function AdmissionQueriesPage() {
   const [selectedQuery, setSelectedQuery] = useState<AdmissionQuery | null>(null);
   const [replyMessage, setReplyMessage] = useState('');
   const [sendingReply, setSendingReply] = useState(false);
+  const [sendingTestLink, setSendingTestLink] = useState<string | null>(null);
 
   useEffect(() => {
     fetchQueries();
@@ -71,6 +72,29 @@ export default function AdmissionQueriesPage() {
     const newStatus = query.status === 'pending' ? 'replied' : 'pending';
     setStatusQuery({ ...query, status: newStatus });
     setStatusDialogOpen(true);
+  };
+
+  const handleSendTestLink = async (queryId: string) => {
+    setSendingTestLink(queryId);
+    try {
+      const response = await fetch(API_ADMISSION_SEND_TEST_LINK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ admissionId: queryId }),
+      });
+
+      if (response.ok) {
+        setTimeout(() => toast.success('Test link sent successfully to student email'), 0);
+        fetchQueries();
+      } else {
+        const error = await response.json();
+        setTimeout(() => toast.error(error.error || 'Failed to send test link'), 0);
+      }
+    } catch (error) {
+      setTimeout(() => toast.error('Error sending test link'), 0);
+    } finally {
+      setSendingTestLink(null);
+    }
   };
 
   const sendStatusEmail = async () => {
@@ -220,6 +244,16 @@ export default function AdmissionQueriesPage() {
       icon: <Edit className="w-4 h-4" />,
       onClick: (row: AdmissionQuery) => handleToggleStatus(row._id),
       variant: 'outline',
+    },
+    {
+      label: 'Send Test Link',
+      icon: (row: AdmissionQuery) => sendingTestLink === row._id ? (
+        <Loader2 className="w-4 h-4 animate-spin" />
+      ) : (
+        <GraduationCap className="w-4 h-4" />
+      ),
+      onClick: (row: AdmissionQuery) => handleSendTestLink(row._id),
+      variant: 'default',
     },
     {
       label: 'Delete',
