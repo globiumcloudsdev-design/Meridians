@@ -4,11 +4,12 @@ import {connectDB} from '@/lib/db';
 import Video from '@/lib/models/video';
 export async function GET(
   request: NextRequest,
-  { params }: { params: { status: string } }
+  { params }: { params: Promise<{ status: string }> }
 ) {
   try {
     await connectDB();
-    const videos = await Video.find({ status: params.status });
+    const { status } = await params;
+    const videos = await Video.find({ status });
     return NextResponse.json(videos, { status: 200 });
   } catch (error) {
     return NextResponse.json(

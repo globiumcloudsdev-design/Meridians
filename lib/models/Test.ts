@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import '@/lib/models/Class'; // Ensure Class model is registered for populate
 
 export interface IMCQ {
   question: string;

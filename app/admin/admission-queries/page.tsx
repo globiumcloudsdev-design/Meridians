@@ -75,6 +75,11 @@ export default function AdmissionQueriesPage() {
   };
 
   const handleSendTestLink = async (queryId: string) => {
+    if (!queryId) {
+      toast.error('Invalid admission ID');
+      return;
+    }
+    
     setSendingTestLink(queryId);
     try {
       const response = await fetch(API_ADMISSION_SEND_TEST_LINK, {
@@ -323,9 +328,14 @@ export default function AdmissionQueriesPage() {
               </div>
             </div>
             <div className="space-y-2">
-              <p className="text-sm font-semibold text-foreground">Email Preview</p>
+              <p className="text-sm font-semibold text-foreground">Status Update</p>
               <div className="border rounded p-4 bg-muted/10 max-h-64 overflow-y-auto text-sm">
-                <div dangerouslySetInnerHTML={{ __html: statusQuery ? admissionStatusTemplate({ name: statusQuery.name, program: statusQuery.program, status: statusQuery.status }) : '' }} />
+                <p className="text-muted-foreground">
+                  An email will be sent to <strong>{statusQuery?.parentEmail}</strong> regarding the status update for <strong>{statusQuery?.name}</strong> admission query for <strong>{statusQuery?.program}</strong>.
+                </p>
+                <p className="mt-2 text-xs text-muted-foreground">
+                  New Status: <span className={`font-semibold ${statusQuery?.status === 'replied' ? 'text-green-700' : 'text-amber-700'}`}>{statusQuery?.status === 'replied' ? 'Replied' : 'Pending'}</span>
+                </p>
               </div>
             </div>
           </div>
@@ -381,7 +391,7 @@ export default function AdmissionQueriesPage() {
                   <div><dt className="text-sm font-medium text-muted-foreground mb-1">Date of Birth</dt><dd className="text-foreground font-medium">{selectedQuery.dob || 'N/A'}</dd></div>
                   <div><dt className="text-sm font-medium text-muted-foreground mb-1">Father's Name</dt><dd className="text-foreground font-medium">{selectedQuery.fatherName || 'N/A'}</dd></div>
                   <div><dt className="text-sm font-medium text-muted-foreground mb-1">Father's CNIC</dt><dd className="text-foreground font-medium">{selectedQuery.fatherCnic || 'N/A'}</dd></div>
-                  <div><dt className="text-sm font-medium text-muted-foreground mb-1">Father's Occupation</dt><dd className="text-foreground font-medium">{selectedQuery.fatherOccupation || 'N/A'}</dd></div>
+                  <div><dt className="text-sm font-medium text-muted-foreground mb-1">Shift</dt><dd className="text-foreground font-medium">{selectedQuery.shift || 'N/A'}</dd></div>
                 </dl>
               </div>
 
@@ -389,23 +399,93 @@ export default function AdmissionQueriesPage() {
               <div>
                 <h3 className="text-lg font-semibold mb-4 flex items-center gap-2"><span>📱</span> Contact Information</h3>
                 <dl className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div><dt className="text-sm font-medium text-muted-foreground mb-1">Primary Phone</dt><dd className="text-foreground font-medium"><a href={`tel:${selectedQuery.contact1}`} className="hover:underline">{selectedQuery.contact1}</a></dd></div>
-                  <div><dt className="text-sm font-medium text-muted-foreground mb-1">Secondary Phone</dt><dd className="text-foreground font-medium">{selectedQuery.contact2 || 'N/A'}</dd></div>
+                  <div><dt className="text-sm font-medium text-muted-foreground mb-1">Father's Contact</dt><dd className="text-foreground font-medium"><a href={`tel:${selectedQuery.contact1}`} className="hover:underline">{selectedQuery.contact1}</a></dd></div>
                   <div><dt className="text-sm font-medium text-muted-foreground mb-1">Parent Email</dt><dd className="text-foreground font-medium"><a href={`mailto:${selectedQuery.parentEmail}`} className="hover:underline">{selectedQuery.parentEmail}</a></dd></div>
-                  <div><dt className="text-sm font-medium text-muted-foreground mb-1">Home Address</dt><dd className="text-foreground font-medium">{selectedQuery.homeAddress || 'N/A'}</dd></div>
+                  <div className="md:col-span-2"><dt className="text-sm font-medium text-muted-foreground mb-1">Home Address</dt><dd className="text-foreground font-medium">{selectedQuery.homeAddress || 'N/A'}</dd></div>
                 </dl>
               </div>
 
-              {/* Program Details */}
-              <div>
-                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2"><span>🎓</span> Program Details</h3>
-                <dl className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div><dt className="text-sm font-medium text-muted-foreground mb-1">Shift</dt><dd className="text-foreground font-medium">{selectedQuery.shift || 'N/A'}</dd></div>
-                  <div><dt className="text-sm font-medium text-muted-foreground mb-1">Subjects</dt><dd className="text-foreground font-medium">{selectedQuery.subjects || 'N/A'}</dd></div>
-                  <div><dt className="text-sm font-medium text-muted-foreground mb-1">Admission Date</dt><dd className="text-foreground font-medium">{selectedQuery.admissionDate || 'N/A'}</dd></div>
-                  <div><dt className="text-sm font-medium text-muted-foreground mb-1">Principal</dt><dd className="text-foreground font-medium">{selectedQuery.principal || 'N/A'}</dd></div>
-                </dl>
-              </div>
+              {/* Documents */}
+              {selectedQuery.documents && selectedQuery.documents.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 flex items-center gap-2"><span>📄</span> Uploaded Documents</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {selectedQuery.documents.map((doc, index) => (
+                      <div key={doc.publicId} className="bg-muted/30 p-4 rounded-xl border border-primary/10">
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                            <span className="text-lg">{doc.type.includes('pdf') ? '📕' : '🖼️'}</span>
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm font-medium text-foreground truncate">{doc.name}</p>
+                            <p className="text-xs text-muted-foreground">{(doc.size / 1024).toFixed(1)} KB</p>
+                            <a 
+                              href={doc.url} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-xs text-primary hover:underline mt-1 inline-block"
+                            >
+                              View Document →
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Test Status */}
+              {(selectedQuery.testToken || selectedQuery.testCompleted) && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 flex items-center gap-2"><span>📝</span> Test Status</h3>
+                  <dl className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {selectedQuery.testCompleted && (
+                      <div>
+                        <dt className="text-sm font-medium text-muted-foreground mb-1">Test Score</dt>
+                        <dd className="text-foreground font-medium text-xl">{selectedQuery.testScore ?? 0}</dd>
+                      </div>
+                    )}
+                    {selectedQuery.testPassed !== undefined && (
+                      <div>
+                        <dt className="text-sm font-medium text-muted-foreground mb-1">Result</dt>
+                        <dd className={`font-semibold px-3 py-1 rounded-full text-xs w-fit ${selectedQuery.testPassed ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                          {selectedQuery.testPassed ? '✅ PASSED' : '❌ FAILED'}
+                        </dd>
+                      </div>
+                    )}
+                    {selectedQuery.testToken && (
+                      <div>
+                        <dt className="text-sm font-medium text-muted-foreground mb-1">Test Link Sent</dt>
+                        <dd className="text-foreground font-medium text-xs">{new Date(selectedQuery.testTokenExpiry || '').toLocaleString()}</dd>
+                      </div>
+                    )}
+                  </dl>
+                </div>
+              )}
+
+              {/* Fee/Bank Slip Status */}
+              {selectedQuery.bankSlipGenerated && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 flex items-center gap-2"><span>💰</span> Fee Status</h3>
+                  <dl className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <dt className="text-sm font-medium text-muted-foreground mb-1">Fee Amount</dt>
+                      <dd className="text-foreground font-medium">PKR {selectedQuery.feeAmount?.toLocaleString() || 'N/A'}</dd>
+                    </div>
+                    {selectedQuery.bankSlipUrl && (
+                      <div>
+                        <dt className="text-sm font-medium text-muted-foreground mb-1">Bank Slip</dt>
+                        <dd>
+                          <a href={selectedQuery.bankSlipUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline text-sm">
+                            View Slip →
+                          </a>
+                        </dd>
+                      </div>
+                    )}
+                  </dl>
+                </div>
+              )}
 
               {/* Message */}
               {selectedQuery.message && (

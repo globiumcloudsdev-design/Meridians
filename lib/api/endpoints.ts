@@ -56,3 +56,4 @@ export const API_CLASS_BY_ID = (id: string) => `/api/classes/${id}`;
 // Test endpoints
 export const API_TESTS = '/api/tests';
 export const API_TEST_BY_ID = (id: string) => `/api/tests/${id}`;
+export const API_TEST_SUBMIT = '/api/test/submit';

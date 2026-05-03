@@ -1,25 +1,42 @@
 // Admission query type definitions
 
+export interface AdmissionDocument {
+  url: string;
+  publicId: string;
+  name: string;
+  size: number;
+  type: string;
+}
+
 export interface AdmissionQuery {
   _id: string;
-  admissionDate: string;
   name: string;
   class: string;
   fatherName?: string;
   shift?: string;
-  fatherOccupation?: string;
   fatherCnic?: string;
   homeAddress?: string;
-  subjects?: string;
   dob?: string;
   contact1: string;
-  contact2?: string;
   parentEmail: string;
-  principal?: string;
   program: string;
   message?: string;
-  status: 'pending' | 'replied';
+  status: 'pending' | 'replied' | 'test_sent' | 'contacted';
+  documents?: AdmissionDocument[];
+  // Test related fields
+  testToken?: string;
+  testTokenExpiry?: string;
+  testScore?: number;
+  testPassed?: boolean;
+  testCompleted?: boolean;
+  testCompletedAt?: string;
+  // Bank slip fields
+  bankSlipGenerated?: boolean;
+  bankSlipUrl?: string;
+  feeAmount?: number;
+  slipGeneratedAt?: string;
   createdAt: string;
+  updatedAt?: string;
 }
 
 export interface CreateAdmissionQueryInput {

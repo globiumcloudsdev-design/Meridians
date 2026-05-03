@@ -46,7 +46,7 @@ export default function RootLayout({
         <UserProvider>
           <PageLoader />
           {children}
-          <Toaster position="top-right" richColors />
+          <Toaster position="top-right" />
         </UserProvider>
         <Analytics />
       </body>

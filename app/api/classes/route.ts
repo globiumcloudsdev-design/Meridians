@@ -2,11 +2,11 @@ import { connectDB } from '@/lib/db';
 import Class from '@/lib/models/Class';
 import { NextRequest, NextResponse } from 'next/server';
 
-// GET - Get all classes
+// GET - Get all active classes
 export async function GET() {
   try {
     await connectDB();
-    const classes = await Class.find({}).sort({ createdAt: -1 });
+    const classes = await Class.find({ isActive: true }).sort({ name: 1 });
     return NextResponse.json(classes, { status: 200 });
   } catch (error) {
     console.error('Error fetching classes:', error);

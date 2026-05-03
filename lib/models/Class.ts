@@ -36,4 +36,7 @@ ClassSchema.pre('save', function(next) {
   next();
 });
 
-export default mongoose.models.Class || mongoose.model('Class', ClassSchema);
+// Ensure the model is registered
+const ClassModel = mongoose.models.Class || mongoose.model('Class', ClassSchema);
+
+export default ClassModel;

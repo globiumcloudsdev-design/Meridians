@@ -78,7 +78,7 @@ export function contactReplyTemplate({ name, reply }: { name: string; reply: str
 }
 
 // 2. ADMISSION STATUS TEMPLATE
-export function admissionStatusTemplate({ name, program, status }: { name: string; program: string; status: 'pending' | 'replied' }) {
+export function admissionStatusTemplate({ name, program, status }: { name: string; program: string; status: 'pending' | 'replied' | 'test_sent' | 'contacted' }) {
   const isReplied = status === 'replied';
   const statusColor = isReplied ? COLORS.primary : "#ca8a04";
   const statusBg = isReplied ? "#f0fdfa" : "#fffbeb";

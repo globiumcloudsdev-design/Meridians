@@ -9,7 +9,27 @@ export async function POST(request: NextRequest) {
   try {
     await connectDB();
     
-    const { admissionId } = await request.json();
+    // Check if body exists
+    const contentType = request.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      return NextResponse.json(
+        { error: 'Content-Type must be application/json' },
+        { status: 400 }
+      );
+    }
+
+    let body;
+    try {
+      body = await request.json();
+    } catch (parseError) {
+      console.error('Failed to parse request body:', parseError);
+      return NextResponse.json(
+        { error: 'Invalid JSON in request body' },
+        { status: 400 }
+      );
+    }
+    
+    const { admissionId } = body;
     
     if (!admissionId) {
       return NextResponse.json(
@@ -34,6 +54,7 @@ export async function POST(request: NextRequest) {
     admission.testToken = testToken;
     admission.testTokenExpiry = testTokenExpiry;
     admission.status = 'test_sent';
+    admission.testCompleted = false; // Reset test completion status for retake
     await admission.save();
 
     const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';

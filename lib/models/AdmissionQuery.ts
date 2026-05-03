@@ -23,10 +23,20 @@ export interface IAdmissionQuery extends Document {
   testTokenExpiry?: Date;
   testScore?: number;
   testPassed?: boolean;
+  testCompleted?: boolean;
+  testCompletedAt?: Date;
   bankSlipGenerated?: boolean;
   bankSlipUrl?: string;
   feeAmount?: number;
   slipGeneratedAt?: Date;
+  voucherData?: any;
+  documents?: {
+    url: string;
+    publicId: string;
+    name: string;
+    size: number;
+    type: string;
+  }[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -57,10 +67,20 @@ const AdmissionQuerySchema = new Schema<IAdmissionQuery>({
   testTokenExpiry: { type: Date },
   testScore: { type: Number },
   testPassed: { type: Boolean, default: false },
+  testCompleted: { type: Boolean, default: false },
+  testCompletedAt: { type: Date },
   bankSlipGenerated: { type: Boolean, default: false },
   bankSlipUrl: { type: String },
   feeAmount: { type: Number },
   slipGeneratedAt: { type: Date },
+  voucherData: { type: Schema.Types.Mixed },
+  documents: [{
+    url: { type: String, required: true },
+    publicId: { type: String, required: true },
+    name: { type: String, required: true },
+    size: { type: Number, required: true },
+    type: { type: String, required: true },
+  }],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
