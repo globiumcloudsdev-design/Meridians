@@ -53,36 +53,33 @@ export default function TestActiveScreen({
   }
 
   return (
-    <div className="flex flex-col bg-background">
-      <main className="py-3 px-4">
+    <div className="flex flex-col mt-2 bg-background">
+      <main className="px-4">
         <div className="max-w-xl mx-auto">
           <Card className="rounded-xl border border-primary/20 overflow-hidden">
             {/* Header with Timer */}
-            <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/10 p-3">
+            <div className="bg-linear-to-r from-primary/10 via-primary/5 to-secondary/10 p-2">
               {/* Student Info (email link se) */}
               {studentInfo && (
-                <div className="mb-2 p-2 bg-white/60 rounded-lg">
+                <div className="mb-1 p-1.5 bg-white/60 rounded-lg">
                   <div className="flex items-center justify-center gap-3 text-xs">
-                    <div className="flex items-center gap-1">
-                      <span className="text-muted-foreground">Student:</span>
-                      <span className="font-bold text-foreground">{studentInfo.studentName}</span>
+                    <div className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/20 text-primary uppercase tracking-wider">
+                      <span >Student:</span>
+                      <span >{studentInfo.studentName}</span>
                     </div>
                     <div className="h-3 w-px bg-border" />
-                    <div className="flex items-center gap-1">
-                      <span className="text-muted-foreground">Class:</span>
-                      <span className="font-bold text-foreground">{studentInfo.studentClass}</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-              {/* Test Class Badge */}
+                    {/* Test Class Badge */}
               {testClass && (
-                <div className="flex justify-center mb-2">
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/20 text-primary uppercase tracking-wider">
+                <div className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/20 text-primary uppercase tracking-wider">
+                  <span >
                     {testClass}
                   </span>
                 </div>
               )}
+                  </div>
+                </div>
+              )}
+              
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-medium text-muted-foreground">Q{currentQuestion + 1}/{test.mcqs.length}</span>
@@ -100,7 +97,7 @@ export default function TestActiveScreen({
           </div>
 
           {/* Question Pills */}
-          <div className="px-3 py-2 bg-muted/30 border-b border-border">
+          <div className="px-3 py-1 bg-muted/30 border-b border-border">
               <div className="flex flex-wrap gap-1.5">
                 {test.mcqs.map((_, idx) => (
                   <button
@@ -119,7 +116,7 @@ export default function TestActiveScreen({
                 ))}
               </div>
               
-              <div className="flex items-center gap-4 mt-3 text-[10px] text-muted-foreground">
+              <div className="flex items-center gap-4 mt-2 text-[10px] text-muted-foreground">
                 <div className="flex items-center gap-1">
                   <div className="w-3 h-3 rounded-sm bg-emerald-100 border border-emerald-300" />
                   <span>Answered ({answeredCount})</span>
@@ -131,16 +128,16 @@ export default function TestActiveScreen({
               </div>
             </div>
 
-            <CardContent className="p-4 space-y-4">
+            <CardContent className="p-3 space-y-3">
               {/* Question */}
-              <div className="bg-muted/30 rounded-lg p-3">
+              <div className="bg-muted/30 rounded-lg p-2">
                 <p className="text-sm font-semibold text-foreground leading-relaxed">
                   {currentMCQ.question}
                 </p>
               </div>
 
               {/* Options */}
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 {currentMCQ.options.map((option, optIdx) => (
                   <button
                     key={optIdx}

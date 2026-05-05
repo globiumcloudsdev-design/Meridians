@@ -19,9 +19,8 @@ export const API_UPLOAD = '/api/upload';
 
 // Admission endpoints
 export const API_ADMISSION = '/api/admission';
-export const API_ADMISSION_BY_TOKEN = (token: string) => `/api/admission?token=${token}`;
-export const API_ADMISSION_SEND_TEST_LINK = '/api/admission/send-test-link';
-export const API_ADMISSION_GO_TO_TEST = '/api/admission/go-to-test';
+export const API_ADMISSION_BY_ID = (id: string) => `/api/admission?id=${id}`;
+export const API_ADMISSION_GO_TO_TEST = (className: string) => `/api/admission/go-to-test?class=${encodeURIComponent(className)}`;
 
 // Contact endpoints
 export const API_CONTACT = '/api/contact';
@@ -53,7 +52,13 @@ export const API_NOTE_BY_ID = (id: string) => `/api/notes/${id}`;
 export const API_CLASSES = '/api/classes';
 export const API_CLASS_BY_ID = (id: string) => `/api/classes/${id}`;
 
-// Test endpoints
+// Test endpoints - Admin
 export const API_TESTS = '/api/tests';
 export const API_TEST_BY_ID = (id: string) => `/api/tests/${id}`;
-export const API_TEST_SUBMIT = '/api/test/submit';
+
+// Test endpoints - Student
+export const API_TEST_SUBMIT = '/api/student-test/submit-test';
+
+// Test page routes (for router.push)
+export const PAGE_TEST_BY_ID = (id: string) => `/tests/${id}`;
+export const PAGE_TEST_NEW = '/tests/new';

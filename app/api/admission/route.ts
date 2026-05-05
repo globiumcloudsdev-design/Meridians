@@ -56,6 +56,80 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check if email already exists
+    const existingQuery = await AdmissionQuery.findOne({ parentEmail: cleanedParentEmail });
+    
+    if (existingQuery) {
+      // Case 1: Test passed - already admitted
+      if (existingQuery.testCompleted && existingQuery.testPassed) {
+        return NextResponse.json(
+          { 
+            error: 'You have already passed the admission test. Please check your email for fee voucher or contact support.',
+            status: 'already_admitted',
+            testPassed: true
+          },
+          { status: 409 }
+        );
+      }
+      
+      // Case 2: Test completed but failed - allow retake, update form data
+      if (existingQuery.testCompleted && !existingQuery.testPassed) {
+        // Update existing record with new form data
+        existingQuery.name = cleanedName;
+        existingQuery.class = cleanedClass;
+        existingQuery.fatherName = fatherName?.trim();
+        existingQuery.shift = shift?.trim();
+        existingQuery.fatherCnic = fatherCnic?.trim();
+        existingQuery.homeAddress = homeAddress?.trim();
+        existingQuery.dob = dob?.trim();
+        existingQuery.contact1 = cleanedContact1;
+        existingQuery.program = cleanedProgram;
+        existingQuery.message = message?.trim() || '';
+        existingQuery.testCompleted = false;
+        existingQuery.testPassed = false;
+        existingQuery.testScore = undefined;
+        existingQuery.testCompletedAt = undefined;
+        existingQuery.testAnswers = undefined;
+        existingQuery.testDetails = undefined;
+        
+        await existingQuery.save();
+        
+        return NextResponse.json(
+          { 
+            message: 'Your previous test attempt was unsuccessful. You can now retake the test.',
+            id: existingQuery._id,
+            status: 'retake_allowed'
+          },
+          { status: 200 }
+        );
+      }
+      
+      // Case 3: Test not completed yet - update form data
+      if (!existingQuery.testCompleted) {
+        existingQuery.name = cleanedName;
+        existingQuery.class = cleanedClass;
+        existingQuery.fatherName = fatherName?.trim();
+        existingQuery.shift = shift?.trim();
+        existingQuery.fatherCnic = fatherCnic?.trim();
+        existingQuery.homeAddress = homeAddress?.trim();
+        existingQuery.dob = dob?.trim();
+        existingQuery.contact1 = cleanedContact1;
+        existingQuery.program = cleanedProgram;
+        existingQuery.message = message?.trim() || '';
+        
+        await existingQuery.save();
+        
+        return NextResponse.json(
+          { 
+            message: 'Your application has been updated. Please complete your test.',
+            id: existingQuery._id,
+            status: 'continue_test'
+          },
+          { status: 200 }
+        );
+      }
+    }
+
     // Upload files to Cloudinary
     const documents: { url: string; publicId: string; name: string; size: number; type: string }[] = [];
     
@@ -129,17 +203,16 @@ export async function GET(request: NextRequest) {
     await connectDB();
 
     const { searchParams } = new URL(request.url);
-    const token = searchParams.get('token');
+    const id = searchParams.get('id');
 
-    // If token provided, return specific admission with limited fields
-    if (token) {
-      const admission = await AdmissionQuery.findOne({ 
-        testToken: token 
-      }).select('name class testToken testTokenExpiry fatherCnic');
+    // If id provided, return specific admission with limited fields
+    if (id) {
+      const admission = await AdmissionQuery.findById(id)
+        .select('name class fatherCnic testCompleted testPassed');
 
       if (!admission) {
         return NextResponse.json(
-          { error: 'Invalid token' },
+          { error: 'Admission not found' },
           { status: 404 }
         );
       }
@@ -148,8 +221,8 @@ export async function GET(request: NextRequest) {
         studentName: admission.name,
         studentClass: admission.class,
         fatherCnic: admission.fatherCnic,
-        testToken: admission.testToken,
-        testTokenExpiry: admission.testTokenExpiry
+        testCompleted: admission.testCompleted,
+        testPassed: admission.testPassed
       }, { status: 200 });
     }
 

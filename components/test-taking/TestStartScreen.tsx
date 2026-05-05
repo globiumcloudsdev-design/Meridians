@@ -23,7 +23,7 @@ export default function TestStartScreen({ test, onStart }: TestStartScreenProps)
       <main className="py-3 px-4">
         <div className="max-w-xl mx-auto">
           <Card className="rounded-xl border border-primary/20 overflow-hidden">
-            <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-secondary/10 p-4">
+            <div className="bg-linear-to-r from-primary/10 via-primary/5 to-secondary/10 p-4">
               <h1 className="text-xl font-bold text-foreground">{test.title}</h1>
               {test.description && <p className="text-sm text-muted-foreground mt-1">{test.description}</p>}
             </div>

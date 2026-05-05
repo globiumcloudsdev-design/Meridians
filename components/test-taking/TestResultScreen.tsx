@@ -236,7 +236,7 @@ export default function TestResultScreen({
                       Retake
                     </Button>
                   )}
-                  {voucher && (
+                  {isPassed && voucher && (
                     <Button
                       onClick={() => setShowVoucherModal(true)}
                       size="sm"

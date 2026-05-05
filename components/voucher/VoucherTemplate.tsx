@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { VoucherTemplateProps } from '@/lib/types/voucher';
 import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
+import { Download, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 const VoucherTemplate = React.forwardRef<HTMLDivElement, VoucherTemplateProps>(({
@@ -38,60 +38,129 @@ const VoucherTemplate = React.forwardRef<HTMLDivElement, VoucherTemplateProps>((
   const internalRef = useRef<HTMLDivElement>(null);
   const voucherRef = (ref as React.RefObject<HTMLDivElement>) || internalRef;
   const router = useRouter();
+  const [isDownloading, setIsDownloading] = useState(false);
+  
+  // older version
+  // const handleDownload = async () => {
+  //   if (!voucherRef.current) {
+  //     toast.error("Voucher not ready for download");
+  //     return;
+  //   }
 
+  //   let container: HTMLDivElement | null = null;
+  //   try {
+  //     const html2pdf = (await import('html2pdf.js')).default;
+  //     const clonedNode = voucherRef.current.cloneNode(true) as HTMLElement;
+  //     clonedNode.style.width = '210mm';
+  //     clonedNode.style.boxSizing = 'border-box';
+  //     clonedNode.style.margin = '0';
+  //     clonedNode.style.padding = '0';
+  //     clonedNode.style.transform = 'scale(1)';
+  //     clonedNode.style.transformOrigin = 'top left';
+
+  //     container = document.createElement('div');
+  //     container.style.position = 'fixed';
+  //     container.style.left = '-10000px';
+  //     container.style.top = '0';
+  //     container.style.visibility = 'hidden';
+  //     container.appendChild(clonedNode);
+  //     document.body.appendChild(container);
+
+  //     await new Promise((resolve) => setTimeout(resolve, 200));
+
+  //     const opt = {
+  //       margin: 0,
+  //       filename: fileName || `fee-voucher-${studentName.replace(/\s+/g, '-').toLowerCase()}.pdf`,
+  //       image: { type: 'png' as const, quality: 1 },
+  //       html2canvas: {
+  //         scale: 3,
+  //         useCORS: true,
+  //         backgroundColor: '#ffffff',
+  //         letterRendering: true,
+  //         logging: false,
+  //       },
+  //       jsPDF: { unit: 'mm' as const, format: 'a4' as const, orientation: 'portrait' as const }
+  //     };
+
+  //     await html2pdf().set(opt).from(clonedNode).save();
+  //     toast.success("Voucher downloaded successfully!");
+  //     router.push('/');
+  //   } catch (error) {
+  //     console.error('Error downloading voucher:', error);
+  //     toast.error("Failed to download voucher. Please try again.");
+  //   } finally {
+  //     if (container && container.parentNode) {
+  //       container.parentNode.removeChild(container);
+  //     }
+  //   }
+  // };
+
+  // modify this to use the new version
   const handleDownload = async () => {
-    if (!voucherRef.current) {
-      toast.error("Voucher not ready for download");
-      return;
-    }
+  if (!voucherRef.current || isDownloading) return;
+  setIsDownloading(true);
 
-    let container: HTMLDivElement | null = null;
-    try {
-      const html2pdf = (await import('html2pdf.js')).default;
-      const clonedNode = voucherRef.current.cloneNode(true) as HTMLElement;
-      clonedNode.style.width = '210mm';
-      clonedNode.style.boxSizing = 'border-box';
-      clonedNode.style.margin = '0';
-      clonedNode.style.padding = '0';
-      clonedNode.style.transform = 'scale(1)';
-      clonedNode.style.transformOrigin = 'top left';
+  let container = null;
+  try {
+    const html2pdf = (await import('html2pdf.js')).default;
+    const original = voucherRef.current;
+    const clone = original.cloneNode(true) as HTMLElement;
 
-      container = document.createElement('div');
-      container.style.position = 'fixed';
-      container.style.left = '-10000px';
-      container.style.top = '0';
-      container.style.visibility = 'hidden';
-      container.appendChild(clonedNode);
-      document.body.appendChild(container);
+    // Reset all styles for clean A4 print
+    clone.style.width = '210mm';
+    clone.style.minHeight = '297mm';
+    clone.style.margin = '0';
+    clone.style.padding = '0';
+    clone.style.backgroundColor = '#fff';
+    clone.style.boxSizing = 'border-box';
+    clone.style.fontFamily = 'Arial, sans-serif';
 
-      await new Promise((resolve) => setTimeout(resolve, 200));
+    // Force all inner elements to use proper box-sizing
+    clone.querySelectorAll('*').forEach((el) => {
+      (el as HTMLElement).style.boxSizing = 'border-box';
+    });
 
-      const opt = {
-        margin: 0,
-        filename: fileName || `fee-voucher-${studentName.replace(/\s+/g, '-').toLowerCase()}.pdf`,
-        image: { type: 'png' as const, quality: 1 },
-        html2canvas: {
-          scale: 3,
-          useCORS: true,
-          backgroundColor: '#ffffff',
-          letterRendering: true,
-          logging: false,
-        },
-        jsPDF: { unit: 'mm' as const, format: 'a4' as const, orientation: 'portrait' as const }
-      };
+    container = document.createElement('div');
+    container.style.position = 'fixed';
+    container.style.left = '-10000px';
+    container.style.top = '0';
+    container.appendChild(clone);
+    document.body.appendChild(container);
 
-      await html2pdf().set(opt).from(clonedNode).save();
-      toast.success("Voucher downloaded successfully!");
-      router.push('/');
-    } catch (error) {
-      console.error('Error downloading voucher:', error);
-      toast.error("Failed to download voucher. Please try again.");
-    } finally {
-      if (container && container.parentNode) {
-        container.parentNode.removeChild(container);
+    await new Promise(resolve => setTimeout(resolve, 300));
+
+    const opt = {
+      margin: [0, 0, 0, 0] as [number, number, number, number],
+      filename: fileName || `fee-voucher-${studentName.replace(/\s+/g, '-')}.pdf`,
+      image: { type: 'png' as const, quality: 1 },
+      html2canvas: {
+        scale: 4,            // higher scale for crisp text
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        letterRendering: true,
+        logging: false,
+        windowWidth: clone.scrollWidth,
+        windowHeight: clone.scrollHeight
+      },
+      jsPDF: {
+        unit: 'mm',
+        format: 'a4' as const,
+        orientation: 'portrait' as const
       }
-    }
-  };
+    };
+
+    await html2pdf().set(opt).from(clone).save();
+    toast.success("Download successful!");
+    router.push('/');
+  } catch (error) {
+    console.error(error);
+    toast.error("Download failed");
+    router.push('/');
+  } finally {
+    if (container?.parentNode) container.parentNode.removeChild(container);
+    setIsDownloading(false);
+  }
+};
 
   const printDate = new Date().toLocaleDateString('en-PK', {
     day: '2-digit', month: 'short', year: 'numeric'
@@ -159,10 +228,15 @@ const VoucherTemplate = React.forwardRef<HTMLDivElement, VoucherTemplateProps>((
             type="button"
             onClick={handleDownload}
             size="sm"
+            disabled={isDownloading}
             className="bg-emerald-600 hover:bg-emerald-700 text-white"
           >
-            <Download className="w-4 h-4 mr-2" />
-            Download PDF
+            {isDownloading ? (
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            ) : (
+              <Download className="w-4 h-4 mr-2" />
+            )}
+            {isDownloading ? 'Downloading...' : 'Download PDF'}
           </Button>
         </div>
       )}

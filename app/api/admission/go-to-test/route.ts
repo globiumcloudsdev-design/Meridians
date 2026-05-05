@@ -1,77 +1,71 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db';
-import AdmissionQuery from '@/lib/models/AdmissionQuery';
 import Test from '@/lib/models/Test';
 import Class from '@/lib/models/Class';
 
-// Helper to redirect to error page with code
-function redirectToError(request: NextRequest, errorCode: string) {
-  // Redirect to a generic test page with error parameter
-  // The TestTakingClient will handle displaying the appropriate error
-  const baseUrl = request.nextUrl.origin;
-  return NextResponse.redirect(new URL(`/tests/error?error=${errorCode}`, baseUrl));
-}
-
 export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+    const className = searchParams.get('class');
+
+    if (!className) {
+      return NextResponse.json(
+        { error: 'Class parameter required' },
+        { status: 400 }
+      );
+    }
+
     await connectDB();
 
-    const { searchParams } = new URL(request.url);
-    const token = searchParams.get('token');
-
-    if (!token) {
-      return redirectToError(request, 'missing_token');
-    }
-
-    // First check if this token was already used (test completed)
-    // This handles cases where token is removed after completion
-    const completedAdmission = await AdmissionQuery.findOne({
-      testToken: token,
-      testCompleted: true
-    });
-
-    if (completedAdmission) {
-      return redirectToError(request, 'already_completed');
-    }
-
-    // Find and validate active admission
-    const admission = await AdmissionQuery.findOne({
-      testToken: token,
-      status: { $in: ['test_sent', 'contacted'] }
-    });
-
-    if (!admission) {
-      return redirectToError(request, 'access_required');
-    }
-
-    // Check if token is expired
-    if (admission.testTokenExpiry && new Date() > admission.testTokenExpiry) {
-      return redirectToError(request, 'access_required');
-    }
-
-    // Find the class by name (case-insensitive)
-    const classDoc = await Class.findOne({
-      name: { $regex: new RegExp(admission.class, 'i') }
-    });
-
+    // First find the Class by name to get its ObjectId
+    const classDoc = await Class.findOne({ name: className });
     if (!classDoc) {
-      return redirectToError(request, 'no_test_available');
+      return NextResponse.json(
+        { error: `Class '${className}' not found` },
+        { status: 404 }
+      );
     }
 
-    // Find an active test for this class
-    const test = await Test.findOne({ class: classDoc._id, isActive: true });
+    // Find test for this class using ObjectId
+    const test = await Test.findOne({
+      class: classDoc._id,
+      isActive: true
+    });
 
     if (!test) {
-      return redirectToError(request, 'no_test_available');
+      return NextResponse.json(
+        { error: `No active test found for class ${className}` },
+        { status: 404 }
+      );
     }
 
-    // Redirect to the test page
-    const testId = test._id.toString();
-    const baseUrl = request.nextUrl.origin;
-    return NextResponse.redirect(new URL(`/tests/${testId}?token=${token}`, baseUrl));
+    return NextResponse.json({
+      testId: test._id.toString(),
+      testName: test.name,
+      class: className,
+      // Full test data for TestTakingClient
+      test: {
+        _id: test._id.toString(),
+        title: test.name,
+        name: test.name,
+        description: test.description || '',
+        class: className,
+        mcqs: test.mcqs,
+        totalMarks: test.totalMarks,
+        correctAnswerMarks: test.correctAnswerMarks,
+        passingMarks: test.passingMarks,
+        timeLimit: test.timeLimit || 30,
+        isActive: test.isActive,
+        createdAt: test.createdAt?.toISOString(),
+        updatedAt: test.updatedAt?.toISOString(),
+      }
+    });
 
   } catch (error) {
-    console.error('Error redirecting to test:', error);
-    return redirectToError(request, 'server_error');
+    console.error('Error finding test:', error);
+    return NextResponse.json(
+      { error: 'Failed to find test' },
+      { status: 500 }
+    );
   }
 }

@@ -11,6 +11,7 @@ interface PageHeroProps {
   description: string;
   image: string | { src: string };
   imageFit?: "cover" | "contain" | "fill";
+  compact?: boolean;
 }
 
 export function PageHero({
@@ -20,6 +21,7 @@ export function PageHero({
   description,
   image,
   imageFit = "cover",
+  compact = false,
 }: PageHeroProps) {
   const imageFitClass =
     imageFit === "contain"
@@ -28,7 +30,7 @@ export function PageHero({
       ? "object-fill"
       : "object-cover";
   return (
-    <section className="relative min-h-[80vh] flex items-center overflow-hidden pt-32 pb-20">
+    <section className={`relative ${compact ? 'min-h-[30vh]' : 'min-h-[80vh]'} flex items-center overflow-hidden pt-32 pb-20`}>
       {/* Background with Overlays and Motion */}
       <motion.div
         initial={{ scale: 1 }}
@@ -71,25 +73,31 @@ export function PageHero({
               </span>
             </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7, duration: 1 }}
-              className="text-xl md:text-2xl text-white/80 font-medium leading-relaxed drop-shadow-lg"
-            >
-              {description}
-            </motion.p>
+            {!compact && (
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.7, duration: 1 }}
+                className="text-xl md:text-2xl text-white/80 font-medium leading-relaxed drop-shadow-lg"
+              >
+                {description}
+              </motion.p>
+            )}
 
-            {/* Premium decoration line with animation */}
-            <motion.div
-              initial={{ width: 0, opacity: 0 }}
-              animate={{ width: "auto", opacity: 1 }}
-              transition={{ delay: 1, duration: 0.8 }}
-              className="mt-12 flex gap-4"
-            >
-              <div className="h-1.5 w-24 bg-primary rounded-full shadow-[0_0_15px_rgba(var(--primary),0.3)]" />
-              <div className="h-1.5 w-8 bg-secondary rounded-full" />
-            </motion.div>
+            
+              
+                {/* Premium decoration line with animation */}
+                <motion.div
+                  initial={{ width: 0, opacity: 0 }}
+                  animate={{ width: "auto", opacity: 1 }}
+                  transition={{ delay: 1, duration: 0.8 }}
+                  className="mt-12 flex gap-4"
+                >
+                  <div className="h-1.5 w-24 bg-primary rounded-full shadow-[0_0_15px_rgba(var(--primary),0.3)]" />
+                  <div className="h-1.5 w-8 bg-secondary rounded-full" />
+                </motion.div>
+            
+            
           </AnimatedSection>
         </div>
       </div>

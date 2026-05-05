@@ -78,10 +78,10 @@ export function contactReplyTemplate({ name, reply }: { name: string; reply: str
 }
 
 // 2. ADMISSION STATUS TEMPLATE
-export function admissionStatusTemplate({ name, program, status }: { name: string; program: string; status: 'pending' | 'replied' | 'test_sent' | 'contacted' }) {
-  const isReplied = status === 'replied';
-  const statusColor = isReplied ? COLORS.primary : "#ca8a04";
-  const statusBg = isReplied ? "#f0fdfa" : "#fffbeb";
+export function admissionStatusTemplate({ name, program, status }: { name: string; program: string; status: 'pending' | 'test_passed' | 'admitted' | 'contacted' }) {
+  const isPositive = status === 'test_passed' || status === 'admitted';
+  const statusColor = isPositive ? COLORS.primary : "#ca8a04";
+  const statusBg = isPositive ? "#f0fdfa" : "#fffbeb";
   
   return `
     <div style="font-family: Arial, sans-serif; background-color: ${COLORS.bg}; padding: 30px 15px;">
@@ -99,13 +99,23 @@ export function admissionStatusTemplate({ name, program, status }: { name: strin
           
           <div style="border: 2px dashed ${statusColor}; border-radius: 8px; padding: 20px; text-align: center; margin-bottom: 30px; background-color: ${statusBg};">
             <span style="color: ${COLORS.muted}; font-size: 12px; text-transform: uppercase; font-weight: 600;">Program: ${program}</span>
-            <h2 style="margin: 5px 0 0 0; color: ${statusColor}; font-size: 22px; font-weight: bold;">${isReplied ? 'Response Ready' : 'In Process'}</h2>
+            <h2 style="margin: 5px 0 0 0; color: ${statusColor}; font-size: 22px; font-weight: bold;">${
+              status === 'test_passed' ? 'Test Passed!' : 
+              status === 'admitted' ? 'Admission Confirmed!' :
+              status === 'contacted' ? 'Response Ready' : 'In Process'
+            }</h2>
           </div>
 
           <p style="font-size: 15px; color: #475569; line-height: 1.6;">
-            ${isReplied 
-              ? `Thank you for choosing Meridian School. We have responded to your admission inquiry for <b>${program}</b>. Please visit our portal or reply to this mail to proceed with the next steps.` 
-              : `Your inquiry for <b>${program}</b> has been received and is currently being reviewed by our admissions department. We will notify you as soon as the status changes.`}
+            ${
+              status === 'test_passed' 
+                ? `Congratulations! You have successfully passed the admission test for <b>${program}</b>. Please download your fee voucher from the portal and complete the admission process.` 
+                : status === 'admitted'
+                ? `Welcome to Meridian School! Your admission for <b>${program}</b> has been confirmed. Please submit the fee before the due date to secure your seat.`
+                : status === 'contacted'
+                ? `We have contacted you regarding your admission inquiry for <b>${program}</b>. Please check your messages and respond to proceed.`
+                : `Your inquiry for <b>${program}</b> has been received and is currently being reviewed by our admissions department. Please complete the admission test to proceed.`
+            }
           </p>
           
           <p style="font-size: 14px; color: ${COLORS.muted}; margin-top: 30px;">Kind Regards,<br><span style="color: ${COLORS.secondary}; font-weight: bold;">Meridian Admissions Office</span></p>

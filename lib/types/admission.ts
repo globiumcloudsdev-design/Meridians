@@ -21,15 +21,29 @@ export interface AdmissionQuery {
   parentEmail: string;
   program: string;
   message?: string;
-  status: 'pending' | 'replied' | 'test_sent' | 'contacted';
+  status: 'pending' | 'test_passed' | 'admitted' | 'contacted';
   documents?: AdmissionDocument[];
   // Test related fields
-  testToken?: string;
-  testTokenExpiry?: string;
   testScore?: number;
   testPassed?: boolean;
   testCompleted?: boolean;
   testCompletedAt?: string;
+  testAnswers?: {
+    questionIndex: number;
+    selectedOption: number;
+    correctOption: number;
+    isCorrect: boolean;
+    marks: number;
+  }[];
+  testDetails?: {
+    totalMarks: number;
+    passingMarks: number;
+    percentage: number;
+    correctAnswers: number;
+    wrongAnswers: number;
+    unattempted: number;
+  };
+  voucherData?: any;
   // Bank slip fields
   bankSlipGenerated?: boolean;
   bankSlipUrl?: string;
