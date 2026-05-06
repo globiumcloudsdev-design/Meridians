@@ -165,10 +165,10 @@ export default function AdmissionForm() {
     return `${digits.slice(0, 5)}-${digits.slice(5, 12)}-${digits.slice(12)}`;
   };
 
-  // Father Contact: max 9 digits
+  // Father Contact: max 11 digits
 
   const formatFatherContact = (value: string): string => {
-    const digits = value.replace(/\D/g, "").slice(0, 9);
+    const digits = value.replace(/\D/g, "").slice(0, 11);
 
     return digits;
   };
@@ -188,11 +188,11 @@ export default function AdmissionForm() {
       return;
     }
 
-    if (name === "fatherContact") {
+    if (name === "fatherContact" || name === "contact") {
       setFormData((prev) => ({
         ...prev,
 
-        [name]: formatFatherContact(value),
+        fatherContact: formatFatherContact(value),
       }));
 
       return;
@@ -224,9 +224,9 @@ export default function AdmissionForm() {
 
     const className = formData.class.trim();
 
-    const contact1 = formData.fatherContact
-      ? `03${formData.fatherContact}`
-      : "";
+    const contact1 = formData.fatherContact || "";
+    console.log('FRONTEND - formData.fatherContact:', formData.fatherContact);
+    console.log('FRONTEND - contact1:', contact1);
 
     const parentEmail = formData.fatherEmail.trim().toLowerCase();
 
@@ -374,6 +374,8 @@ export default function AdmissionForm() {
       }
 
       // Save form data to localStorage with class info
+
+      
 
       localStorage.setItem(
         "admissionFormData",
@@ -624,9 +626,10 @@ export default function AdmissionForm() {
                                         type="text"
                                         value={formData.fatherContact}
                                         onChange={handleChange}
-                                        placeholder="3XX-XXXXXXX"
+                                        placeholder="03XXXXXXXXX"
+                                        maxLength={11}
+                                        autoComplete="new-password"
                                         required
-                                        maxLength={9}
                                         className="h-14 rounded-2xl border-primary/10 bg-primary/5 focus:bg-white transition-all focus:ring-2 focus:ring-primary/20 pl-22"
                                       />
                                     </div>
@@ -1274,7 +1277,10 @@ export default function AdmissionForm() {
       </section>
 
       {/* No Test Available Dialog */}
-      <AlertDialog open={showNoTestDialog} onOpenChange={setShowNoTestDialog}>
+      <AlertDialog open={showNoTestDialog} onOpenChange={(open) => {
+        // Use setTimeout to avoid setState during render
+        setTimeout(() => setShowNoTestDialog(open), 0);
+      }}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Test Not Available</AlertDialogTitle>

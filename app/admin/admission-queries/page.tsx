@@ -2,13 +2,12 @@
 
 
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-import { Phone, Mail, Trash2, CheckCircle, Circle, Edit, Eye, Loader2, FileText } from 'lucide-react';
-
-import VoucherTemplate from '@/components/voucher/VoucherTemplate';
+import { Phone, Mail, Trash2, CheckCircle, Circle, Edit, Eye, Loader2, FileText, Download } from 'lucide-react';
+import { generateVoucherPDF } from '@/lib/utils/generateVoucherPDF';
 
 import { DataTable, DataTableColumn, DataTableAction } from '@/components/ui/data-table';
 
@@ -55,14 +54,7 @@ export default function AdmissionQueriesPage() {
   const [replyMessage, setReplyMessage] = useState('');
 
   const [sendingReply, setSendingReply] = useState(false);
-
-  const [voucherDialogOpen, setVoucherDialogOpen] = useState(false);
-
-  const [voucherQuery, setVoucherQuery] = useState<AdmissionQuery | null>(null);
-
-  const voucherRef = useRef<HTMLDivElement>(null);
-
-  console.log(voucherQuery)
+  const [isDownloading, setIsDownloading] = useState<string | null>(null);
 
   useEffect(() => {
 
@@ -246,12 +238,53 @@ export default function AdmissionQueriesPage() {
 
   };
 
-  const handleGenerateVoucher = (query: AdmissionQuery) => {
+  const handleDownloadVoucher = async (query: AdmissionQuery) => {
+    if (isDownloading) return;
+    setIsDownloading(query._id);
+    try {
+      const vData = query.voucherData || {};
 
-    setVoucherQuery(query);
-
-    setVoucherDialogOpen(true);
-
+      await generateVoucherPDF({
+        studentName: vData.studentName || query.name,
+        fatherName: vData.fatherName || query.fatherName || 'N/A',
+        fatherCNIC: vData.fatherCnic || query.fatherCnic || '',
+        rollNumber: vData.rollNumber || '',
+        studentClass: vData.studentClass || query.class,
+        section: vData.shift || query.shift || '',
+        sid: vData.sid || '',
+        contact: vData.contact || query.contact1 || '',
+        challanNo: vData.challanNo || '',
+        billNo: vData.billNo || vData.voucherNumber?.split('-')[1] || "163802546",
+        admissionNo: "",
+        familyNo: vData.familyNo || 'N/A',
+        dueDate: vData.dueDate || new Date(Date.now() + 7 * 86400000).toISOString(),
+        fees: vData.fees || [
+          {
+            month: 'Current',
+            particular: 'Admission Fee',
+            amount: vData.admissionFee || 0
+          },
+          {
+            month: 'Current',
+            particular: 'Class Fee',
+            amount: vData.classFees || 0
+          }
+        ],
+        totalAmount: vData.totalFee || query.feeAmount || 0,
+        amountInWords: `PKR ${(vData.totalFee || query.feeAmount || 0).toLocaleString()} Only`,
+        payableWithin: vData.payableWithin || vData.totalFee || query.feeAmount || 0,
+        payableAfter: vData.payableAfter || (vData.totalFee || query.feeAmount || 0) + 500,
+        motto: vData.motto || "Building Confidence Through Expression",
+        instructions: vData.instructions || "Please submit the fee before the due date to confirm admission.",
+        fileName: `voucher-${(vData.studentName || query.name).replace(/\s+/g, '-').toLowerCase()}.pdf`,
+      });
+      toast.success("Voucher downloaded successfully");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to download voucher");
+    } finally {
+      setIsDownloading(null);
+    }
   };
 
   // Send reply message to parent
@@ -328,7 +361,7 @@ export default function AdmissionQueriesPage() {
 
         setQueries(queries.filter((q) => q._id !== deletingQuery._id));
 
-        toast.success('Query deleted');
+        setTimeout(() => toast.success('Query deleted'), 0);
 
         setDeleteConfirmOpen(false);
 
@@ -336,13 +369,13 @@ export default function AdmissionQueriesPage() {
 
       } else {
 
-        toast.error('Failed to delete query');
+        setTimeout(() => toast.error('Failed to delete query'), 0);
 
       }
 
     } catch (error) {
 
-      toast.error('Error deleting query');
+      setTimeout(() => toast.error('Error deleting query'), 0);
 
     }
 
@@ -358,7 +391,7 @@ export default function AdmissionQueriesPage() {
 
 
 
-  const columns: DataTableColumn<AdmissionQuery>[] = [
+  const columns: DataTableColumn<AdmissionQuery>[] = useMemo(() => [
 
     {
 
@@ -431,72 +464,58 @@ export default function AdmissionQueriesPage() {
     },
 
     {
-
       key: 'message',
-
       label: 'Message',
-
       className: 'max-w-96 min-w-64',
-
       render: (row: AdmissionQuery) => <span className="truncate block text-foreground/80">{row.message}</span>,
-
     },
-
-  ];
-
-
-
-  const actions: DataTableAction<AdmissionQuery>[] = [
-
     {
+      key: 'voucher',
+      label: 'Voucher',
+      render: (row: AdmissionQuery) => (
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-8 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 gap-1.5"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDownloadVoucher(row);
+          }}
+          disabled={isDownloading === row._id}
+        >
+          {isDownloading === row._id ? (
+            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+          ) : (
+            <Download className="w-3.5 h-3.5" />
+          )}
+          Voucher
+        </Button>
+      ),
+    },
+  ], [isDownloading, handleDownloadVoucher]);
 
+
+
+  const actions: DataTableAction<AdmissionQuery>[] = useMemo(() => [
+    {
       label: 'View Details',
-
       icon: <Eye className="w-4 h-4" />,
-
       onClick: (row: AdmissionQuery) => handleViewDetails(row),
-
       variant: 'outline',
-
     },
-
     {
-
-      label: 'Generate Voucher',
-
-      icon: <FileText className="w-4 h-4" />,
-
-      onClick: (row: AdmissionQuery) => handleGenerateVoucher(row),
-
-      variant: 'outline',
-
-    },
-
-    {
-
       label: 'Change Status & Email',
-
       icon: <Edit className="w-4 h-4" />,
-
       onClick: (row: AdmissionQuery) => handleChangeStatus(row._id),
-
       variant: 'outline',
-
     },
-
     {
-
       label: 'Delete',
-
       icon: <Trash2 className="w-4 h-4" />,
-
       onClick: (row: AdmissionQuery) => handleDelete(row),
-
       variant: 'destructive',
-
     },
-
-  ];
+  ], [handleViewDetails, handleDownloadVoucher, handleChangeStatus, handleDelete]);
 
 
 
@@ -608,25 +627,23 @@ export default function AdmissionQueriesPage() {
 
                 <p className="text-sm text-muted-foreground">Current Status</p>
 
-                <p className={`font-semibold px-2 py-1 rounded w-fit ${
-
-                  statusQuery?.status === 'test_passed' ? 'bg-green-100 text-green-700' :
+                <p className={`font-semibold px-2 py-1 rounded w-fit ${statusQuery?.status === 'test_passed' ? 'bg-green-100 text-green-700' :
 
                   statusQuery?.status === 'admitted' ? 'bg-blue-100 text-blue-700' :
 
-                  statusQuery?.status === 'contacted' ? 'bg-purple-100 text-purple-700' :
+                    statusQuery?.status === 'contacted' ? 'bg-purple-100 text-purple-700' :
 
-                  'bg-amber-100 text-amber-700'
+                      'bg-amber-100 text-amber-700'
 
-                }`}>
+                  }`}>
 
                   {statusQuery?.status === 'pending' ? 'Pending' :
 
-                   statusQuery?.status === 'test_passed' ? 'Test Passed' :
+                    statusQuery?.status === 'test_passed' ? 'Test Passed' :
 
-                   statusQuery?.status === 'admitted' ? 'Admitted' :
+                      statusQuery?.status === 'admitted' ? 'Admitted' :
 
-                   statusQuery?.status === 'contacted' ? 'Contacted' : 'Pending'}
+                        statusQuery?.status === 'contacted' ? 'Contacted' : 'Pending'}
 
                 </p>
 
@@ -648,27 +665,25 @@ export default function AdmissionQueriesPage() {
 
                 <p className="mt-2 text-xs text-muted-foreground">
 
-                  Current Status: <span className={`font-semibold ${
-
-                    statusQuery?.status === 'test_passed' ? 'text-green-700' :
+                  Current Status: <span className={`font-semibold ${statusQuery?.status === 'test_passed' ? 'text-green-700' :
 
                     statusQuery?.status === 'admitted' ? 'text-blue-700' :
 
-                    statusQuery?.status === 'contacted' ? 'text-purple-700' :
+                      statusQuery?.status === 'contacted' ? 'text-purple-700' :
 
-                    'text-amber-700'
+                        'text-amber-700'
 
-                  }`}>{
+                    }`}>{
 
-                    statusQuery?.status === 'pending' ? 'Pending' :
+                      statusQuery?.status === 'pending' ? 'Pending' :
 
-                    statusQuery?.status === 'test_passed' ? 'Test Passed' :
+                        statusQuery?.status === 'test_passed' ? 'Test Passed' :
 
-                    statusQuery?.status === 'admitted' ? 'Admitted' :
+                          statusQuery?.status === 'admitted' ? 'Admitted' :
 
-                    statusQuery?.status === 'contacted' ? 'Contacted' : 'Pending'
+                            statusQuery?.status === 'contacted' ? 'Contacted' : 'Pending'
 
-                  }</span>
+                    }</span>
 
                 </p>
 
@@ -716,96 +731,6 @@ export default function AdmissionQueriesPage() {
 
       {/* Voucher Dialog */}
 
-      <Dialog open={voucherDialogOpen} onOpenChange={setVoucherDialogOpen}>
-
-        <DialogContent className="max-w-4xl w-[95vw] max-h-[90vh] overflow-y-auto">
-
-          <DialogHeader>
-
-            <DialogTitle>Student Voucher</DialogTitle>
-
-          </DialogHeader>
-
-          {voucherQuery && (
-
-            <div className="space-y-4">
-
-              <div ref={voucherRef}>
-
-                <VoucherTemplate
-
-                  studentName={voucherQuery.name}
-
-                  fatherName={voucherQuery.fatherName || 'N/A'}
-
-                  fatherCNIC={voucherQuery.fatherCnic}
-
-                  class={voucherQuery.class}
-
-                  section={voucherQuery.voucherData?.shift}
-
-                  contact={voucherQuery.contact1}
-
-                  testScore={voucherQuery.testScore}
-
-                  totalMarks={voucherQuery.testDetails?.totalMarks}
-
-                  percentage={voucherQuery.testDetails?.percentage}
-
-                  dueDate={voucherQuery.voucherData?.dueDate || new Date().toISOString().split('T')[0]}
-
-                  challanNo={voucherQuery.voucherData?.challanNo}
-
-                  admissionNo={voucherQuery.voucherData?.admissionNo || voucherQuery._id?.slice(-6).toUpperCase()}
-
-                  familyNo={voucherQuery.voucherData?.familyNo || 'N/A'}
-
-                  fees={voucherQuery.voucherData?.fees || [
-
-                    { month: 'Current', particular: 'Admission Fee', amount: voucherQuery.voucherData.admissionFee
- || 0},
-
-                    { month: 'Current', particular: 'Class Fee', amount: voucherQuery.voucherData?.classFees || 0}
-
-                  ]}
-
-                  totalAmount={voucherQuery.voucherData?.totalFee }
-
-                  amountInWords={`PKR ${voucherQuery.voucherData?.totalFee} Only`}
-
-                  payableWithin={voucherQuery.voucherData?.payableWithin}
-
-                  payableAfter={voucherQuery.voucherData?.payableAfter || (voucherQuery.feeAmount || 0) + ((voucherQuery.feeAmount || 0) * 0.05)}
-
-                  motto="Excellence in Education"
-
-                  instructions="Please deposit fee within the stipulated time."
-
-                  showDownloadButton={true}
-
-                  fileName={`voucher-${voucherQuery.name.replace(/\s+/g, '-').toLowerCase()}.pdf`}
-
-                />
-
-              </div>
-
-            </div>
-
-          )}
-
-          <DialogFooter>
-
-            <Button variant="outline" onClick={() => setVoucherDialogOpen(false)}>
-
-              Close
-
-            </Button>
-
-          </DialogFooter>
-
-        </DialogContent>
-
-      </Dialog>
 
 
 
@@ -849,17 +774,15 @@ export default function AdmissionQueriesPage() {
 
                   <span className="text-sm font-medium text-muted-foreground">Status</span>
 
-                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-
-                    selectedQuery.status === 'test_passed' ? 'bg-green-100 text-green-800' :
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${selectedQuery.status === 'test_passed' ? 'bg-green-100 text-green-800' :
 
                     selectedQuery.status === 'admitted' ? 'bg-blue-100 text-blue-800' :
 
-                    selectedQuery.status === 'contacted' ? 'bg-purple-100 text-purple-800' :
+                      selectedQuery.status === 'contacted' ? 'bg-purple-100 text-purple-800' :
 
-                    'bg-amber-100 text-amber-800'
+                        'bg-amber-100 text-amber-800'
 
-                  }`}>{selectedQuery.status.toUpperCase()}</span>
+                    }`}>{selectedQuery.status.toUpperCase()}</span>
 
                   <p className="text-sm text-muted-foreground">Submitted {new Date(selectedQuery.createdAt).toLocaleDateString()}</p>
 
@@ -941,11 +864,11 @@ export default function AdmissionQueriesPage() {
 
                             <p className="text-xs text-muted-foreground">{(doc.size / 1024).toFixed(1)} KB</p>
 
-                            <a 
+                            <a
 
-                              href={doc.url} 
+                              href={doc.url}
 
-                              target="_blank" 
+                              target="_blank"
 
                               rel="noopener noreferrer"
 
@@ -981,7 +904,7 @@ export default function AdmissionQueriesPage() {
 
                   <h3 className="text-lg font-semibold mb-4 flex items-center gap-2"><span>📝</span> Test Status</h3>
 
-                  
+
 
                   {/* Test Summary Cards */}
 
@@ -1159,19 +1082,17 @@ export default function AdmissionQueriesPage() {
 
                             key={idx}
 
-                            className={`p-2 rounded-lg text-center text-xs font-medium ${
+                            className={`p-2 rounded-lg text-center text-xs font-medium ${answer.isCorrect
 
-                              answer.isCorrect
+                              ? 'bg-green-100 text-green-800 border border-green-300'
 
-                                ? 'bg-green-100 text-green-800 border border-green-300'
-
-                                : answer.selectedOption === -1
+                              : answer.selectedOption === -1
 
                                 ? 'bg-amber-100 text-amber-800 border border-amber-300'
 
                                 : 'bg-red-100 text-red-800 border border-red-300'
 
-                            }`}
+                              }`}
 
                             title={`Q${answer.questionIndex + 1}: Selected ${String.fromCharCode(65 + answer.selectedOption)}${answer.selectedOption === -1 ? ' (Not attempted)' : ''}, Correct ${String.fromCharCode(65 + answer.correctOption)}`}
 
@@ -1315,6 +1236,16 @@ export default function AdmissionQueriesPage() {
 
               Close
 
+            </Button>
+
+            <Button
+              variant="outline"
+              className="flex items-center gap-2 border-primary text-primary hover:bg-primary/10"
+              onClick={() => handleDownloadVoucher(selectedQuery!)}
+              disabled={!!isDownloading}
+            >
+              {isDownloading === selectedQuery?._id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+              Download Voucher
             </Button>
 
             <Button onClick={handleSendReply} disabled={sendingReply || !replyMessage.trim()}>

@@ -229,7 +229,7 @@ export default function TestTakingClient({ testId, admissionId, classId, student
         admissionFormData.append('fatherCnic', formData.fatherCnic || '');
         admissionFormData.append('homeAddress', formData.homeAddress || '');
         admissionFormData.append('dob', formData.dob || '');
-        admissionFormData.append('contact1', `03${formData.fatherContact || ''}`);
+        admissionFormData.append('contact1', formData.fatherContact || '');
         admissionFormData.append('parentEmail', formData.fatherEmail || '');
         admissionFormData.append('program', formData.program || '');
         admissionFormData.append('shift', formData.shift || '');

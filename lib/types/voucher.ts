@@ -19,33 +19,7 @@ export interface VoucherData {
   dueDate: string;
   motto: string;
   instructions: string;
+  admissionNo?: string;
+  billNo?: string;
 }
 
-export interface VoucherTemplateProps {
-  studentName: string;
-  fatherName: string;
-  fatherCNIC?: string;
-  rollNumber?: string;
-  class: string;
-  section?: string;
-  testScore?: number;
-  totalMarks?: number;
-  percentage?: number;
-  testDate?: string;
-  testTitle?: string;
-  sid?: string;
-  contact?: string;
-  admissionNo?: string;
-  challanNo?: string;
-  familyNo?: string;
-  dueDate?: string;
-  fees?: Array<{ month: string; particular: string; amount: number }>;
-  totalAmount?: number;
-  amountInWords?: string;
-  payableWithin?: number;
-  payableAfter?: number;
-  motto?: string;
-  instructions?: string;
-  showDownloadButton?: boolean;
-  fileName?: string;
-}

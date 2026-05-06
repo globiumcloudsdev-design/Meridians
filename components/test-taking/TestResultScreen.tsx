@@ -3,16 +3,10 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Award,
-  CheckCircle,
-  RotateCcw,
-  Loader2,
-  X,
-} from "lucide-react";
+import { Award, CheckCircle, RotateCcw, Loader2, X, Download } from "lucide-react";
+import { generateVoucherPDF } from "@/lib/utils/generateVoucherPDF";
 import { TestItem } from "@/lib/types/test";
 import { VoucherData } from "@/lib/types/voucher";
-import VoucherTemplate from "@/components/voucher/VoucherTemplate";
 import { toast } from "sonner";
 
 interface TestResultScreenProps {
@@ -38,7 +32,44 @@ export default function TestResultScreen({
   const percentage = (score / test.totalMarks) * 100;
   const isPassed = percentage >= (test.passingMarks / test.totalMarks) * 100;
   const answeredCount = Object.keys(answers).length;
-  const [showVoucherModal, setShowVoucherModal] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownloadVoucher = async () => {
+    if (!voucher || isDownloading) return;
+
+    setIsDownloading(true);
+    try {
+      await generateVoucherPDF({
+        studentName: voucher.studentName,
+        fatherName: voucher.fatherName || '',
+        fatherCNIC: voucher.fatherCnic || '',
+        studentClass: voucher.studentClass,
+        section: voucher.shift || '',
+        contact: voucher.contact || '',
+        admissionNo: "",
+        challanNo: voucher.challanNo,
+        billNo: voucher.voucherNumber?.split('-')[1] || "163802546",
+        dueDate: voucher.dueDate,
+        fees: [
+          { month: 'Current', particular: 'Class Fees', amount: voucher.classFees },
+          { month: 'Current', particular: 'Admission Fee', amount: voucher.admissionFee },
+        ],
+        totalAmount: voucher.totalFee,
+        payableWithin: voucher.payableWithin,
+        payableAfter: voucher.payableAfter,
+        motto: voucher.motto || "Building Confidence Through Expression",
+        instructions: voucher.instructions || "Please submit the fee before the due date to confirm admission.",
+        fileName: `fee-voucher-${voucher.studentName.replace(/\s+/g, '-').toLowerCase()}.pdf`,
+        amountInWords: `PKR ${voucher.totalFee?.toLocaleString()} Only`,
+      });
+      toast.success("Voucher downloaded successfully!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to download voucher");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   return (
     <div className="flex flex-col bg-background min-h-screen">
@@ -48,16 +79,14 @@ export default function TestResultScreen({
           <Card className="rounded-xl border border-primary/20 overflow-hidden">
             {/* Score Section */}
             <div
-              className={`p-4 text-center ${
-                isPassed
-                  ? "bg-linear-to-r from-emerald-50 via-emerald-100 to-emerald-50"
-                  : "bg-linear-to-r from-red-50 via-red-100 to-red-50"
-              }`}
+              className={`p-4 text-center ${isPassed
+                ? "bg-linear-to-r from-emerald-50 via-emerald-100 to-emerald-50"
+                : "bg-linear-to-r from-red-50 via-red-100 to-red-50"
+                }`}
             >
               <div
-                className={`w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-2 ${
-                  isPassed ? "bg-emerald-500" : "bg-red-500"
-                }`}
+                className={`w-12 h-12 mx-auto rounded-full flex items-center justify-center mb-2 ${isPassed ? "bg-emerald-500" : "bg-red-500"
+                  }`}
               >
                 <Award className="w-6 h-6 text-white" />
               </div>
@@ -84,9 +113,8 @@ export default function TestResultScreen({
               )}
 
               <h2
-                className={`text-lg font-bold ${
-                  isPassed ? "text-emerald-700" : "text-red-700"
-                }`}
+                className={`text-lg font-bold ${isPassed ? "text-emerald-700" : "text-red-700"
+                  }`}
               >
                 {isPassed ? "Congratulations!" : "Test Failed"}
               </h2>
@@ -105,9 +133,8 @@ export default function TestResultScreen({
                 </div>
                 <div className="bg-white/60 rounded-lg p-1.5">
                   <p
-                    className={`text-lg font-bold ${
-                      isPassed ? "text-emerald-600" : "text-red-600"
-                    }`}
+                    className={`text-lg font-bold ${isPassed ? "text-emerald-600" : "text-red-600"
+                      }`}
                   >
                     {percentage.toFixed(0)}%
                   </p>
@@ -159,26 +186,24 @@ export default function TestResultScreen({
                 Review ({test.mcqs.length} questions)
               </h3>
               <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
-                {test.mcqs.map((mcq, idx) => {
+                {test.mcqs.map((mcq: any, idx: number) => {
                   const isCorrect = answers[idx] === mcq.correctAnswer;
                   const userAnswer = answers[idx] !== undefined ? mcq.options[answers[idx]] : "—";
                   const correctAnswer = mcq.options[mcq.correctAnswer];
                   return (
                     <div
                       key={idx}
-                      className={`p-2 rounded-md border ${
-                        isCorrect
-                          ? "bg-emerald-50/50 border-emerald-200"
-                          : answers[idx] !== undefined
+                      className={`p-2 rounded-md border ${isCorrect
+                        ? "bg-emerald-50/50 border-emerald-200"
+                        : answers[idx] !== undefined
                           ? "bg-red-50/50 border-red-200"
                           : "bg-amber-50/50 border-amber-200"
-                      }`}
+                        }`}
                     >
                       <div className="flex items-start gap-1.5">
                         <span
-                          className={`text-[10px] font-bold shrink-0 mt-0.5 ${
-                            isCorrect ? "text-emerald-600" : answers[idx] !== undefined ? "text-red-500" : "text-amber-600"
-                          }`}
+                          className={`text-[10px] font-bold shrink-0 mt-0.5 ${isCorrect ? "text-emerald-600" : answers[idx] !== undefined ? "text-red-500" : "text-amber-600"
+                            }`}
                         >
                           {idx + 1}.
                         </span>
@@ -238,12 +263,14 @@ export default function TestResultScreen({
                   )}
                   {isPassed && voucher && (
                     <Button
-                      onClick={() => setShowVoucherModal(true)}
+                      onClick={handleDownloadVoucher}
                       size="sm"
                       variant="outline"
-                      className="h-9"
+                      className="h-9 gap-2"
+                      disabled={isDownloading}
                     >
-                      View Voucher
+                      {isDownloading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
+                      Download Voucher
                     </Button>
                   )}
                 </div>
@@ -259,67 +286,6 @@ export default function TestResultScreen({
 
       </main>
 
-      {/* View Voucher Modal */}
-      {showVoucherModal && voucher && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg shadow-2xl max-h-[95vh] overflow-y-auto max-w-5xl w-full">
-            {/* Modal Header */}
-            <div className="flex justify-between items-center p-4 border-b sticky top-0 bg-white z-10">
-              <h2 className="text-xl font-bold text-gray-900">Bank Voucher</h2>
-              <button
-                onClick={() => setShowVoucherModal(false)}
-                className="text-gray-500 hover:text-gray-700 p-1"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-
-            {/* Voucher Content */}
-            <div className="p-4 bg-gray-100">
-              <VoucherTemplate
-                studentName={voucher.studentName}
-                fatherName={voucher.fatherName || ''}
-                fatherCNIC={voucher.fatherCnic || ''}
-                rollNumber=""
-                class={voucher.studentClass}
-                section={voucher.shift || ''}
-                testScore={voucher.testScore}
-                totalMarks={voucher.totalMarks}
-                percentage={parseFloat(voucher.percentage)}
-                testDate={new Date(voucher.issueDate).toLocaleDateString('en-PK')}
-                testTitle="Admission Test"
-                contact={voucher.contact || ''}
-                challanNo={voucher.challanNo}
-                dueDate={new Date(voucher.dueDate).toLocaleDateString('en-PK', {
-                  day: '2-digit', month: 'short', year: 'numeric'
-                }).replace(/ /g, '-')}
-                fees={[
-                  { month: 'Current', particular: 'Class Fees', amount: voucher.classFees },
-                  { month: 'Current', particular: 'Admission Fee', amount: voucher.admissionFee },
-                ]}
-                totalAmount={voucher.totalFee}
-                payableWithin={voucher.payableWithin}
-                payableAfter={voucher.payableAfter}
-                motto={voucher.motto}
-                instructions={voucher.instructions}
-                showDownloadButton={true}
-                fileName={`fee-voucher-${voucher.studentName.replace(/\s+/g, '-').toLowerCase()}.pdf`}
-              />
-            </div>
-
-            {/* Modal Actions */}
-            <div className="flex gap-3 p-4 border-t sticky bottom-0 bg-gray-50">
-              <Button
-                onClick={() => setShowVoucherModal(false)}
-                variant="outline"
-                className="flex-1"
-              >
-                Close
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

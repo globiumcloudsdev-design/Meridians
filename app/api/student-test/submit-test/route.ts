@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     test.mcqs.forEach((mcq: any, idx: number) => {
       const selectedOption = answers[idx];
       const isCorrect = selectedOption === mcq.correctAnswer;
-      
+
       if (selectedOption !== undefined) {
         if (isCorrect) {
           calculatedScore += mcq.marks || 1;
@@ -120,9 +120,11 @@ export async function POST(request: NextRequest) {
         dueDate: dueDate.toISOString(),
         motto: 'Building Confidence Through Expression',
         instructions: 'Please submit the fee before the due date to confirm admission.',
+        admissionNo: `ADM-${admissionQuery._id.toString().slice(-6).toUpperCase()}`,
       };
+      admissionQuery.admissionNo = `ADM-${admissionQuery._id.toString().slice(-6).toUpperCase()}`;
     }
-    
+
     await admissionQuery.save();
 
     return NextResponse.json({

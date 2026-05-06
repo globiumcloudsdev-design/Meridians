@@ -27,6 +27,7 @@ export interface IAdmissionQuery extends Document {
   bankSlipUrl?: string;
   feeAmount?: number;
   slipGeneratedAt?: Date;
+  admissionNo?: string;
   voucherData?: any;
   testAnswers?: {
     questionIndex: number;
@@ -84,6 +85,7 @@ const AdmissionQuerySchema = new Schema<IAdmissionQuery>({
   bankSlipUrl: { type: String },
   feeAmount: { type: Number },
   slipGeneratedAt: { type: Date },
+  admissionNo: { type: String },
   voucherData: { type: Schema.Types.Mixed },
   testAnswers: [{
     questionIndex: { type: Number },
