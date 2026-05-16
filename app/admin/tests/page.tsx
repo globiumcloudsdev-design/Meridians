@@ -9,7 +9,7 @@ import { TestTable } from '@/components/admin/TestTable';
 import { TestDialog } from '@/components/admin/TestDialog';
 import { DeleteConfirmDialog } from '@/components/admin/DeleteConfirmDialog';
 import { TestItem, TestFormValues } from '@/lib/types';
-import { API_TESTS, API_TEST_BY_ID } from '@/lib/api/endpoints';
+import { API_TESTS, API_TEST_BY_ID,PAGE_TEST_NEW } from '@/lib/api/endpoints';
 
 export default function AdminTests() {
   const [tests, setTests] = useState<TestItem[]>([]);
@@ -59,7 +59,7 @@ export default function AdminTests() {
   const handleDialogSubmit = async (formData: TestFormValues) => {
     try {
       const method = editTest ? 'PUT' : 'POST';
-      const url = editTest ? API_TEST_BY_ID(editTest._id) : API_TESTS;
+      const url = editTest ? API_TEST_BY_ID(editTest._id || "UNKNOWN") : API_TESTS;
 
       const payload = {
         title: formData.title,
@@ -123,9 +123,24 @@ export default function AdminTests() {
     setDeleteTest(null);
   };
 
+  // const handleView = (test: TestItem) => {
+  //   window.open(`/tests/${test._id}`, '_blank');
+  // };
+
   const handleView = (test: TestItem) => {
-    window.open(`/tests/${test._id}`, '_blank');
-  };
+    // console.log(test)
+  let className = '';
+  if (test.class && typeof test.class === 'object') {
+    className =  new URLSearchParams({
+        studentName: "admin",
+        class: test.class.name
+      }).toString();
+  }
+  
+  // Query parameter mein class name
+  window.open(`${PAGE_TEST_NEW}?${className}`, '_blank');
+  // Result: /tests/65f8a3b2c1d2e4f5a6b7c8d9?class=Mathematics%20Class%201
+};
 
   return (
     <div className="space-y-6">

@@ -63,18 +63,64 @@ export function TestDialog({ open, onClose, onSubmit, initialData }: TestDialogP
     fetchClasses();
   }, []);
 
+  // useEffect(() => {
+  //   if (initialData) {
+  //     setFormData({
+  //       title: initialData.title,
+  //       description: initialData.description || '',
+  //       classId: typeof initialData.class === 'string' ? initialData.class ? initialData.class._id : "UNKNOWN",
+  //       mcqs: initialData.mcqs.length > 0 ? initialData.mcqs : [{ ...emptyMCQ }],
+  //       totalMarks: initialData.totalMarks,
+  //       correctAnswerMarks: initialData.correctAnswerMarks || 1,
+  //       passingMarks: initialData.passingMarks || 0,  // Keep 0 for placeholder
+  //       timeLimit: initialData.timeLimit || 0,
+  //       isActive: initialData.isActive,
+  //     });
+  //   } else {
+  //     setFormData({
+  //       title: '',
+  //       description: '',
+  //       classId: '',
+  //       mcqs: [{ ...emptyMCQ }],
+  //       totalMarks: 1,
+  //       correctAnswerMarks: 1,
+  //       passingMarks: 0,
+  //       timeLimit: 0,
+  //       isActive: true,
+  //     });
+  //     setActiveTab('details');
+  //   }
+  // }, [initialData, open]);
+
   useEffect(() => {
     if (initialData) {
+      // Safely extract classId with proper null checks
+      let classIdValue = '';
+      
+      if (initialData.class) {
+        // If class exists, determine if it's a string or object
+        classIdValue = typeof initialData.class === 'string' 
+          ? initialData.class 
+          : initialData.class._id || '';
+      } else if (initialData.classId) {
+        // Fallback to classId if class is not present
+        classIdValue = typeof initialData.classId === 'string' 
+          ? initialData.classId 
+          : initialData.classId._id || '';
+      }
+      
       setFormData({
-        title: initialData.title,
+        title: initialData.title || '',
         description: initialData.description || '',
-        classId: typeof initialData.class === 'string' ? initialData.class : initialData.class._id,
-        mcqs: initialData.mcqs.length > 0 ? initialData.mcqs : [{ ...emptyMCQ }],
-        totalMarks: initialData.totalMarks,
+        classId: classIdValue,
+        mcqs: initialData.mcqs && initialData.mcqs.length > 0 
+          ? initialData.mcqs 
+          : [{ ...emptyMCQ }],
+        totalMarks: initialData.totalMarks || 0,
         correctAnswerMarks: initialData.correctAnswerMarks || 1,
-        passingMarks: initialData.passingMarks || 0,  // Keep 0 for placeholder
+        passingMarks: initialData.passingMarks || 0,
         timeLimit: initialData.timeLimit || 0,
-        isActive: initialData.isActive,
+        isActive: initialData.isActive ?? true,
       });
     } else {
       setFormData({

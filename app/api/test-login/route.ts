@@ -7,7 +7,7 @@ import User from '@/lib/models/User';
 const JWT_SECRET = process.env.NEXTAUTH_SECRET || 'changeme';
 
 export async function POST(req: NextRequest) {
-  console.log('Login request received');
+  console.log('Test Login request received');
   try {
     const { email, password } = await req.json();
     if (!email || !password) {

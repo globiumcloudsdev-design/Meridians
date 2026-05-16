@@ -2,6 +2,7 @@ export interface ClassItem {
   _id: string;
   name: string;
   fees: number;
+  admissionFee: number;
   description: string;
   isActive: boolean;
   createdAt: string;
@@ -11,6 +12,7 @@ export interface ClassItem {
 export interface ClassFormValues {
   name: string;
   fees: number;
+  admissionFee: number;
   description: string;
   isActive: boolean;
 }

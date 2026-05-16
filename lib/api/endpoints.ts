@@ -1,8 +1,8 @@
 // API endpoint constants
 
 // Auth endpoints
-export const API_LOGIN = '/api/auth/login';
-export const API_PROFILE = '/api/auth/profile';
+export const API_LOGIN = '/api/test-login';
+export const API_PROFILE = '/api/test-profile';
 
 // Blog endpoints
 export const API_BLOG = '/api/blog';

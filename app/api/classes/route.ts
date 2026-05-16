@@ -22,12 +22,12 @@ export async function POST(request: NextRequest) {
   try {
     await connectDB();
     const body = await request.json();
-    const { name, fees, description, isActive } = body;
+    const { name, fees, admissionFee, description, isActive } = body;
 
     // Validate required fields
-    if (!name || fees === undefined || !description) {
+    if (!name || fees === undefined || admissionFee === undefined || !description) {
       return NextResponse.json(
-        { error: 'Name, fees, and description are required' },
+        { error: 'Name, fees, admission fee, and description are required' },
         { status: 400 }
       );
     }
@@ -35,6 +35,7 @@ export async function POST(request: NextRequest) {
     const newClass = await Class.create({
       name,
       fees,
+      admissionFee,
       description,
       isActive: isActive ?? true,
     });

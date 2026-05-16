@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
     if (isPassed) {
       const classInfo = await Class.findById(test.class);
       const classFees = classInfo?.fees || 0;
-      const admissionFee = classFees;
+      const admissionFee = classInfo?.admissionFee || 0;
       const totalFee = classFees + admissionFee;
       const payableWithin = totalFee;
       const payableAfter = totalFee + 500;
@@ -120,9 +120,7 @@ export async function POST(request: NextRequest) {
         dueDate: dueDate.toISOString(),
         motto: 'Building Confidence Through Expression',
         instructions: 'Please submit the fee before the due date to confirm admission.',
-        admissionNo: `ADM-${admissionQuery._id.toString().slice(-6).toUpperCase()}`,
       };
-      admissionQuery.admissionNo = `ADM-${admissionQuery._id.toString().slice(-6).toUpperCase()}`;
     }
 
     await admissionQuery.save();

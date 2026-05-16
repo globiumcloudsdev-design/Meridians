@@ -28,29 +28,35 @@ export function ClassDialog({ open, onClose, onSubmit, initialData }: ClassDialo
   const [formData, setFormData] = useState<ClassFormValues>({
     name: '',
     fees: 0,
+    admissionFee: 0,
     description: '',
     isActive: true,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feesDisplay, setFeesDisplay] = useState('');
+  const [admissionFeesDisplay, setAdmissionFeesDisplay] = useState('');
 
   useEffect(() => {
     if (initialData) {
       setFormData({
         name: initialData.name,
         fees: initialData.fees,
+        admissionFee: initialData.admissionFee || 0,
         description: initialData.description,
         isActive: initialData.isActive,
       });
       setFeesDisplay(initialData.fees.toString());
+      setAdmissionFeesDisplay((initialData.admissionFee || 0).toString());
     } else {
       setFormData({
         name: '',
         fees: 0,
+        admissionFee: 0,
         description: '',
         isActive: true,
       });
       setFeesDisplay('');
+      setAdmissionFeesDisplay('');
     }
   }, [initialData, open]);
 
@@ -101,23 +107,43 @@ export function ClassDialog({ open, onClose, onSubmit, initialData }: ClassDialo
           </div>
 
           {/* Class Fees */}
-          <div className="space-y-2">
-            <Label htmlFor="fees" className="text-slate-700 font-medium">
-              Class Fees (PKR) <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="fees"
-              type="number"
-              min="0"
-              value={feesDisplay}
-              onChange={(e) => {
-                setFeesDisplay(e.target.value);
-                setFormData({ ...formData, fees: parseInt(e.target.value) || 0 });
-              }}
-              placeholder="Enter fees amount"
-              required
-              className="border-slate-200 focus:border-emerald-500 focus:ring-emerald-500"
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="fees" className="text-slate-700 font-medium">
+                Class Fees (PKR) <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                id="fees"
+                type="number"
+                min="0"
+                value={feesDisplay}
+                onChange={(e) => {
+                  setFeesDisplay(e.target.value);
+                  setFormData({ ...formData, fees: parseInt(e.target.value) || 0 });
+                }}
+                placeholder="Tuition fees"
+                required
+                className="border-slate-200 focus:border-emerald-500 focus:ring-emerald-500"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="admissionFee" className="text-slate-700 font-medium">
+                Admission Fee <span className="text-red-500">*</span>
+              </Label>
+              <Input
+                id="admissionFee"
+                type="number"
+                min="0"
+                value={admissionFeesDisplay}
+                onChange={(e) => {
+                  setAdmissionFeesDisplay(e.target.value);
+                  setFormData({ ...formData, admissionFee: parseInt(e.target.value) || 0 });
+                }}
+                placeholder="Admission fee"
+                required
+                className="border-slate-200 focus:border-emerald-500 focus:ring-emerald-500"
+              />
+            </div>
           </div>
 
           {/* Description */}

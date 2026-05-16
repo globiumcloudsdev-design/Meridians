@@ -25,10 +25,17 @@ export function ClassTable({ classes, onEdit, onDelete }: ClassTableProps) {
       },
       {
         key: 'fees',
-        label: 'Fees (PKR)',
+        label: 'Class Fees (PKR)',
         sortable: true,
         className: 'font-medium text-emerald-600',
         render: (item) => <span>{item.fees.toLocaleString('en-PK')}</span>,
+      },
+      {
+        key: 'admissionFee',
+        label: 'Admission Fee (PKR)',
+        sortable: true,
+        className: 'font-medium text-blue-600',
+        render: (item) => <span>{item.admissionFee.toLocaleString('en-PK')}</span>,
       },
       {
         key: 'description',

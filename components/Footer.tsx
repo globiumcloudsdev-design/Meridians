@@ -101,12 +101,12 @@ export function Footer() {
               Navigation
             </h4>
             <ul className="space-y-4">
-              {["Home", "About", "Programs", "Blog", "Library", "Video", "Contact"].map((item) => (
+              {["Home", "About", "Programs", "Blog", "Library", "Video", "Faq" ,"Contact" ].map((item) => (
                 <li key={item}>
                   <Link
                     href={`/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    // target="_blank"
+                    // rel="noopener noreferrer"
                     className="text-white/60 hover:text-primary transition-colors text-lg font-medium flex items-center gap-3 group"
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary group-hover:scale-150 transition-all" />

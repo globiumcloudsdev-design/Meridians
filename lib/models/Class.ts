@@ -11,6 +11,12 @@ const ClassSchema = new mongoose.Schema({
     required: [true, 'Class fees is required'],
     min: 0,
   },
+  admissionFee: {
+    type: Number,
+    required: [true, 'Admission fee is required'],
+    default: 0,
+    min: 0,
+  },
   description: {
     type: String,
     required: [true, 'Description is required'],

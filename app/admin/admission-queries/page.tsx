@@ -255,7 +255,7 @@ export default function AdmissionQueriesPage() {
         contact: vData.contact || query.contact1 || '',
         challanNo: vData.challanNo || '',
         billNo: vData.billNo || vData.voucherNumber?.split('-')[1] || "163802546",
-        admissionNo: "",
+        // admissionNo: vData.admissionNo ,
         familyNo: vData.familyNo || 'N/A',
         dueDate: vData.dueDate || new Date(Date.now() + 7 * 86400000).toISOString(),
         fees: vData.fees || [

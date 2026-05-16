@@ -32,7 +32,8 @@ export function Navbar() {
     pathname === "/video" ||
     pathname === "/admission-form" ||
     pathname === "/admissions" ||
-    pathname === "/contact";
+    pathname === "/contact" || 
+    pathname === "/faq"
 
   const navItems = [
     { label: "Home", href: "/" },
@@ -49,6 +50,7 @@ export function Navbar() {
       ],
     },
     { label: "Admissions", href: "/admissions" },
+    // { label: "Faq", href: "/faq" },
     { label: "Contact Us", href: "/contact" },
   ];
 

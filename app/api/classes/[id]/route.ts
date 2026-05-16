@@ -11,11 +11,11 @@ export async function PUT(
     const params = await props.params;
     await connectDB();
     const body = await request.json();
-    const { name, fees, description, isActive } = body;
+    const { name, fees, admissionFee, description, isActive } = body;
 
     const updatedClass = await Class.findByIdAndUpdate(
       params.id,
-      { name, fees, description, isActive },
+      { name, fees, admissionFee, description, isActive },
       { new: true }
     );
 

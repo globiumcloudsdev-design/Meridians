@@ -33,7 +33,7 @@ export function TestTable({ tests, onEdit, onDelete, onView }: TestTableProps) {
         label: 'Class',
         render: (test) => (
           <span className="px-2 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 uppercase tracking-wider">
-            {typeof test.class === 'object' ? test.class.name : 'Unknown Class'}
+            {test.class && typeof test.class === 'object' ? test.class.name : 'Unknown Class'}
           </span>
         ),
       },
