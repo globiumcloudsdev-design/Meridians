@@ -844,21 +844,18 @@
 // }
 
 "use client";
-import React, { useState } from "react";
-import type { CSSProperties } from "react";
+import { useState, useEffect } from "react";
 
 /* ─────────────────────────────────────────────
-   DATA (UPDATED WITH ALL NEW Q&A)
+   DATA
 ───────────────────────────────────────────── */
-const categories = [
+const DATA = [
   {
-    id: 1,
-    label: "1. General Information",
+    id: 0,
+    label: "General Information",
     icon: "🏛️",
-    headerBg: "bg-blue-600",
-    viewAllColor: "text-blue-600",
+    color: "#2563eb",
     total: 20,
-    ellipsisAfter: 4,
     questions: [
       "1. What is Meridians Group of Education?",
       "2. Where is your institute located?",
@@ -888,15 +885,15 @@ const categories = [
       "We cater to kids, young students, and adults.",
       "Yes, we offer both academic tuitions and skill-based IT/professional courses.",
       "We focus on conceptual learning, small class sizes, and practical, project-based training.",
-      "Yes, Our institution is affiliated with the board, so students receive regular degrees. We also provide proper certification for all skill-based courses.",
+      "Yes, our institution is affiliated with the board. Students receive regular degrees and proper certification for skill-based courses.",
       "Yes, we offer online classes for academic.",
-      "7:30 am to 1pm (morning) and 3:45 pm to 8.30 pm (evening)",
-      "You can call us at 0321-4712207, 0303-3569000, 0304-4230664, 0304-4641590(Heir), 0303-4027152(Heir) or visit our campus.",
-      "Yes, we have multiple branches in Lahore. Main Campus: Bhatta Chowk Bedian Road, near Go Petrol Pump, Lahore - Branch#2: Amjad Colony, Tatla Road I, Heir Lahore - Branch#3: Bedian Road, Alfalfa Town near Touheed Mart, Lahore",
+      "7:30 am to 1pm (morning) and 3:45 pm to 8:30 pm (evening)",
+      "Call us at 0321-4712207, 0303-3569000, 0304-4230664, 0304-4641590 (Heir), 0303-4027152 (Heir) or visit our campus.",
+      "Yes, we have 3 branches in Lahore: Bhatta Chowk Bedian Road, Amjad Colony Heir, and Bedian Road Alfalfa Town.",
       "To bridge learning gaps, foster conceptual understanding, and equip students with modern skills.",
       "Qualified subject specialists and expert IT instructors.",
       "Yes, counseling is provided to help students select the right program.",
-      "Yes, our institution is affiliated with Lahore board and registered from government of Punjab.",
+      "Yes, affiliated with Lahore Board and registered from Government of Punjab.",
       "Yes, we provide career, academic, and freelancing guidance.",
       "Yes, parents are welcome to visit during operating hours.",
       "Yes, we maintain an active online presence.",
@@ -905,17 +902,15 @@ const categories = [
     ],
   },
   {
-    id: 2,
-    label: "2. Academic Programs (PG–12)",
+    id: 1,
+    label: "Academic Programs (PG–12)",
     icon: "🎓",
-    headerBg: "bg-teal-600",
-    viewAllColor: "text-teal-600",
+    color: "#0d9488",
     total: 40,
-    ellipsisAfter: 4,
     questions: [
       "21. Do you offer classes for Playgroup (PG)?",
       "22. What subjects are taught at primary level?",
-      "23. Do you follow any specific board (Punjab, Cambridge, etc.)?",
+      "23. Do you follow any specific board?",
       "24. Do you prepare students for board exams?",
       "25. Are your teachers subject specialists?",
       "26. Do you provide homework support?",
@@ -955,56 +950,54 @@ const categories = [
       "60. Are there separate batches for girls and boys?",
     ],
     answers: [
-      "Yes, we offer kindergarten classes along with daycare facilities. We accept children above 1 year of age and provide a safe, caring, and learning-friendly environment where they can grow, play, and develop basic skills under proper supervision.",
+      "Yes, we offer kindergarten classes along with daycare. We accept children above 1 year of age in a safe, caring environment.",
       "Math, English, Urdu, Science, Nazra and computer basics.",
       "We support Punjab Board systems.",
-      "Yes, we prepare students for Matric and FSc/Intermediate board exams with a well-planned and student-friendly approach. We focus on concept-based learning, regular revision, and organized test sessions to help students stay confident and fully prepared for their exams.",
+      "Yes, we prepare students for Matric and FSc/Intermediate board exams with concept-based learning and organized test sessions.",
       "Yes, all academic subjects are taught by qualified specialists.",
       "Yes, we assist students with their daily school assignments and homework.",
-      "Progress is tracked through weekly test, monthly Assessments, quizzes, and regular reporting.",
+      "Progress is tracked through weekly tests, monthly assessments, quizzes, and regular reporting.",
       "Yes, monthly tests are conducted to assess performance.",
       "Yes, crash courses are offered for quick and efficient exam preparation.",
       "Yes, we provide one-on-one attention and extra tutoring for weaker students.",
       "Yes, we provide comprehensive study materials and notes.",
       "Yes, small class sizes ensure individual attention.",
-      "Yes, we offer both Science and Arts streams. Students are guided according to their chosen field, and we also provide opportunities like science fairs and arts exhibitions where they can showcase their creativity, projects, and skills in a practical and confident way.",
-      "Yes, we provide full guidance and support for science practicals. Students are properly taught and their practicals are performed under supervision to help them understand concepts in a clear and hands-on way.",
+      "Yes, we offer both Science and Arts streams with science fairs and arts exhibitions.",
+      "Yes, we provide full guidance and support for science practicals under supervision.",
       "Yes, we assist with academic assignments.",
       "Yes, we conduct revision classes prior to exams.",
-      "Our result is consistently excellent, with 100% pass rate, and most students easily achieve 90% marks or above.",
-      "Yes, we also offer weekend classes on a conditional basis, depending on student need and availability.",
+      "Our result is consistently excellent, with 100% pass rate and most students achieving 90%+ marks.",
+      "Yes, weekend classes are available on a conditional basis.",
       "Yes, students can switch batches subject to availability.",
-      "We offer comprehensive support for Matric examinations.",
+      "Yes, we offer comprehensive support for Matric examinations.",
       "Yes, we teach English medium students.",
       "Yes, we provide support in Urdu as well.",
       "Through extra time, remedial classes, and personalized attention.",
-      "Yes, we offer one-on-one tutoring upon request.",
+      "Yes, one-on-one tutoring is available upon request.",
       "Yes, quizzes and activities are included to keep learning engaging.",
-      "Yes, we help prepare students for college and university entry tests, including all entry tests such as MDCAT, ECAT, and others.",
-      "Yes, we conduct a proper summer school program, including regular summer classes and a fun-filled Summer Fiesta, where students learn new skills along with engaging and creative activities.",
-      "Yes, we keep parents regularly updated about student progress through parent app, SMS alerts, and other communication platforms to ensure better coordination and transparency.",
+      "Yes, we help prepare students for MDCAT, ECAT, and all entry tests.",
+      "Yes, we conduct a proper summer school program including regular summer classes and a fun-filled Summer Fiesta.",
+      "Yes, parents are updated through parent app, SMS alerts, and other communication platforms.",
       "Yes, progress reports are shared with parents.",
       "Yes, conceptual clarity is the core focus of our teaching.",
       "Yes, we facilitate collaborative study sessions.",
       "Yes, students can repeat classes/grades if necessary.",
-      "Yes, Islamiyat is taught as an important part of the curriculum, including Nazra-e-Quran and basic Islamic education. We focus on moral values, proper understanding, and character building in a simple and meaningful way.",
+      "Yes, Islamiyat is taught including Nazra-e-Quran and basic Islamic education.",
       "Yes, we offer computer basics for young students.",
-      "Yes, we integrate co-curricular activities for the holistic development of students. These include educational tours, science and arts exhibitions, annual celebrations, and various other school activities. All these programs help students build confidence, improve creativity, and develop teamwork and communication skills along with their studies.",
-      "Yes, we teach students how to manage their time and answer effectively during exams.",
+      "Yes, activities include educational tours, science and arts exhibitions, annual celebrations and more.",
+      "Yes, we teach students how to manage time and answer effectively during exams.",
       "Yes, our classes are interactive and engaging.",
       "Yes, we provide and review past papers.",
-      "Yes, we help students improve their spoken English through a specially designed course. In this program, students practice daily speaking, vocabulary building, pronunciation, and conversation skills in a friendly environment. We focus on boosting confidence so students can speak English fluently in both academic and real-life situations.",
+      "Yes, we help students improve spoken English through a specially designed course.",
       "Yes, separate batches are available for boys and girls.",
     ],
   },
   {
-    id: 3,
-    label: "3. Computer Courses",
+    id: 2,
+    label: "Computer Courses",
     icon: "💻",
-    headerBg: "bg-green-600",
-    viewAllColor: "text-green-600",
+    color: "#16a34a",
     total: 40,
-    ellipsisAfter: 4,
     questions: [
       "61. What computer courses do you offer?",
       "62. Do you offer basic computer courses?",
@@ -1021,7 +1014,7 @@ const categories = [
       "73. Do you offer freelancing courses?",
       "74. Do you teach Fiverr and Upwork skills?",
       "75. Are practical projects included?",
-      "76. Do you students get certificates after completion?",
+      "76. Do students get certificates after completion?",
       "77. What is the duration of computer courses?",
       "78. Are classes beginner-friendly?",
       "79. Do you provide lab facilities?",
@@ -1064,9 +1057,9 @@ const categories = [
       "Yes, we teach profile creation, gig optimization, and bid writing.",
       "Yes, hands-on projects are part of all computer courses.",
       "Yes, certificates are provided upon completion.",
-      "Courses are available with different durations depending on the program, ranging from 4 weeks to 6 months. Each course is designed according to its level and learning requirements to ensure proper understanding and skill development.",
-      "Yes, we start from basics, so beginners can learn easily.",
-      "Yes, fully equipped computer lab facilities are available with modern systems and smart board technology to provide an interactive and effective learning environment.",
+      "Courses range from 4 weeks to 6 months depending on the program.",
+      "Yes, we start from basics so beginners can learn easily.",
+      "Yes, fully equipped computer lab with modern systems and smart board technology.",
       "Yes, our courses are designed for absolute beginners.",
       "Yes, advanced modules are available based on skill level.",
       "Yes, we offer online computer classes.",
@@ -1074,30 +1067,28 @@ const categories = [
       "Yes, we teach digital marketing fundamentals.",
       "Yes, we cover on-page SEO basics.",
       "Yes, we help connect outstanding students with internships.",
-      "Yes, students may bring their own laptops if they prefer.",
+      "Yes, students may bring their own laptops.",
       "Yes, we provide recordings of online sessions.",
       "Yes, evening batches are available.",
-      "Yes, weekend batches are available, along with evening shift classes, depending on student needs and availability.",
-      "It is affordable; please contact us directly for specific course fees.",
-      "Yes, we provide discounts when you enroll in multiple courses.",
+      "Yes, weekend batches are available depending on student needs.",
+      "Affordable fees — contact us directly: 03214712207.",
+      "Yes, discounts available when enrolling in multiple courses.",
       "Yes, we teach Canva for quick design creation.",
-      "Yes, we administer internal certification exams upon course completion.",
-      "Yes, we guide our students through the process of online earning.",
+      "Yes, internal certification exams are given upon course completion.",
+      "Yes, we guide students through the process of online earning.",
       "Yes, practical assignments are given to assess student learning.",
       "Yes, we assist deserving students with job and internship placement.",
       "Yes, school students are welcome to join our computer courses.",
-      "Separate batches are available for females and males.",
-      "You can visit our campus or contact us at 0321-4712207, 0303-3569000, 0304-4230664, 0304-4641590(Heir), 0303-4027152(Heir) to complete your enrollment.",
+      "Yes, separate batches are available for females and males.",
+      "Visit campus or call 0321-4712207 to complete enrollment.",
     ],
   },
   {
-    id: 4,
-    label: "4. Soft Skills Courses",
+    id: 3,
+    label: "Soft Skills Courses",
     icon: "🧠",
-    headerBg: "bg-orange-600",
-    viewAllColor: "text-orange-600",
+    color: "#ea580c",
     total: 40,
-    ellipsisAfter: 4,
     questions: [
       "101. What are soft skills courses?",
       "102. Why are soft skills important?",
@@ -1142,55 +1133,53 @@ const categories = [
     ],
     answers: [
       "Soft skills courses train you in communication, teamwork, leadership, and other personal skills that help you succeed in jobs, interviews, and daily life.",
-      "85% of job success comes from soft skills. Employers hire people who can communicate, lead, solve problems, and work in teams — not just technical skills.",
-      "We cover: communication, public speaking, leadership, confidence building, interview skills, time management, goal setting, teamwork, and English speaking.",
-      "Yes. We have dedicated modules for verbal, non-verbal, written, and presentation skills with daily speaking practice.",
-      "Yes. You'll learn stage confidence, speech writing, voice control, and body language through live practice sessions.",
-      "Yes. Our personality development program covers grooming, etiquette, confidence, attitude building, and personal branding.",
-      "Yes. Learn team management, decision-making, problem-solving, and how to motivate others through case studies + activities.",
-      "Yes. Every class includes confidence activities like role-plays, debates, presentations, and positive mindset training.",
-      "Yes. We cover CV making, common Q&A, mock interviews, dress code, and how to handle stress in interviews.",
-      "Yes. Basic to advanced spoken English with grammar, vocabulary, fluency drills, and conversation practice.",
-      "Yes. We start from basics. No prior experience needed. Batches are divided by level.",
-      "Yes. Weekly group discussions are conducted on age-appropriate topics, current affairs, and classroom subjects to improve students' thinking, confidence, and speaking skills.",
-      "Yes. Role-play activities like classroom presentations, teamwork scenarios, and real-life situations are included in every module to build communication and problem-solving skills",
-      "Yes. You get a Meridians Group of Education certificate after completing the course + passing assessment. Our institution affiliated with Lahore board and registered from government of Punjab.",
-      "Course duration 2 month to 6 month....each course have different duration....duration depends on course title.",
-      "No. Students, job seekers, professionals, and housewives can all join. We have separate batches by age/profession.",
-      "Yes. We have evening + weekend batches designed for working professionals.",
-      "Yes. We provide customized soft skills training for companies, offices, and teams at your location or ours.",
-      "Yes. 70% of class time is practical: speeches, GDs, presentations, games, and real-life tasks. Only 30% theory.",
-      "Yes. Our trainers have 5+ years experience in corporate training, HR, and communication. Many are certified professionals.",
-      "Yes. Personal coaching is available for interview prep, public speaking fear, and leadership at extra cost.",
-      "Yes. Learn priority setting, avoiding procrastination, daily planning, and work-life balance techniques.",
-      "Yes. We use SMART goals method + vision boards to help you set and achieve personal/professional goals.",
-      "Yes. Every course includes motivational talks, success stories, and mindset training to keep you focused.",
-      "Yes. Through group projects, team games, and collaboration activities that build coordination and leadership.",
-      "Yes. We do a confidence check on day 1 and again at course end to track your improvement with scores and trainer feedback.",
-      "Yes. Dedicated stage with mic, podium, and audience setup. Every student practices speeches on stage weekly.",
-      "Yes. You'll prepare and deliver 4–6 presentations during the course on different topics to build real confidence.",
-      "Yes. Neutral accent and pronunciation training is included in our English speaking + communication modules.",
-      "Yes. Step-by-step fear removal through breathing techniques, small group talks, then stage practice. We specialize in this.",
-      "Yes. No boring lectures. Classes are 70% activities: debates, games, role-plays, discussions, and peer feedback.",
-      "Yes. After every speech/GD, trainers give 1-on-1 feedback on strengths + areas to improve.",
-      "Yes. Live Zoom classes with same activities, recordings, and personal feedback available for online students.",
-      "Yes. We have special batches for ages 14–19 focused on confidence, career, and exam interview skills.",
-      "Yes. Separate female-only batches with female trainers available for comfort and safety.",
-      "Yes. Modules on self-awareness, empathy, handling stress, and managing relationships are part of advanced courses.",
-      "Yes. We use workplace, interview, and social situations for role-plays so you learn skills you'll actually use.",
-      "Yes. Final assessment includes written + practical test. Pass to get your Meridians certificate.",
-      "Yes. 1-on-1 sessions for career selection, CV review, and job search strategy are included in advanced programs.",
-      "Same as other courses: Visit campus/call/WhatsApp → choose batch → fill form → submit CNIC copy + photos → pay fee to start.",
+      "85% of job success comes from soft skills. Employers hire people who can communicate, lead, solve problems, and work in teams.",
+      "Communication, public speaking, leadership, confidence building, interview skills, time management, goal setting, teamwork, and English speaking.",
+      "Yes, dedicated modules for verbal, non-verbal, written, and presentation skills with daily speaking practice.",
+      "Yes, you'll learn stage confidence, speech writing, voice control, and body language through live practice sessions.",
+      "Yes, our personality development program covers grooming, etiquette, confidence, attitude building, and personal branding.",
+      "Yes, learn team management, decision-making, problem-solving, and how to motivate others.",
+      "Yes, every class includes confidence activities like role-plays, debates, presentations, and positive mindset training.",
+      "Yes, we cover CV making, common Q&A, mock interviews, dress code, and handling stress in interviews.",
+      "Yes, basic to advanced spoken English with grammar, vocabulary, fluency drills, and conversation practice.",
+      "Yes, we start from basics. No prior experience needed.",
+      "Yes, weekly group discussions on age-appropriate topics, current affairs, and classroom subjects.",
+      "Yes, role-play activities including classroom presentations, teamwork scenarios, and real-life situations.",
+      "Yes, Meridians certificate is provided after completing the course and passing assessment.",
+      "Course duration 2 months to 6 months depending on course title.",
+      "No, students, job seekers, professionals, and housewives can all join.",
+      "Yes, evening and weekend batches are designed for working professionals.",
+      "Yes, customized soft skills training for companies and offices.",
+      "Yes, 70% of class time is practical: speeches, GDs, presentations, games, and real-life tasks.",
+      "Yes, trainers have 5+ years experience in corporate training, HR, and communication.",
+      "Yes, personal coaching is available for interview prep and public speaking at extra cost.",
+      "Yes, learn priority setting, avoiding procrastination, daily planning, and work-life balance.",
+      "Yes, we use SMART goals method and vision boards for personal and professional goals.",
+      "Yes, every course includes motivational talks, success stories, and mindset training.",
+      "Yes, through group projects, team games, and collaboration activities.",
+      "Yes, confidence check on day 1 and at course end to track improvement with scores and feedback.",
+      "Yes, dedicated stage with mic, podium, and audience setup for weekly speech practice.",
+      "Yes, you'll prepare and deliver 4–6 presentations during the course.",
+      "Yes, neutral accent and pronunciation training is included in English speaking modules.",
+      "Yes, step-by-step fear removal through breathing techniques, small group talks, then stage practice.",
+      "Yes, classes are 70% activities: debates, games, role-plays, discussions, and peer feedback.",
+      "Yes, after every speech/GD, trainers give 1-on-1 feedback on strengths and areas to improve.",
+      "Yes, live Zoom classes with same activities, recordings, and personal feedback.",
+      "Yes, special batches for ages 14–19 focused on confidence, career, and exam interview skills.",
+      "Yes, separate female-only batches with female trainers available.",
+      "Yes, modules on self-awareness, empathy, handling stress, and managing relationships.",
+      "Yes, workplace, interview, and social situations used for role-plays.",
+      "Yes, final assessment includes written and practical test. Pass to get Meridians certificate.",
+      "Yes, 1-on-1 sessions for career selection, CV review, and job search strategy in advanced programs.",
+      "Visit campus/call/WhatsApp → choose batch → fill form → submit CNIC copy and photos → pay fee to start.",
     ],
   },
   {
-    id: 5,
-    label: "5. Admissions & Fees",
+    id: 4,
+    label: "Admissions & Fees",
     icon: "💰",
-    headerBg: "bg-yellow-600",
-    viewAllColor: "text-yellow-600",
+    color: "#ca8a04",
     total: 30,
-    ellipsisAfter: 4,
     questions: [
       "141. How can I apply for admission?",
       "142. What documents are required?",
@@ -1224,46 +1213,44 @@ const categories = [
       "170. How long does admission process take?",
     ],
     answers: [
-      "Online via website/WhatsApp or offline at campus. Form takes 5 mins. Our counselor will guide you.",
-      "CNIC/B-Form copy, 2 passport-size photos, and last academic certificate copy. Original CNIC for verification only.",
-      "Yes. One-time registration fee is charged at admission. It's separate from monthly course fee.",
+      "Online via website/WhatsApp or offline at campus. Form takes 5 mins.",
+      "CNIC/B-Form copy, 2 passport-size photos, and last academic certificate copy.",
+      "Yes, one-time registration fee is charged at admission.",
       "For fee details contact: 03214712207.",
-      "Yes. You can pay course fee in 2–3 installments. First installment at admission.",
-      "Yes. Early bird discount, group discount, and seasonal offers. Ask our counselor for current promotions.",
-      "For discount details contact: 03214712207",
-      "Fee is non-refundable after classes start. If you cancel before batch starts, 80% is refunded after deducting admin charges.",
+      "Yes, pay course fee in 2–3 installments. First installment at admission.",
+      "Yes, early bird discount, group discount, and seasonal offers available.",
+      "For discount details contact: 03214712207.",
+      "Fee is non-refundable after classes start. Cancel before batch starts for 80% refund.",
       "Cash, bank transfer, JazzCash, EasyPaisa, and debit/credit card at campus.",
-      "Yes. Merit-based scholarships for position holders and need-based aid for deserving students after interview.",
-      "No. Notes, handouts, and practice sheets are included in fee. Books if needed are charged separately.",
-      "No. We have 100% transparent fees. Only admission + monthly fee. No hidden costs.",
-      "Yes. Bank transfer, JazzCash, and EasyPaisa details are shared after form submission.",
-      "For this issue you can contact admin office immediately.",
-      "Yes. If you want more details, then you can visit our main office: Bhatta Chowk, Bedian Road, near GO Petrol Pump. Or contact: 03214712207.",
-      "If you have a proper solid reason for switching courses, then visit our office physically and provide details for the change. Within the 3 days, course switches are allowed with fee adjustment. After 3 days, transfer charges may apply.",
-      "Yes. Computer + Soft Skills combo has 20% discount vs separate enrollment.",
-      "Yes. New batches start every month. You can join anytime without waiting for semester.",
-      "Yes. 15–20 students per batch for personal attention. Seats filled first-come, first-served.",
-      "Yes. Enroll 10 days before batch starts and get 10% off on first month fee.",
-      "Yes. Online classes available worldwide. For campus, you'll need valid visa documentation.",
-      "Yes. 3+ friends joining together get 15% discount each.",
-      "Yes. Without registration + fee, seat is not confirmed.",
-      "Yes. Computerized receipt given for every payment for your record.",
-      "Yes. You can transfer to another person before classes start with Rs. 500 admin fee.",
-      "No refund after 1 week of classes. For medical emergencies, fee can be adjusted to next batch.",
-      "Yes. 80%+ marks in last exam = 15% discount. Bring mark sheet.",
-      "If you want to know about late fee policy you can contact the admin office.",
-      "Yes. 1-month freeze allowed for genuine reasons. You can rejoin next batch without extra fee.",
-      "10–15 minutes if you have documents ready. You can start class same day if batch is running.",
+      "Yes, merit-based scholarships for position holders and need-based aid for deserving students.",
+      "No, notes, handouts, and practice sheets are included in fee.",
+      "No, 100% transparent fees. Only admission and monthly fee. No hidden costs.",
+      "Yes, bank transfer, JazzCash, and EasyPaisa details shared after form submission.",
+      "Contact admin office immediately for missed payments.",
+      "Yes, visit main office: Bhatta Chowk, Bedian Road, near GO Petrol Pump. Or call: 03214712207.",
+      "Within 3 days, switches allowed with fee adjustment. After 3 days, transfer charges may apply.",
+      "Yes, Computer and Soft Skills combo has 20% discount vs separate enrollment.",
+      "Yes, new batches start every month. Join anytime without waiting for semester.",
+      "Yes, 15–20 students per batch. Seats filled first-come, first-served.",
+      "Yes, enroll 10 days before batch starts and get 10% off on first month fee.",
+      "Yes, online classes available worldwide. Campus requires valid visa documentation.",
+      "Yes, 3+ friends joining together get 15% discount each.",
+      "Yes, without registration and fee, seat is not confirmed.",
+      "Yes, computerized receipt given for every payment.",
+      "Yes, transfer to another person before classes start with Rs. 500 admin fee.",
+      "No refund after 1 week of classes. Medical emergencies: fee adjusted to next batch.",
+      "Yes, 80%+ marks in last exam = 15% discount. Bring mark sheet.",
+      "Contact the admin office for late fee policy details.",
+      "Yes, 1-month freeze allowed for genuine reasons. Rejoin next batch without extra fee.",
+      "10–15 minutes if documents are ready. You can start class same day if batch is running.",
     ],
   },
   {
-    id: 6,
-    label: "6. Facilities & Environment",
+    id: 5,
+    label: "Facilities & Environment",
     icon: "🏫",
-    headerBg: "bg-purple-700",
-    viewAllColor: "text-purple-700",
+    color: "#7c3aed",
     total: 20,
-    ellipsisAfter: 4,
     questions: [
       "171. Do you have air-conditioned classrooms?",
       "172. Is there a computer lab?",
@@ -1287,36 +1274,34 @@ const categories = [
       "190. Do you provide comfortable seating?",
     ],
     answers: [
-      "Yes. All classrooms are AC for comfort in summer.",
-      "Yes. Modern lab with latest PCs, high-speed internet, and 1:1 computer for each student.",
-      "Yes. Free high-speed Wi-Fi for all students during class hours.",
-      "Yes. Whiteboards, projectors, sound system, and proper lighting in every room.",
-      "Yes. 24/7 CCTV monitoring in all classrooms, labs, and corridors for safety.",
-      "Yes. Separate female staff, security guard, CCTV, and strict entry system ensure safety.",
-      "Yes. Option for separate male/female seating available on request.",
-      "Yes. Daily cleaning + sanitization before each batch.",
-      "Yes. UPS + generator ensure classes run during load shedding.",
-      "Yes. Free bike and car parking space for students.",
-      "Yes. Comfortable AC waiting lounge with seating and water for parents/guardians.",
-      "Yes. Separate, clean washrooms for males/females, cleaned multiple times daily.",
-      "Yes. Projectors, LEDs, speakers, and smart boards used for interactive learning.",
-      "Yes. Most lectures, presentations, and videos are delivered via projector.",
-      "Yes. Filtered water dispensers available on each floor.",
-      "Yes. Small reference library with career, IT, and soft skills books students can use.",
-      "Yes. Students can use empty classrooms for group study after class with permission.",
-      "Yes. Fire extinguishers, first aid box, and emergency exits in the building.",
-      "Yes. Soundproof classrooms away from main road to avoid disturbance.",
-      "Yes. Cushioned chairs and proper desks for long classes.",
+      "Yes, all classrooms are AC for comfort in summer.",
+      "Yes, modern lab with latest PCs, high-speed internet, and 1:1 computer per student.",
+      "Yes, free high-speed Wi-Fi for all students during class hours.",
+      "Yes, whiteboards, projectors, sound system, and proper lighting in every room.",
+      "Yes, 24/7 CCTV monitoring in all classrooms, labs, and corridors.",
+      "Yes, separate female staff, security guard, CCTV, and strict entry system ensure safety.",
+      "Yes, separate male/female seating available on request.",
+      "Yes, daily cleaning and sanitization before each batch.",
+      "Yes, UPS and generator ensure classes run during load shedding.",
+      "Yes, free bike and car parking space for students.",
+      "Yes, comfortable AC waiting lounge with seating and water for parents/guardians.",
+      "Yes, separate clean washrooms for males/females, cleaned multiple times daily.",
+      "Yes, projectors, LEDs, speakers, and smart boards used for interactive learning.",
+      "Yes, most lectures, presentations, and videos are delivered via projector.",
+      "Yes, filtered water dispensers available on each floor.",
+      "Yes, small reference library with career, IT, and soft skills books.",
+      "Yes, students can use empty classrooms for group study after class with permission.",
+      "Yes, fire extinguishers, first aid box, and emergency exits in the building.",
+      "Yes, soundproof classrooms away from main road to avoid disturbance.",
+      "Yes, cushioned chairs and proper desks for long classes.",
     ],
   },
   {
-    id: 7,
-    label: "7. Career & Results",
+    id: 6,
+    label: "Career & Results",
     icon: "🎯",
-    headerBg: "bg-pink-600",
-    viewAllColor: "text-pink-600",
+    color: "#db2777",
     total: 10,
-    ellipsisAfter: 4,
     questions: [
       "191. Do you help students choose careers?",
       "192. What are your student success stories?",
@@ -1330,164 +1315,214 @@ const categories = [
       "200. What opportunities can students expect after completing courses?",
     ],
     answers: [
-      "Yes. Free career counseling session with aptitude test to guide you to the right field.",
+      "Yes, free career counseling session with aptitude test to guide you to the right field.",
       "Our students are now in banks, MNCs, IT companies, and own businesses. Check our social media for video testimonials.",
-      "Yes. We share CVs with partner companies, conduct job fairs, and prep you for interviews. No fake job guarantee.",
-      "Yes. Top students get internships at local companies through our network.",
-      "We teach what companies actually want: communication, MS Office, confidence, and interview skills — not just theory.",
-      "Yes. Special sessions on Fiverr, Upwork, and freelancing skills in IT + content writing courses.",
-      "Yes. Active alumni WhatsApp group for networking, job sharing, and meetups.",
-      "Yes. Top performers get signed recommendation letters for jobs/university applications.",
+      "Yes, we share CVs with partner companies, conduct job fairs, and prep you for interviews.",
+      "Yes, top students get internships at local companies through our network.",
+      "We teach what companies actually want: communication, MS Office, confidence, and interview skills.",
+      "Yes, special sessions on Fiverr, Upwork, and freelancing skills in IT and content writing courses.",
+      "Yes, active alumni WhatsApp group for networking, job sharing, and meetups.",
+      "Yes, top performers get signed recommendation letters for jobs/university applications.",
       "Through assessments, presentation marks, attendance, mock interviews, and final practical test.",
-      "Better jobs, promotions, freelancing income, university admission success, and confidence to start business or speak publicly.",
+      "Better jobs, promotions, freelancing income, university admission success, and confidence to start a business or speak publicly.",
     ],
   },
 ];
 
+const STEP = 10;
+
 /* ─────────────────────────────────────────────
-   CATEGORY CARD COMPONENT - ACCORDION STYLE
+   RESPONSIVE HOOK
 ───────────────────────────────────────────── */
-interface CatCardProps {
-  cat: any;
-  onViewAll: (c: any) => void;
+function useIsMobile(): boolean {
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return isMobile;
 }
 
-function CatCard({ cat, onViewAll }: CatCardProps) {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+/* ─────────────────────────────────────────────
+   TYPES
+───────────────────────────────────────────── */
+interface FAQCardProps {
+  catIdx: number;
+  onCatChange: (newIdx: number) => void;
+}
 
-  const getFullQuestion = (idx: number) => {
-    const q = cat.questions[idx];
-    return q;
+/* ─────────────────────────────────────────────
+   SINGLE CARD COMPONENT
+───────────────────────────────────────────── */
+function FAQCard({ catIdx, onCatChange }: FAQCardProps) {
+  const [visible, setVisible] = useState<number>(STEP);
+  const [openQ, setOpenQ] = useState<number | null>(null);
+
+  const cat = DATA[catIdx];
+  const shown = Math.min(visible, cat.questions.length);
+  const allShown = shown >= cat.questions.length;
+
+  // Reset when category changes
+  const handleCatChange = (newIdx: number) => {
+    setVisible(STEP);
+    setOpenQ(null);
+    onCatChange(newIdx);
   };
 
-  const toggleAnswer = (idx: number) => {
-    setExpandedIndex(expandedIndex === idx ? null : idx);
-  };
+  const toggleQ = (i: number) => setOpenQ(openQ === i ? null : i);
 
   return (
-    <div className="flex flex-col rounded-lg border border-gray-200 overflow-hidden h-full">
-      {/* Header */}
-      <div className={`${cat.headerBg} flex items-center gap-1.5 px-2.5 py-1.5 text-white font-extrabold text-[10px] uppercase tracking-wide`}>
-        <span className="text-[13px]">{cat.icon}</span>
-        <span>{cat.label}</span>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        border: "1px solid #e5e7eb",
+        borderRadius: "10px",
+        overflow: "hidden",
+        height: "100%",
+        background: "#fff",
+      }}
+    >
+      {/* Card Header */}
+      <div
+        style={{
+          background: cat.color,
+          padding: "10px 14px",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          flexShrink: 0,
+        }}
+      >
+        <span style={{ fontSize: "18px" }}>{cat.icon}</span>
+        <span
+          style={{
+            color: "#fff",
+            fontWeight: 600,
+            fontSize: "11.5px",
+            flex: 1,
+            lineHeight: 1.3,
+          }}
+        >
+          {cat.label}
+        </span>
+        <span
+          style={{
+            color: "rgba(255,255,255,0.8)",
+            fontSize: "10px",
+            background: "rgba(0,0,0,0.18)",
+            borderRadius: "20px",
+            padding: "2px 7px",
+            flexShrink: 0,
+          }}
+        >
+          {cat.total} Qs
+        </span>
       </div>
 
-      {/* Body */}
-      <div className="flex-1 bg-white px-2.5 py-1.5">
-        {cat.questions.slice(0, cat.ellipsisAfter).map((_: string, i: number) => (
-          <div key={i} className="border-b border-gray-100">
-            <div
-              className="text-blue-900 text-[10px] py-0.5 leading-snug flex items-center justify-between gap-1 cursor-pointer hover:text-blue-600 transition-colors"
-              onClick={() => toggleAnswer(i)}
+      {/* Questions List */}
+      <div style={{ flex: 1, overflowY: "auto", padding: "4px 10px" }}>
+        {cat.questions.slice(0, shown).map((q, i) => (
+          <div
+            key={i}
+            style={{ borderBottom: "1px solid #f3f4f6" }}
+          >
+            <button
+              onClick={() => toggleQ(i)}
+              style={{
+                width: "100%",
+                background: "none",
+                border: "none",
+                textAlign: "left",
+                padding: "8px 2px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "flex-start",
+                gap: "6px",
+              }}
             >
-              <span className="flex-1">{getFullQuestion(i)}</span>
-              <span className="text-gray-400 text-[8px]">
-                {expandedIndex === i ? "▲" : "▼"}
+              <span
+                style={{
+                  fontSize: "11px",
+                  color: openQ === i ? cat.color : "#1e293b",
+                  flex: 1,
+                  lineHeight: 1.45,
+                  fontWeight: openQ === i ? 500 : 400,
+                }}
+              >
+                {q}
               </span>
-            </div>
-            {expandedIndex === i && (
-              <div className="text-gray-600 text-[9px] p-2 bg-gray-50 rounded mb-1 leading-relaxed">
+              <span
+                style={{
+                  fontSize: "9px",
+                  color: "#9ca3af",
+                  marginTop: "2px",
+                  flexShrink: 0,
+                  transform: openQ === i ? "rotate(180deg)" : "rotate(0deg)",
+                  transition: "transform 0.18s",
+                  display: "inline-block",
+                }}
+              >
+                ▼
+              </span>
+            </button>
+            {openQ === i && (
+              <div
+                style={{
+                  fontSize: "10.5px",
+                  color: "#475569",
+                  lineHeight: 1.65,
+                  padding: "0 2px 10px 2px",
+                  borderLeft: `3px solid ${cat.color}`,
+                  paddingLeft: "10px",
+                  marginBottom: "4px",
+                  background: "#f8fafc",
+                  borderRadius: "0 6px 6px 0",
+                }}
+              >
                 {cat.answers[i]}
               </div>
             )}
           </div>
         ))}
-        {cat.questions.slice(cat.ellipsisAfter).map((_: string, i: number) => {
-          const actualIndex = i + cat.ellipsisAfter;
-          return (
-            <div key={actualIndex} className="border-b border-gray-100">
-              <div
-                className="text-blue-900 text-[10px] py-0.5 leading-snug flex items-center justify-between gap-1 cursor-pointer hover:text-blue-600 transition-colors"
-                onClick={() => toggleAnswer(actualIndex)}
-              >
-                <span className="flex-1">{getFullQuestion(actualIndex)}</span>
-                <span className="text-gray-400 text-[8px]">
-                  {expandedIndex === actualIndex ? "▲" : "▼"}
-                </span>
-              </div>
-              {expandedIndex === actualIndex && (
-                <div className="text-gray-600 text-[9px] p-2 bg-gray-50 rounded mb-1 leading-relaxed">
-                  {cat.answers[actualIndex]}
-                </div>
-              )}
-            </div>
-          );
-        })}
       </div>
 
-      {/* View All Button */}
-      <button
-        onClick={() => onViewAll(cat)}
-        className={`w-full flex items-center justify-center gap-1 text-[10px] font-bold py-1.5 border-t border-gray-200 bg-white hover:bg-gray-50 transition-colors ${cat.viewAllColor}`}
-      >
-        View all {cat.total} questions <span>›</span>
-      </button>
-    </div>
-  );
-}
-
-/* ─────────────────────────────────────────────
-   FULL QUESTIONS MODAL (View All)
-───────────────────────────────────────────── */
-function FullQuestionsModal({ cat, onClose }: { cat: any; onClose: () => void }) {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-
-  const getFullQuestion = (idx: number) => {
-    const q = cat.questions[idx];
-    return q;
-  };
-
-  const toggleAnswer = (idx: number) => {
-    setExpandedIndex(expandedIndex === idx ? null : idx);
-  };
-
-  if (!cat) return null;
-
-  return (
-    <div
-      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
-      onClick={onClose}
-    >
+      {/* Footer: Load More */}
       <div
-        className="bg-white rounded-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto p-5 shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
+        style={{
+          borderTop: "1px solid #e5e7eb",
+          padding: "8px 10px",
+          flexShrink: 0,
+          textAlign: "center",
+        }}
       >
-        {/* Modal Header */}
-        <div className="flex items-center justify-between mb-4 pb-2 border-b border-gray-200 sticky top-0 bg-white">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">{cat.icon}</span>
-            <span className={`font-extrabold text-sm ${cat.viewAllColor}`}>{cat.label}</span>
-          </div>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-700 text-lg font-bold leading-none">
-            ✕
-          </button>
-        </div>
-
-        {/* Questions List with Up/Down Arrows */}
-        <div className="flex flex-col gap-2">
-          {cat.questions.map((_: string, i: number) => (
-            <div key={i} className="border border-gray-200 rounded-lg overflow-hidden">
-              <div
-                onClick={() => toggleAnswer(i)}
-                className={`flex items-center justify-between px-3 py-2 text-[12px] font-semibold cursor-pointer transition-colors ${
-                  expandedIndex === i
-                    ? `${cat.headerBg} text-white`
-                    : "bg-gray-50 text-blue-900 hover:bg-blue-50"
-                }`}
-              >
-                <span className="pr-2">{getFullQuestion(i)}</span>
-                <span className="ml-2 shrink-0 text-xs font-bold">
-                  {expandedIndex === i ? "▲" : "▼"}
-                </span>
-              </div>
-              {expandedIndex === i && (
-                <div className="px-3 py-3 text-[12px] text-gray-700 leading-relaxed bg-white border-t border-gray-100">
-                  {cat.answers[i]}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+        <button
+          onClick={() => {
+            if (!allShown) {
+              setVisible((v) => v + STEP);
+              setOpenQ(null);
+            }
+          }}
+          disabled={allShown}
+          style={{
+            width: "100%",
+            background: "none",
+            border: `1px solid ${allShown ? "#e5e7eb" : cat.color}`,
+            borderRadius: "6px",
+            padding: "5px 12px",
+            fontSize: "10.5px",
+            cursor: allShown ? "default" : "pointer",
+            color: allShown ? "#9ca3af" : cat.color,
+            fontWeight: 500,
+            transition: "all 0.12s",
+          }}
+        >
+          {allShown
+            ? "✓ All questions shown"
+            : `Load 10 more (${shown}/${cat.questions.length})`}
+        </button>
       </div>
     </div>
   );
@@ -1496,57 +1531,260 @@ function FullQuestionsModal({ cat, onClose }: { cat: any; onClose: () => void })
 /* ─────────────────────────────────────────────
    MAIN PAGE COMPONENT
 ───────────────────────────────────────────── */
-export default function MeridiansChatbotPage() {
-  const [fullModal, setFullModal] = useState<{ cat: any } | null>(null);
+export default function MeridiansFAQPage() {
+  const isMobile = useIsMobile();
 
-  const openFullModal = (cat: any) => setFullModal({ cat });
-  const closeFullModal = () => setFullModal(null);
+  // Desktop: 3 card slots
+  const [cards, setCards] = useState<number[]>([0, 1, 2]);
+  const [activeSlot, setActiveSlot] = useState<number>(0);
 
-  const row1 = categories.slice(0, 3);
-  const row2 = categories.slice(3, 6);
-  const career = categories[6];
+  // Mobile: single selected topic
+  const [mobileCat, setMobileCat] = useState<number>(0);
 
+  const handleSidebarClick = (catIdx: number) => {
+    setCards((prev) => {
+      const updated = [...prev];
+      updated[activeSlot] = catIdx;
+      return updated;
+    });
+    setActiveSlot((s) => (s + 1) % 3);
+  };
+
+  const handleCardCatChange = (slotIdx: number, catIdx: number) => {
+    setCards((prev) => {
+      const updated = [...prev];
+      updated[slotIdx] = catIdx;
+      return updated;
+    });
+  };
+
+  /* ════════════════════════════════════════════
+     MOBILE LAYOUT
+     - Top: horizontal scrollable topic pills
+     - Below: single FAQCard for selected topic
+  ════════════════════════════════════════════ */
+  if (isMobile) {
+    return (
+      <div
+        style={{
+          fontFamily: "system-ui, -apple-system, sans-serif",
+          background: "#f8fafc",
+          minHeight: "100vh",
+        }}
+      >
+        {/* ── Topic Pills Strip ── */}
+        <div
+          style={{
+            background: "#fff",
+            borderBottom: "1px solid #e2e8f0",
+            position: "sticky",
+            top: 0,
+            zIndex: 20,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              gap: "8px",
+              overflowX: "auto",
+              padding: "10px 12px",
+              /* hide scrollbar */
+              msOverflowStyle: "none" as React.CSSProperties["msOverflowStyle"],
+              scrollbarWidth: "none" as React.CSSProperties["scrollbarWidth"],
+            }}
+          >
+            {DATA.map((cat) => {
+              const isActive = mobileCat === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setMobileCat(cat.id)}
+                  style={{
+                    flexShrink: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "5px",
+                    padding: "6px 12px",
+                    borderRadius: "20px",
+                    border: isActive
+                      ? `2px solid ${cat.color}`
+                      : "1.5px solid #e2e8f0",
+                    background: isActive ? cat.color : "#fff",
+                    cursor: "pointer",
+                    transition: "all 0.15s",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  <span style={{ fontSize: "13px" }}>{cat.icon}</span>
+                  <span
+                    style={{
+                      fontSize: "11.5px",
+                      fontWeight: isActive ? 600 : 400,
+                      color: isActive ? "#fff" : "#334155",
+                    }}
+                  >
+                    {cat.label}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: "9px",
+                      color: isActive ? "rgba(255,255,255,0.85)" : "#94a3b8",
+                      background: isActive ? "rgba(0,0,0,0.15)" : "#f1f5f9",
+                      borderRadius: "20px",
+                      padding: "1px 6px",
+                    }}
+                  >
+                    {cat.total}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── Single Card ── */}
+        <div style={{ padding: "12px" }}>
+          <FAQCard
+            key={`mobile-${mobileCat}`}
+            catIdx={mobileCat}
+            onCatChange={(newCatIdx: number) => setMobileCat(newCatIdx)}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  /* ════════════════════════════════════════════
+     DESKTOP LAYOUT
+     - Left: sidebar with topic list
+     - Right: 3 cards side by side
+  ════════════════════════════════════════════ */
   return (
-    <div className="font-sans">
-      {/* Content */}
-      <div className="bg-white rounded-lg overflow-hidden">
-        <div className="p-10 ">
-          {/* Row 1 — 3 columns with gap */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-6">
-            {row1.map((cat) => (
-              <CatCard
-                key={cat.id}
-                cat={cat}
-                onViewAll={(c) => openFullModal(c)}
-              />
-            ))}
-          </div>
+    <div
+      style={{
+        display: "flex",
+        height: "600px",
+        border: "1px solid #e5e7eb",
+        borderRadius: "12px",
+        overflow: "hidden",
+        background: "#f8fafc",
+        fontFamily: "system-ui, -apple-system, sans-serif",
+      }}
+    >
+      {/* ── SIDEBAR ── */}
+      <div
+        style={{
+          width: "210px",
+          minWidth: "170px",
+          background: "#f1f5f9",
+          borderRight: "1px solid #e2e8f0",
+          display: "flex",
+          flexDirection: "column",
+          overflowY: "auto",
+          flexShrink: 0,
+        }}
+      >
+        <div
+          style={{
+            padding: "12px 14px 8px",
+            fontSize: "10px",
+            fontWeight: 600,
+            color: "#64748b",
+            letterSpacing: "0.07em",
+            textTransform: "uppercase",
+            borderBottom: "1px solid #e2e8f0",
+          }}
+        >
+          Topics
+        </div>
 
-          {/* Row 2 — 3 columns with gap */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-6">
-            {row2.map((cat) => (
-              <CatCard
-                key={cat.id}
-                cat={cat}
-                onViewAll={(c) => openFullModal(c)}
-              />
-            ))}
-          </div>
+        {DATA.map((cat) => {
+          const isActive = cards.includes(cat.id);
+          return (
+            <button
+              key={cat.id}
+              onClick={() => handleSidebarClick(cat.id)}
+              style={{
+                width: "100%",
+                textAlign: "left",
+                background: isActive ? "#fff" : "none",
+                border: "none",
+                borderBottom: "1px solid #e2e8f0",
+                borderLeft: isActive
+                  ? `3px solid ${cat.color}`
+                  : "3px solid transparent",
+                padding: isActive ? "9px 12px 9px 9px" : "9px 12px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                transition: "all 0.12s",
+              }}
+            >
+              <span style={{ fontSize: "15px", flexShrink: 0 }}>{cat.icon}</span>
+              <span
+                style={{
+                  fontSize: "11px",
+                  color: isActive ? cat.color : "#334155",
+                  lineHeight: 1.35,
+                  flex: 1,
+                  fontWeight: isActive ? 600 : 400,
+                }}
+              >
+                {cat.label}
+              </span>
+              <span
+                style={{
+                  fontSize: "9px",
+                  color: "#94a3b8",
+                  background: "#e2e8f0",
+                  borderRadius: "20px",
+                  padding: "1px 6px",
+                  flexShrink: 0,
+                }}
+              >
+                {cat.total}
+              </span>
+            </button>
+          );
+        })}
 
-          {/* Row 3 — Career card only (full width but same design) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-6">
-            <CatCard
-              cat={career}
-              onViewAll={(c) => openFullModal(c)}
-            />
-          </div>
+        <div
+          style={{
+            padding: "10px 12px",
+            fontSize: "9.5px",
+            color: "#94a3b8",
+            lineHeight: 1.5,
+            marginTop: "auto",
+            borderTop: "1px solid #e2e8f0",
+          }}
+        >
+          Click a topic to update a card (cycles 1→2→3)
         </div>
       </div>
 
-      {/* Full Questions Modal (only for View All button) */}
-      {fullModal && (
-        <FullQuestionsModal cat={fullModal.cat} onClose={closeFullModal} />
-      )}
+      {/* ── 3 CARDS ── */}
+      <div
+        style={{
+          flex: 1,
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "12px",
+          padding: "12px",
+          overflow: "hidden",
+          minWidth: 0,
+        }}
+      >
+        {cards.map((catIdx: number, slotIdx: number) => (
+          <FAQCard
+            key={`slot-${slotIdx}-${catIdx}`}
+            catIdx={catIdx}
+            onCatChange={(newCatIdx: number) =>
+              handleCardCatChange(slotIdx, newCatIdx)
+            }
+          />
+        ))}
+      </div>
     </div>
   );
 }
