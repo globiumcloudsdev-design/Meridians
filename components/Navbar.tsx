@@ -33,7 +33,8 @@ export function Navbar() {
     pathname === "/admission-form" ||
     pathname === "/admissions" ||
     pathname === "/contact" || 
-    pathname === "/faq"
+    pathname === "/faq" ||
+    pathname === "/online-quran"
 
   const navItems = [
     { label: "Home", href: "/" },
@@ -50,6 +51,7 @@ export function Navbar() {
       ],
     },
     { label: "Admissions", href: "/admissions" },
+    { label: "Online Quran", href: "/online-quran" },
     // { label: "Faq", href: "/faq" },
     { label: "Contact Us", href: "/contact" },
   ];

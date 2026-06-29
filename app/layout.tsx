@@ -15,24 +15,6 @@ export const metadata: Metadata = {
   description:
     "Meridian's Group of Education - Premier educational institution committed to excellence, innovation, and student success. Explore our programs, admissions, and resources.",
   keywords: ["education", "school", "admissions", "learning", "programs"],
-  generator: "v0.app",
-  icons: {
-    icon: [
-      {
-        url: "/favicon.ico",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/favicon.ico",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
-      },
-    ],
-    apple: "/apple-icon.png",
-  },
 };
 
 export default function RootLayout({
