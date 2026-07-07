@@ -43,8 +43,13 @@ const coreCourses = [
     icon: <BookOpen className="w-6 h-6 text-primary group-hover:text-white transition-colors" />,
   },
   {
-    title: "مختصر فہم کورس",
-    description: "بنیادی تجوید، مختصر ترجمہ و تفسیر، منتخب احادیث، بنیادی مسائل، مختصر سیرت",
+    title: "Short Fahm-e-Deen Course",
+    description: "Basic Tajweed, brief Translation & Tafseer, selected Ahadith, basic rulings (Masail), and short Seerah.",
+    icon: <BookOpen className="w-6 h-6 text-primary group-hover:text-white transition-colors" />,
+  },
+  {
+    title: "Namaz Course",
+    description: "Learn the complete method of Namaz (Salah), covering all basic rules, problems, and essential Duas.",
     icon: <BookOpen className="w-6 h-6 text-primary group-hover:text-white transition-colors" />,
   }
 ];
