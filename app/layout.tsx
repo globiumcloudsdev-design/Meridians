@@ -24,13 +24,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-sans antialiased overflow-x-hidden" suppressHydrationWarning>
-        <UserProvider>
-          <PageLoader />
-          {children}
-          <Toaster position="top-right" richColors />
-        </UserProvider>
-        <Analytics />
+      <body className="font-sans antialiased overflow-x-hidden w-full" suppressHydrationWarning>
+        <div className="w-full">
+          <UserProvider>
+            <PageLoader />
+            {children}
+            <Toaster position="top-right" richColors />
+          </UserProvider>
+          <Analytics />
+        </div>
       </body>
     </html>
   );

@@ -30,7 +30,7 @@ export function FinalCTA({
       <div className="absolute inset-0 bg-primary z-0">
         <div className="absolute top-0 right-0 w-[50%] h-full bg-white/5 skew-x-[-20deg] translate-x-[20%]" />
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="bg-white/10 backdrop-blur-md rounded-[3rem] p-8 md:p-20 border border-white/20 text-center text-white">
           <h2 className="text-4xl md:text-6xl font-black mb-8 tracking-tight">
             {title} <br />

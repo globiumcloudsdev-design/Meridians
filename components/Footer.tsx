@@ -11,7 +11,8 @@ import {
   Linkedin,
   Twitter,
   Instagram,
-  YoutubeIcon,
+  Youtube,
+  MessageCircle,
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -63,7 +64,7 @@ export function Footer() {
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-secondary/5 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
           {/* Brand section */}
           <div className="space-y-10">
@@ -76,18 +77,19 @@ export function Footer() {
             </p>
             <div className="flex gap-4">
               {[
-                { icon: Facebook, href: "https://www.facebook.com/p/Meridians-Group-Of-Education-100095628877699/" },
-                { icon: Instagram, href: "https://www.instagram.com/meridiansgroupofeducation?fbclid=IwY2xjawQ4g5BleHRuA2FlbQIxMABicmlkETFSZDl6NFlzMjVnbkFjUVhHc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHsloEWwEW3_psm30P4ECMHbJ9O6LuHnTsUWYyv46PHJGmJ5xkym-jf1ud8eV_aem_knxBwc3v2ZC5FEgPA__n1w" },
-                { icon: YoutubeIcon, href:  "https://www.youtube.com/@Meridian.Academy"},
-                // { icon: Twitter, href: "#" },
-                // { icon: Linkedin, href: "#" },
+                { icon: Facebook, href: "https://www.facebook.com/p/Meridians-Group-Of-Education-100095628877699/", color: "hover:bg-[#1877F2]" },
+                { icon: Instagram, href: "https://www.instagram.com/meridiansgroupofeducation?fbclid=IwY2xjawQ4g5BleHRuA2FlbQIxMABicmlkETFSZDl6NFlzMjVnbkFjUVhHc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHsloEWwEW3_psm30P4ECMHbJ9O6LuHnTsUWYyv46PHJGmJ5xkym-jf1ud8eV_aem_knxBwc3v2ZC5FEgPA__n1w", color: "hover:bg-gradient-to-tr hover:from-[#F58529] hover:via-[#DD2A7B] hover:to-[#8134AF]" },
+                { icon: Youtube, href: "https://www.youtube.com/@meridiansgroupofeducation6030", color: "hover:bg-[#FF0000]" },
+                { icon: Twitter, href: "#", color: "hover:bg-[#1DA1F2]" },
+                { icon: Linkedin, href: "#", color: "hover:bg-[#0A66C2]" },
+                { icon: MessageCircle, href: "https://wa.me/923033569000", color: "hover:bg-[#25D366]" },
               ].map((social, i) => (
                 <a
                   key={i}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center hover:bg-primary hover:text-white hover:-translate-y-1 transition-all duration-300 border border-white/10"
+                  className={`w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center ${social.color} hover:text-white hover:-translate-y-1 transition-all duration-300 border border-white/10`}
                 >
                   <social.icon className="w-5 h-5" />
                 </a>
@@ -101,16 +103,24 @@ export function Footer() {
               Navigation
             </h4>
             <ul className="space-y-4">
-              {["Home", "About", "Programs", "Blog", "Library", "Video", "Faq" ,"Contact" ].map((item) => (
-                <li key={item}>
+              {[
+                { label: "Home", href: "/" },
+                { label: "About", href: "/about" },
+                { label: "Programs", href: "/programs" },
+                { label: "Blog", href: "/blog" },
+                { label: "Library", href: "/library" },
+                { label: "Video", href: "/video" },
+                { label: "Online Quran", href: "/online-quran" },
+                { label: "Faq", href: "/faq" },
+                { label: "Contact", href: "/contact" },
+              ].map((item) => (
+                <li key={item.label}>
                   <Link
-                    href={`/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`}
-                    // target="_blank"
-                    // rel="noopener noreferrer"
+                    href={item.href}
                     className="text-white/60 hover:text-primary transition-colors text-lg font-medium flex items-center gap-3 group"
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary group-hover:scale-150 transition-all" />
-                    {item}
+                    {item.label}
                   </Link>
                 </li>
               ))}

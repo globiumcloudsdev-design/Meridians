@@ -33,7 +33,7 @@ const leadershipMessages = [
 export function LeadershipMessages() {
   return (
     <section className="py-24 bg-muted/20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           title="Messages"
           titleAccent="From Leadership"

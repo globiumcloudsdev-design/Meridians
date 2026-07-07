@@ -68,7 +68,7 @@ export default function About() {
       image: getImageSrc(aboutAssets["Our Inspirations"][2]),
     },
     {
-      name: "Hafiz Taseen Sab",
+      name: "Hafiz Taseen",
       role: "Principal of heir Campus",
       color: "secondary",
       icon: Heart,
@@ -82,7 +82,7 @@ export default function About() {
       image: getImageSrc(aboutAssets["Our Inspirations"][5]),
     },
     {
-      name: "SULEMAN Sab",
+      name: "SULEMAN",
       role: "Coordinator of boys campus",
       color: "info",
       icon: BookOpen,
@@ -132,7 +132,7 @@ export default function About() {
 
       {/* Mission & Vision - The "Purpose" Section */}
       <section className="py-24 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <AnimatedSection direction="left">
               <div className="space-y-12">
@@ -154,7 +154,7 @@ export default function About() {
                     {
                       icon: Eye,
                       title: "Our Vision",
-                      desc: "Meridian's Science School is an institution which makes sure that each and every student can get equal attention. I have been educated, encouraged and most importantly challenged during my time at meridians. I am grateful for the endless efforts of our experienced instructors, dedicated administration, and my very capable fellows.",
+                      desc: "At Meridian Group of Education System, we firmly believe that education is a fundamental right and that every child possesses the ability to succeed. Our mission is not only to help students achieve academic excellence but also to nurture them into confident, responsible, and capable individuals.\n\nWe are committed to providing a holistic learning environment where students are guided to develop intellectually, socially, physically, and spiritually. Through a balanced and forward-thinking approach, we prepare our learners to meet the challenges of the 21st century with confidence and competence.\n\nAt Meridian, we shape future leaders who are equipped to contribute positively to society, serve their nation with integrity, and remain deeply connected to their moral and religious values.",
                       color: "secondary",
                     },
                     {
@@ -191,7 +191,7 @@ export default function About() {
                         }`}>
                           {item.title}
                         </h3>
-                        <p className="text-muted-foreground leading-relaxed">
+                        <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
                           {item.desc}
                         </p>
                       </div>
@@ -216,7 +216,7 @@ export default function About() {
                       Chairman
                     </p>
                     <p className="text-xl font-black tracking-tight text-foreground">
-                      Asad Siddique Sab
+                      Asad Siddique 
                     </p>
                   </div>
                 </div>
@@ -229,7 +229,7 @@ export default function About() {
                     </div>
                     <div>
                       <p className="text-4xl font-black text-foreground tracking-tighter">
-                        15+
+                        20+
                       </p>
                       <p className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">
                         Years Legacy
@@ -245,7 +245,7 @@ export default function About() {
 
       {/* Why Choose Us - Organized Icons */}
       <section className="py-24 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
             title="Why Choose"
             titleAccent="Meridians?"
@@ -301,7 +301,7 @@ export default function About() {
 
       {/* Facilities */}
       <section className="py-24 bg-muted/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
             title="Our"
             titleAccent="Facilities"
@@ -392,7 +392,7 @@ export default function About() {
 
       {/* Journey & Milestones */}
       <section className="py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-foreground rounded-[3rem] p-12 md:p-20 relative overflow-hidden">
             {/* Background elements */}
             <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[100px] -mr-32 -mt-32" />
@@ -458,7 +458,7 @@ export default function About() {
 
       {/* Faculty - Premium Grid */}
       <section className="py-24 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <SectionHeader
               title="Our"

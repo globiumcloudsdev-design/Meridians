@@ -105,7 +105,7 @@ export default function OnlineQuranPage() {
 
       {/* Features Section */}
       <AnimatedSection direction="up" className="py-20 bg-background relative z-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-black mb-4 tracking-tight">Why <span className="text-primary italic">Choose Us?</span></h2>
             <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
@@ -134,7 +134,7 @@ export default function OnlineQuranPage() {
 
       {/* Courses Section */}
       <AnimatedSection direction="up" className="py-20 bg-muted/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-[0.2em] mb-4">
               Course Outlines

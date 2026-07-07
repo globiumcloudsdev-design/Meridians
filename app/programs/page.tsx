@@ -31,6 +31,7 @@ import {
   Heart,
   Music,
   Briefcase,
+  PenTool,
 } from "lucide-react";
 import { SectionHeader } from "@/components/SectionHeader";
 import { FinalCTA } from "@/components/FinalCTA";
@@ -207,6 +208,13 @@ const additionalPrograms = [
     description:
       "Practical skill-building programs designed to strengthen confidence and readiness for future careers.",
   },
+  {
+    title: "Paper Presentation & Handwriting",
+    subtitle: "English + Urdu Writing",
+    icon: PenTool,
+    description:
+      "Specialized courses to improve handwriting and learn effective paper presentation techniques for both English and Urdu.",
+  },
 ];
 
 export default function Programs() {
@@ -225,7 +233,7 @@ export default function Programs() {
 
       {/* Programs Overview */}
       <AnimatedSection direction="right" className="py-20 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
             title="Learning Path"
             titleAccent="By Stage"
@@ -347,7 +355,7 @@ export default function Programs() {
 
       {/* Additional Programs */}
       <AnimatedSection direction="up" className="py-20 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
             title="Additional Programs &"
             titleAccent="Skill Development Courses"
@@ -386,14 +394,14 @@ export default function Programs() {
           </div>
 
           <p className="mt-10 text-center text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-            We also offer Computer Courses, Language Courses, Entry Test Preparation, and Skill Development Programs to support students beyond academics and help them succeed in their academic and professional journey.
+            We also offer Computer Courses, Language Courses, Entry Test Preparation, Skill Development Programs, and Handwriting Courses to support students beyond academics and help them succeed in their academic and professional journey.
           </p>
         </div>
       </AnimatedSection>
 
       {/* Curriculum Highlights */}
       <AnimatedSection direction="left" className="py-20 bg-muted/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
             title="What Makes Our"
             titleAccent="Curriculum"

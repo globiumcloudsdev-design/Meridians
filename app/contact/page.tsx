@@ -23,6 +23,7 @@ import {
   Send,
   User,
   MessageSquare,
+  MessageCircle,
   Share2,
   ArrowRight,
 } from "lucide-react";
@@ -100,7 +101,7 @@ export default function Contact() {
         <div className="absolute top-1/4 -right-20 w-80 h-80 bg-primary/10 rounded-full blur-[100px] -z-10" />
         <div className="absolute bottom-1/4 -left-20 w-80 h-80 bg-secondary/10 rounded-full blur-[100px] -z-10" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             {/* Left Column: Contact Info & Support */}
             <div className="lg:col-span-4 space-y-8">
@@ -345,16 +346,13 @@ export default function Contact() {
                       {
                         icon: Instagram,
                         color:
-                          "hover:bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF]",
+                          "hover:bg-gradient-to-tr hover:from-[#F58529] hover:via-[#DD2A7B] hover:to-[#8134AF]",
                         link: "https://www.instagram.com/meridiansgroupofeducation?fbclid=IwY2xjawQ4g5BleHRuA2FlbQIxMABicmlkETFSZDl6NFlzMjVnbkFjUVhHc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHsloEWwEW3_psm30P4ECMHbJ9O6LuHnTsUWYyv46PHJGmJ5xkym-jf1ud8eV_aem_knxBwc3v2ZC5FEgPA__n1w",
                       },
-                      // { icon: Twitter, color: "hover:bg-[#1DA1F2]", link: "#" },
-                      // {
-                      //   icon: Linkedin,
-                      //   color: "hover:bg-[#0077B5]",
-                      //   link: "#",
-                      // },
-                      // { icon: Youtube, color: "hover:bg-[#FF0000]", link: "#" },
+                      { icon: Youtube, color: "hover:bg-[#FF0000]", link: "https://www.youtube.com/@meridiansgroupofeducation6030" },
+                      { icon: Twitter, color: "hover:bg-[#1DA1F2]", link: "#" },
+                      { icon: Linkedin, color: "hover:bg-[#0A66C2]", link: "#" },
+                      { icon: MessageCircle, color: "hover:bg-[#25D366]", link: "https://wa.me/923033569000" },
                     ].map((Social, idx) => (
                       <a
                         key={idx}

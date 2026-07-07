@@ -48,7 +48,7 @@ export function PageHero({
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent" />
       </motion.div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div className="relative z-10  mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="max-w-3xl">
           <AnimatedSection direction="left">
             <motion.div

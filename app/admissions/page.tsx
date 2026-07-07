@@ -85,7 +85,7 @@ export default function Admissions() {
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -z-10" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-[120px] -z-10" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             {/* Eligibility Criteria */}
             <AnimatedSection direction="left">
@@ -201,7 +201,7 @@ export default function Admissions() {
 
       {/* Modern Horizontal Timeline for Dates */}
       <section className="py-24 bg-muted/30 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-black tracking-tight mb-4">
               Timeline for{" "}
@@ -268,7 +268,7 @@ export default function Admissions() {
 
       {/* Final Action Section */}
       <section className="py-24 bg-background relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <AnimatedSection direction="left">
               <div className="p-10 rounded-[40px] bg-slate-900 text-white relative h-full overflow-hidden">

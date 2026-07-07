@@ -382,7 +382,7 @@
 
 
 
-//         <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center pt-32 pb-20 md:py-0">
+//         <div className="relative z-20 w-full  mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center pt-32 pb-20 md:py-0">
 
 //           <div className="max-w-4xl">
 
@@ -810,7 +810,7 @@
 
 //   <div className="relative z-30 mt-20 px-4">
 
-//     <div className="max-w-7xl mx-auto">
+//     <div className=" mx-auto">
 
 //       <motion.div
 
@@ -954,7 +954,7 @@
 
 //   <section className="py-24 bg-muted/50">
 
-//     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+//     <div className=" mx-auto px-4 sm:px-6 lg:px-8">
 
 //       <div className="text-center mb-16">
 
@@ -1120,7 +1120,7 @@
 
 //   <section className="py-24">
 
-//     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+//     <div className=" mx-auto px-4 sm:px-6 lg:px-8">
 
 //       <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
 
@@ -1242,7 +1242,7 @@
 
 //   <AnimatedSection direction="up" className="py-24 bg-background">
 
-//     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+//     <div className=" mx-auto px-4 sm:px-6 lg:px-8">
 
 //       <div className="text-center mb-16">
 
@@ -1376,7 +1376,7 @@
 
 //   <section className="py-24 bg-white/50 relative overflow-hidden">
 
-//     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+//     <div className=" mx-auto px-4 sm:px-6 lg:px-8">
 
 //       <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
 
@@ -1578,7 +1578,7 @@
 
 //   <section className={`py-24 ${reverse ? "bg-muted/30" : "bg-background"}`}>
 
-//     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+//     <div className=" mx-auto px-4 sm:px-6 lg:px-8">
 
 //       <div
 
@@ -1692,7 +1692,7 @@
 
 
 
-//     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+//     <div className=" mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
 //       <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
 
@@ -1956,7 +1956,7 @@
 
 //     <AnimatedSection direction="right" className="py-24 bg-muted/30">
 
-//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+//       <div className=" mx-auto px-4 sm:px-6 lg:px-8">
 
 //         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
 
@@ -2480,7 +2480,7 @@ export const Hero: React.FC = () => {
           </motion.div>
         </AnimatePresence>
 
-        <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center pt-32 pb-20 md:py-0">
+        <div className="relative z-20 w-full  mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center pt-32 pb-20 md:py-0">
           <div className="max-w-4xl">
             <AnimatePresence mode="wait">
               <motion.div
@@ -2703,7 +2703,7 @@ export const Stats: React.FC = () => {
 
   return (
     <div className="relative z-30 mt-20 px-4">
-      <div className="max-w-7xl mx-auto">
+      <div className=" mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -2781,7 +2781,7 @@ export const Stats: React.FC = () => {
 
 export const Features: React.FC = () => (
   <section className="py-24 bg-muted/50">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className=" mx-auto px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-16">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -2863,7 +2863,7 @@ export const Features: React.FC = () => (
 
 export const FunGallery: React.FC = () => (
   <section className="py-24">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className=" mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
         <div className="max-w-xl text-left">
           <h2 className="text-3xl md:text-5xl font-bold mb-6 italic">
@@ -2923,7 +2923,7 @@ export const FunGallery: React.FC = () => (
 
 export const WhyChooseUs: React.FC = () => (
   <AnimatedSection direction="up" className="py-24 bg-background">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className=" mx-auto px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-16">
         <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
           Why Choose <span className="text-primary italic">Meridian's?</span>
@@ -2990,7 +2990,7 @@ export const WhyChooseUs: React.FC = () => (
 
 export const CampusFacilities: React.FC = () => (
   <section className="py-24 bg-white/50 relative overflow-hidden">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className=" mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
         <div className="max-w-xl text-left">
           <motion.div
@@ -3082,7 +3082,7 @@ export const SplitHighlight: React.FC<{
   reverse?: boolean;
 }> = ({ title, description, image, badge, reverse }) => (
   <section className={`py-24 ${reverse ? "bg-muted/30" : "bg-background"}`}>
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className=" mx-auto px-4 sm:px-6 lg:px-8">
       <div
         className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-center ${reverse ? "lg:flex-row-reverse" : ""}`}
       >
@@ -3139,7 +3139,7 @@ export const AboutSection: React.FC = () => (
     <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -mr-64 -mt-64 z-0" />
     <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[120px] -ml-64 -mb-64 z-0" />
 
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div className=" mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
         <AnimatedSection direction="left" className="relative group">
           <div className="relative">
@@ -3271,7 +3271,7 @@ export const BlogSection: React.FC = () => {
 
   return (
     <AnimatedSection direction="right" className="py-24 bg-muted/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <SectionHeader
             title="Education"
