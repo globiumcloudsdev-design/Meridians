@@ -68,7 +68,7 @@ export default function About() {
       image: getImageSrc(aboutAssets["Our Inspirations"][2]),
     },
     {
-      name: "Hafiz Taseen",
+      name: "Hafiz Taaseen",
       role: "Principal of heir Campus",
       color: "secondary",
       icon: Heart,
