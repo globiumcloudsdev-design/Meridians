@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 
 export interface IAdmissionQuery extends Document {
+  queryType?: 'school' | 'online_quran';
   admissionDate?: string;
   name: string;
   class: string;
@@ -12,13 +13,25 @@ export interface IAdmissionQuery extends Document {
   homeAddress?: string;
   subjects?: string;
   dob?: string;
+  age?: string;
+  gender?: string;
+  quranLevel?: string;
+  relation?: string;
+  classesPerWeek?: string;
+  preferredDays?: string[];
+  preferredTime?: string;
+  timezone?: string;
+  preferredTutor?: string;
+  preferredPlatform?: string;
+  currency?: string;
+  referenceNo?: string;
   contact1: string;
   contact2?: string;
   parentEmail: string;
   principal?: string;
   program: string;
   message?: string;
-  status: 'pending' | 'replied' | 'test_sent' | 'contacted';
+  status: 'pending' | 'replied' | 'test_sent' | 'contacted' | 'test_passed' | 'admitted' | 'trial_scheduled' | 'enrolled' | 'cancelled';
   testScore?: number;
   testPassed?: boolean;
   testCompleted?: boolean;
@@ -56,6 +69,7 @@ export interface IAdmissionQuery extends Document {
 }
 
 const AdmissionQuerySchema = new Schema<IAdmissionQuery>({
+  queryType: { type: String, enum: ['school', 'online_quran'], default: 'school' },
   admissionDate: { type: String },
   name: { type: String, required: true },
   class: { type: String, required: true },
@@ -66,15 +80,26 @@ const AdmissionQuerySchema = new Schema<IAdmissionQuery>({
   homeAddress: { type: String },
   subjects: { type: String },
   dob: { type: String },
+  age: { type: String },
+  gender: { type: String },
+  quranLevel: { type: String },
+  relation: { type: String },
+  classesPerWeek: { type: String },
+  preferredDays: [{ type: String }],
+  preferredTime: { type: String },
+  timezone: { type: String },
+  preferredTutor: { type: String },
+  preferredPlatform: { type: String },
+  currency: { type: String, default: 'PKR' },
+  referenceNo: { type: String },
   contact1: { type: String, required: true },
   contact2: { type: String },
-  parentEmail: { type: String, required: true, lowercase: true, trim: true, unique: true },
+  parentEmail: { type: String, required: true, lowercase: true, trim: true },
   principal: { type: String },
   program: { type: String, required: true },
   message: { type: String },
   status: { 
     type: String, 
-    enum: ['pending', 'test_passed', 'admitted', 'contacted'],
     default: 'pending'
   },
   testScore: { type: Number },
@@ -114,3 +139,4 @@ const AdmissionQuerySchema = new Schema<IAdmissionQuery>({
 });
 
 export default mongoose.models.AdmissionQuery || mongoose.model<IAdmissionQuery>('AdmissionQuery', AdmissionQuerySchema);
+

@@ -126,3 +126,88 @@ export function admissionStatusTemplate({ name, program, status }: { name: strin
     </div>
   `;
 }
+
+// 3. ONLINE QURAN TRIAL & ADMISSION STATUS TEMPLATE
+export function quranAdmissionStatusTemplate({
+  name,
+  course,
+  status,
+  admissionNo,
+  customNote,
+}: {
+  name: string;
+  course: string;
+  status: string;
+  admissionNo?: string;
+  customNote?: string;
+}) {
+  const isPositive = status === 'trial_scheduled' || status === 'enrolled';
+  const statusColor = isPositive ? COLORS.primary : status === 'cancelled' ? '#dc2626' : '#ca8a04';
+  const statusBg = isPositive ? '#f0fdfa' : status === 'cancelled' ? '#fef2f2' : '#fffbeb';
+
+  const statusTitle =
+    status === 'trial_scheduled'
+      ? 'Free Trial Class Scheduled!'
+      : status === 'enrolled'
+      ? 'Enrollment Confirmed!'
+      : status === 'contacted'
+      ? 'Trial Request Update'
+      : status === 'cancelled'
+      ? 'Application Cancelled'
+      : 'Inquiry Received';
+
+  const statusBody =
+    status === 'trial_scheduled'
+      ? `Great news! Your free trial class for <b>${course}</b> has been scheduled. Our teacher coordinator will share the live class link with you on WhatsApp/Email shortly.`
+      : status === 'enrolled'
+      ? `Congratulations! Student <b>${name}</b> has been officially enrolled in <b>${course}</b>. Welcome to Meridian's Online Quran Academy family!`
+      : status === 'contacted'
+      ? `We have reviewed your request for <b>${course}</b> and contacted you via WhatsApp/Email. Please reply at your earliest convenience to confirm your class schedule.`
+      : status === 'cancelled'
+      ? `Your application for <b>${course}</b> has been cancelled. If this was a mistake, please reach out to us on WhatsApp to reactivate.`
+      : `Your free trial class request for <b>${course}</b> has been received and is currently being processed by our coordinator.`;
+
+  return `
+    <div style="font-family: Arial, sans-serif; background-color: ${COLORS.bg}; padding: 30px 15px;">
+      <div style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 1px solid #e5e7eb;">
+        
+        <div style="background-color: ${COLORS.primary}; padding: 35px; text-align: center;">
+          <div style="background: #ffffff; display: inline-block; padding: 12px; border-radius: 10px;">
+            <img src="${LOGO_URL}" alt="Meridian's Logo" style="width: 130px; height: auto; display: block;">
+          </div>
+          <h1 style="color: #ffffff; font-size: 18px; margin-top: 15px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;">Online Quran Academy</h1>
+        </div>
+
+        <div style="padding: 40px;">
+          <p style="font-size: 16px; color: ${COLORS.text}; margin-bottom: 25px;">Assalam-o-Alaikum Respected Parent / Student <b>${name}</b>,</p>
+          
+          <div style="border: 2px dashed ${statusColor}; border-radius: 8px; padding: 20px; text-align: center; margin-bottom: 30px; background-color: ${statusBg};">
+            ${admissionNo ? `<span style="color: ${COLORS.muted}; font-size: 12px; font-family: monospace; font-weight: bold; display: block; margin-bottom: 4px;">REF: ${admissionNo}</span>` : ''}
+            <span style="color: ${COLORS.muted}; font-size: 12px; text-transform: uppercase; font-weight: 600;">Course: ${course}</span>
+            <h2 style="margin: 6px 0 0 0; color: ${statusColor}; font-size: 22px; font-weight: bold;">${statusTitle}</h2>
+          </div>
+
+          <p style="font-size: 15px; color: #475569; line-height: 1.6; margin-bottom: 20px;">
+            ${statusBody}
+          </p>
+
+          ${customNote ? `
+            <div style="background-color: #f8fafc; border-left: 4px solid ${COLORS.primary}; padding: 15px 20px; border-radius: 4px; margin: 20px 0;">
+              <p style="font-size: 14px; color: #334155; margin: 0; line-height: 1.6;"><b>Teacher Coordinator Note:</b><br>${customNote.replace(/\n/g, '<br/>')}</p>
+            </div>
+          ` : ''}
+
+          <div style="margin-top: 25px; padding-top: 20px; border-top: 1px dashed #e2e8f0;">
+            <p style="font-size: 13px; color: #64748b; margin: 0;">
+              Need instant support or have questions? Reach us directly on WhatsApp: <a href="https://wa.me/923033569000" style="color: ${COLORS.primary}; font-weight: bold; text-decoration: none;">+92 303 3569000</a>
+            </p>
+          </div>
+          
+          <p style="font-size: 14px; color: ${COLORS.muted}; margin-top: 30px;">JazakAllah Khair,<br><span style="color: ${COLORS.primary}; font-weight: bold;">Meridian's Online Quran Academy</span></p>
+        </div>
+
+        ${getFooter()}
+      </div>
+    </div>
+  `;
+}

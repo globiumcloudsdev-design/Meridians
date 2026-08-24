@@ -28,9 +28,20 @@ export async function PATCH(
     }
 
     // Validate status value
-    if (!['pending', 'replied'].includes(status)) {
+    const allowedStatuses = [
+      'pending',
+      'replied',
+      'test_passed',
+      'admitted',
+      'contacted',
+      'trial_scheduled',
+      'enrolled',
+      'cancelled',
+    ];
+
+    if (!allowedStatuses.includes(status)) {
       return NextResponse.json(
-        { error: 'Invalid status value. Must be "pending" or "replied"' },
+        { error: `Invalid status value. Must be one of: ${allowedStatuses.join(', ')}` },
         { status: 400 }
       );
     }

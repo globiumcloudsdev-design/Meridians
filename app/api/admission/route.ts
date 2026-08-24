@@ -24,6 +24,98 @@ export async function POST(request: NextRequest) {
   try {
     await connectDB();
 
+    const contentType = request.headers.get('content-type') || '';
+
+    // Handle JSON payload (e.g. from Online Quran Enrollment)
+    if (contentType.includes('application/json')) {
+      const body = await request.json();
+      const {
+        queryType = 'online_quran',
+        name,
+        class: className,
+        fatherName,
+        shift,
+        fatherCnic,
+        homeAddress,
+        dob,
+        age,
+        gender,
+        quranLevel,
+        relation,
+        classesPerWeek,
+        preferredDays,
+        preferredTime,
+        timezone,
+        preferredTutor,
+        preferredPlatform,
+        currency,
+        contact1,
+        contact2,
+        parentEmail,
+        program = 'Online Quran',
+        message,
+        admissionNo,
+        feeAmount,
+        status = 'pending',
+      } = body;
+
+      const cleanedName = name?.trim() || '';
+      const cleanedClass = className?.trim() || '';
+      const cleanedContact1 = contact1?.trim() || '';
+      const cleanedParentEmail = parentEmail?.trim().toLowerCase() || '';
+      const cleanedProgram = program?.trim() || 'Online Quran';
+
+      if (!cleanedName || !cleanedParentEmail || !cleanedContact1) {
+        return NextResponse.json(
+          { error: 'Missing required fields (name, parentEmail, contact1)' },
+          { status: 400 }
+        );
+      }
+
+      const admissionQuery = new AdmissionQuery({
+        queryType,
+        name: cleanedName,
+        class: cleanedClass || 'Online Quran Course',
+        fatherName: fatherName?.trim(),
+        shift: shift?.trim() || (classesPerWeek ? `${classesPerWeek} Classes / Week` : undefined),
+        fatherCnic: fatherCnic?.trim(),
+        homeAddress: homeAddress?.trim(),
+        dob: dob?.trim(),
+        age: age ? String(age).trim() : undefined,
+        gender: gender?.trim(),
+        quranLevel: quranLevel?.trim(),
+        relation: relation?.trim(),
+        classesPerWeek: classesPerWeek ? String(classesPerWeek).trim() : undefined,
+        preferredDays: Array.isArray(preferredDays) ? preferredDays : undefined,
+        preferredTime: preferredTime?.trim(),
+        timezone: timezone?.trim(),
+        preferredTutor: preferredTutor?.trim(),
+        preferredPlatform: preferredPlatform?.trim(),
+        currency: currency?.trim() || 'PKR',
+        referenceNo: admissionNo?.trim(),
+        admissionNo: admissionNo?.trim(),
+        feeAmount: typeof feeAmount === 'number' ? feeAmount : undefined,
+        contact1: cleanedContact1,
+        contact2: contact2?.trim(),
+        parentEmail: cleanedParentEmail,
+        program: cleanedProgram,
+        message: message?.trim() || '',
+        status,
+      });
+
+      await admissionQuery.save();
+
+      return NextResponse.json(
+        {
+          message: 'Inquiry saved successfully',
+          id: admissionQuery._id,
+          admissionNo: admissionQuery.admissionNo,
+        },
+        { status: 201 }
+      );
+    }
+
+    // Handle Multipart FormData payload (School Admission)
     const formData = await request.formData();
     
     // Extract form fields
@@ -38,6 +130,7 @@ export async function POST(request: NextRequest) {
     const parentEmail = formData.get('parentEmail') as string;
     const program = formData.get('program') as string;
     const message = formData.get('message') as string;
+    const queryType = (formData.get('queryType') as string) || 'school';
     
     // Extract files
     const file1 = formData.get('document1') as File | null;
@@ -56,8 +149,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check if email already exists
-    const existingQuery = await AdmissionQuery.findOne({ parentEmail: cleanedParentEmail });
+    // Check if email already exists for school queries
+    const existingQuery = await AdmissionQuery.findOne({ 
+      parentEmail: cleanedParentEmail, 
+      queryType: { $ne: 'online_quran' } 
+    });
     
     if (existingQuery) {
       // Case 1: Test passed - already admitted
@@ -164,6 +260,7 @@ export async function POST(request: NextRequest) {
     }
 
     const admissionQuery = new AdmissionQuery({
+      queryType,
       name: cleanedName,
       class: cleanedClass,
       fatherName: fatherName?.trim(),
