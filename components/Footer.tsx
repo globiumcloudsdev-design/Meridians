@@ -6,13 +6,13 @@ import { Button } from "@/components/ui/button";
 import {
   Mail,
   Phone,
-  MapPin,
   Facebook,
   Linkedin,
   Twitter,
   Instagram,
   Youtube,
   MessageCircle,
+  Loader2,
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -20,39 +20,61 @@ import { API_SUBSCRIBERS } from "@/lib/api/endpoints";
 import { getCurrentYear } from "@/lib/utils";
 import { AlreadySubscribedModal } from "./AlreadySubscribedModal";
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export function Footer() {
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showAlreadySubscribedModal, setShowAlreadySubscribedModal] = useState(false);
 
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    if (emailError) setEmailError(""); // clear error on change
+  };
+
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) {
-      toast.error("Please enter an email");
+
+    // Client-side validation
+    if (!email.trim()) {
+      setEmailError("Please enter your email address.");
       return;
     }
+    if (!EMAIL_REGEX.test(email.trim())) {
+      setEmailError("Please enter a valid email address.");
+      return;
+    }
+    setEmailError("");
 
     setIsLoading(true);
     try {
       const response = await fetch(API_SUBSCRIBERS, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: email.trim() }),
       });
 
+      const data = await response.json().catch(() => ({}));
+
       if (response.ok) {
-        toast.success("Subscribed successfully!");
+        toast.success("You're subscribed! Welcome to our newsletter.");
         setEmail("");
+      } else if (response.status === 400 && data.error === "Already subscribed with this email") {
+        setShowAlreadySubscribedModal(true);
+      } else if (response.status === 422) {
+        setEmailError(data.error || "Invalid email address.");
+      } else if (response.status >= 500) {
+        toast.error("Server error. Please try again later.");
       } else {
-        const data = await response.json();
-        if (response.status === 400 && data.error === "Already subscribed with this email") {
-          setShowAlreadySubscribedModal(true);
-        } else {
-          toast.error("Subscription failed. Please try again.");
-        }
+        toast.error(data.error || "Subscription failed. Please try again.");
       }
     } catch (error) {
-      toast.error("Error subscribing. Please try again.");
+      if (error instanceof TypeError && (error as TypeError).message.includes("fetch")) {
+        toast.error("No internet connection. Please check your network.");
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -77,18 +99,19 @@ export function Footer() {
             </p>
             <div className="flex gap-4">
               {[
-                { icon: Facebook, href: "https://www.facebook.com/p/Meridians-Group-Of-Education-100095628877699/", color: "hover:bg-[#1877F2]" },
-                { icon: Instagram, href: "https://www.instagram.com/meridiansgroupofeducation?fbclid=IwY2xjawQ4g5BleHRuA2FlbQIxMABicmlkETFSZDl6NFlzMjVnbkFjUVhHc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHsloEWwEW3_psm30P4ECMHbJ9O6LuHnTsUWYyv46PHJGmJ5xkym-jf1ud8eV_aem_knxBwc3v2ZC5FEgPA__n1w", color: "hover:bg-gradient-to-tr hover:from-[#F58529] hover:via-[#DD2A7B] hover:to-[#8134AF]" },
-                { icon: Youtube, href: "https://www.youtube.com/@meridiansgroupofeducation6030", color: "hover:bg-[#FF0000]" },
-                { icon: Twitter, href: "#", color: "hover:bg-[#1DA1F2]" },
-                { icon: Linkedin, href: "#", color: "hover:bg-[#0A66C2]" },
-                { icon: MessageCircle, href: "https://wa.me/923033569000", color: "hover:bg-[#25D366]" },
-              ].map((social, i) => (
+                { icon: Facebook, href: "https://www.facebook.com/p/Meridians-Group-Of-Education-100095628877699/", label: "Facebook", color: "hover:bg-[#1877F2]" },
+                { icon: Instagram, href: "https://www.instagram.com/meridiansgroupofeducation?fbclid=IwY2xjawQ4g5BleHRuA2FlbQIxMABicmlkETFSZDl6NFlzMjVnbkFjUVhHc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHsloEWwEW3_psm30P4ECMHbJ9O6LuHnTsUWYyv46PHJGmJ5xkym-jf1ud8eV_aem_knxBwc3v2ZC5FEgPA__n1w", label: "Instagram", color: "hover:bg-gradient-to-tr hover:from-[#F58529] hover:via-[#DD2A7B] hover:to-[#8134AF]" },
+                { icon: Youtube, href: "https://www.youtube.com/@Meridians_Group_of_Education", label: "YouTube", color: "hover:bg-[#FF0000]" },
+                { icon: Twitter, href: "#", label: "Twitter", color: "hover:bg-[#1DA1F2]" },
+                { icon: Linkedin, href: "#", label: "LinkedIn", color: "hover:bg-[#0A66C2]" },
+                { icon: MessageCircle, href: "https://wa.me/923033569000", label: "WhatsApp", color: "hover:bg-[#25D366]" },
+              ].map((social) => (
                 <a
-                  key={i}
+                  key={social.label}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={social.label}
                   className={`w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center ${social.color} hover:text-white hover:-translate-y-1 transition-all duration-300 border border-white/10`}
                 >
                   <social.icon className="w-5 h-5" />
@@ -140,8 +163,6 @@ export function Footer() {
                 </div>
                 <a
                   href="tel:03033569000"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="text-white/60 hover:text-primary font-bold"
                 >
                   0303 3569000
@@ -153,8 +174,6 @@ export function Footer() {
                 </div>
                 <a
                   href="tel:03214712207"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="text-white/60 hover:text-primary font-bold"
                 >
                   03214712207
@@ -165,9 +184,7 @@ export function Footer() {
                   <Mail className="w-5 h-5" />
                 </div>
                 <a
-href="mailto:meridians35102@gmail.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="mailto:meridians35102@gmail.com"
                   className="text-white/60 hover:text-primary font-bold truncate"
                 >
                   meridians35102@gmail.com
@@ -182,33 +199,54 @@ href="mailto:meridians35102@gmail.com"
               Newsletter
             </h4>
             <p className="text-white/50 text-sm mb-8 font-medium">
-              Subscribe for the latest updates in technical & holistic
+              Subscribe for the latest updates in technical &amp; holistic
               education.
             </p>
-            <form onSubmit={handleSubscribe} className="space-y-4">
+            <form onSubmit={handleSubscribe} className="space-y-4" noValidate>
               <div className="relative">
                 <Input
                   type="email"
                   placeholder="Email Address"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={handleEmailChange}
                   disabled={isLoading}
-                  className="bg-white/5 border-white/10 text-white placeholder:text-white/30 h-14 rounded-2xl focus:ring-primary focus:border-primary transition-all"
+                  aria-invalid={!!emailError}
+                  aria-describedby={emailError ? "newsletter-email-error" : undefined}
+                  className={`bg-white/5 border-white/10 text-white placeholder:text-white/30 h-14 rounded-2xl focus:ring-primary transition-all ${
+                    emailError
+                      ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                      : "focus:border-primary"
+                  }`}
                 />
+                {emailError && (
+                  <p
+                    id="newsletter-email-error"
+                    className="mt-1.5 text-xs text-red-400 font-medium"
+                  >
+                    {emailError}
+                  </p>
+                )}
               </div>
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-primary hover:bg-primary/90 text-white h-14 rounded-2xl text-md font-black shadow-lg shadow-primary/20 transform active:scale-95 transition-all"
+                className="w-full bg-primary hover:bg-primary/90 text-white h-14 rounded-2xl text-md font-black shadow-lg shadow-primary/20 transform active:scale-95 transition-all flex items-center justify-center gap-2"
               >
-                {isLoading ? "Wait..." : "Join Now"}
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Subscribing…
+                  </>
+                ) : (
+                  "Join Now"
+                )}
               </Button>
             </form>
           </div>
 
-          <AlreadySubscribedModal 
-            isOpen={showAlreadySubscribedModal} 
-            onClose={() => setShowAlreadySubscribedModal(false)} 
+          <AlreadySubscribedModal
+            isOpen={showAlreadySubscribedModal}
+            onClose={() => setShowAlreadySubscribedModal(false)}
           />
         </div>
 
@@ -221,7 +259,7 @@ href="mailto:meridians35102@gmail.com"
             <p className="text-white/40 text-sm font-bold">
               Powered by{" "}
               <a
-                href="https://www.globiumclouds.com/"
+                href="https://www.facebook.com/globiumclouds/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:text-primary/80 font-black transition-colors"
@@ -230,17 +268,6 @@ href="mailto:meridians35102@gmail.com"
               </a>
             </p>
           </div>
-          {/* <div className="flex gap-10">
-            {["Privacy Policy", "Terms of Service"].map((item) => (
-              <Link
-                key={item}
-                href={`/${item.toLowerCase().replace(/ /g, "-")}`}
-                className="text-white/40 hover:text-primary text-xs font-black uppercase tracking-widest transition-colors"
-              >
-                {item}
-              </Link>
-            ))}
-          </div> */}
         </div>
       </div>
     </footer>

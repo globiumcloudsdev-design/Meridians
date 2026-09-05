@@ -14,8 +14,6 @@ import {
   CheckCircle2,
   ArrowRight,
   ArrowLeft,
-  Trash2,
-  Plus,
   Printer,
   RotateCcw,
   GraduationCap,
@@ -25,12 +23,6 @@ import {
 } from "lucide-react";
 
 /* ---------------- CONSTANTS & PROGRAM DATA ---------------- */
-const CAMPUSES = [
-  "Main Campus",
-  "Gulshan Campus",
-  "North Nazimabad Campus",
-  "Clifton Campus",
-];
 
 interface ProgramData {
   label: string;
@@ -112,12 +104,6 @@ const ELECTIVES: Record<string, string[]> = {
   ],
 };
 
-interface Sibling {
-  id: number;
-  name: string;
-  class: string;
-  inst: string;
-}
 
 export default function AdmissionFormPage() {
   const router = useRouter();
@@ -135,8 +121,6 @@ export default function AdmissionFormPage() {
     setRefId(`MSS-${random6}`);
   }, []);
 
-  /* ---------------- STEP 1: PERSONAL INFO STATE ---------------- */
-  const [campus, setCampus] = useState("");
   const [studentName, setStudentName] = useState("");
   const [fatherName, setFatherName] = useState("");
   const [dob, setDob] = useState("");
@@ -144,7 +128,6 @@ export default function AdmissionFormPage() {
   const [gender, setGender] = useState("Male");
   const [nationality, setNationality] = useState("Pakistani");
   const [religion, setReligion] = useState("Muslim");
-  const [bloodGroup, setBloodGroup] = useState("");
 
   const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
@@ -156,13 +139,7 @@ export default function AdmissionFormPage() {
   const [relation, setRelation] = useState("");
   const [guardianCnic, setGuardianCnic] = useState("");
   const [occupation, setOccupation] = useState("Govt. Employed");
-  const [organization, setOrganization] = useState("");
-  const [designation, setDesignation] = useState("");
   const [guardianMobile, setGuardianMobile] = useState("");
-
-  const [siblings, setSiblings] = useState<Sibling[]>([
-    { id: 1, name: "", class: "", inst: "" },
-  ]);
 
   /* ---------------- STEP 2: ACADEMIC INFO STATE ---------------- */
   const [selectedProgram, setSelectedProgram] = useState("matric");
@@ -171,14 +148,6 @@ export default function AdmissionFormPage() {
   const [selectedElectives, setSelectedElectives] = useState<string[]>([]);
   const [courseDuration, setCourseDuration] = useState("");
   const [shift, setShift] = useState("Morning");
-
-  const [prevInstitute, setPrevInstitute] = useState("");
-  const [lastClass, setLastClass] = useState("");
-  const [marksObtained, setMarksObtained] = useState("");
-  const [marksTotal, setMarksTotal] = useState("");
-  const [percentage, setPercentage] = useState("");
-  const [passYear, setPassYear] = useState("");
-  const [boardReg, setBoardReg] = useState("");
 
   /* ---------------- STEP 3: DOCUMENTS & DECLARATION ---------------- */
   const [docPhoto, setDocPhoto] = useState<File | null>(null);
@@ -191,23 +160,9 @@ export default function AdmissionFormPage() {
 
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [agreeRules, setAgreeRules] = useState(false);
-  const [sigParent, setSigParent] = useState("");
-  const [sigStudent, setSigStudent] = useState("");
 
   // Validation errors
   const [errors, setErrors] = useState<Record<string, string>>({});
-
-  /* ---------------- AUTO-CALCULATE PERCENTAGE ---------------- */
-  useEffect(() => {
-    const obt = parseFloat(marksObtained);
-    const tot = parseFloat(marksTotal);
-    if (!isNaN(obt) && !isNaN(tot) && tot > 0) {
-      const pct = ((obt / tot) * 100).toFixed(2);
-      setPercentage(`${pct}%`);
-    } else {
-      setPercentage("");
-    }
-  }, [marksObtained, marksTotal]);
 
   /* ---------------- FORMATTERS ---------------- */
   const handleCnicChange = (
@@ -234,31 +189,6 @@ export default function AdmissionFormPage() {
     setter(digits);
   };
 
-  /* ---------------- SIBLINGS HANDLERS ---------------- */
-  const addSiblingRow = () => {
-    setSiblings((prev) => [
-      ...prev,
-      { id: Date.now(), name: "", class: "", inst: "" },
-    ]);
-  };
-
-  const removeSiblingRow = (id: number) => {
-    if (siblings.length === 1) {
-      setSiblings([{ id: 1, name: "", class: "", inst: "" }]);
-      return;
-    }
-    setSiblings((prev) => prev.filter((s) => s.id !== id));
-  };
-
-  const updateSiblingField = (
-    id: number,
-    field: keyof Sibling,
-    val: string
-  ) => {
-    setSiblings((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, [field]: val } : s))
-    );
-  };
 
   /* ---------------- PROGRAM & GROUP HANDLERS ---------------- */
   const handleProgramSelect = (key: string) => {
@@ -306,7 +236,6 @@ export default function AdmissionFormPage() {
   /* ---------------- VALIDATION ---------------- */
   const validateStep1 = () => {
     const errs: Record<string, string> = {};
-    if (!campus) errs.campus = "Please select a campus.";
     if (!studentName.trim()) errs.studentName = "Student full name is required.";
     if (!fatherName.trim()) errs.fatherName = "Father's full name is required.";
     if (!dob) errs.dob = "Date of birth is required.";
@@ -350,10 +279,6 @@ export default function AdmissionFormPage() {
       errs.docFatherCnic = "Father's CNIC copy is required.";
     if (!agreeRules)
       errs.agreeRules = "You must agree to the institutional rules.";
-    if (!sigParent.trim())
-      errs.sigParent = "Parent/Guardian signature is required.";
-    if (!sigStudent.trim())
-      errs.sigStudent = "Student signature is required.";
 
     setErrors(errs);
     if (Object.keys(errs).length > 0) {
@@ -384,7 +309,6 @@ export default function AdmissionFormPage() {
       const formDataToSend = new FormData();
       formDataToSend.append("source", "school");
       formDataToSend.append("admissionNo", refId);
-      formDataToSend.append("campus", campus);
       formDataToSend.append("studentName", studentName);
       formDataToSend.append("fatherName", fatherName);
       formDataToSend.append("dob", dob);
@@ -392,7 +316,6 @@ export default function AdmissionFormPage() {
       formDataToSend.append("gender", gender);
       formDataToSend.append("nationality", nationality);
       formDataToSend.append("religion", religion);
-      formDataToSend.append("bloodGroup", bloodGroup);
       formDataToSend.append("fatherContact", `+92-${mobile}`);
       formDataToSend.append("email", email);
       formDataToSend.append("homeAddress", presentAddress);
@@ -404,15 +327,7 @@ export default function AdmissionFormPage() {
       formDataToSend.append("relation", relation);
       formDataToSend.append("fatherCnic", guardianCnic);
       formDataToSend.append("occupation", occupation);
-      formDataToSend.append("organization", organization);
-      formDataToSend.append("designation", designation);
       formDataToSend.append("guardianMobile", guardianMobile ? `+92-${guardianMobile}` : "");
-
-      // Sibling info
-      const validSiblings = siblings.filter((s) => s.name.trim().length > 0);
-      if (validSiblings.length > 0) {
-        formDataToSend.append("siblings", JSON.stringify(validSiblings));
-      }
 
       // Academic info
       formDataToSend.append("program", PROGRAMS[selectedProgram]?.label || selectedProgram);
@@ -422,25 +337,14 @@ export default function AdmissionFormPage() {
       formDataToSend.append("courseDuration", courseDuration);
       formDataToSend.append("shift", shift);
 
-      // Previous Academic Record
-      formDataToSend.append("prevInstitute", prevInstitute);
-      formDataToSend.append("lastClass", lastClass);
-      formDataToSend.append("marksObtained", marksObtained);
-      formDataToSend.append("marksTotal", marksTotal);
-      formDataToSend.append("percentage", percentage);
-      formDataToSend.append("passYear", passYear);
-      formDataToSend.append("boardReg", boardReg);
-
       // Documents
       if (docPhoto) formDataToSend.append("documents", docPhoto);
       if (docBform) formDataToSend.append("documents", docBform);
       if (docFatherCnic) formDataToSend.append("documents", docFatherCnic);
       if (docResult) formDataToSend.append("documents", docResult);
 
-      // Additional & Signatures
+      // Additional info
       formDataToSend.append("message", additionalInfo);
-      formDataToSend.append("parentSignature", sigParent);
-      formDataToSend.append("studentSignature", sigStudent);
 
       const response = await fetch(API_ADMISSION, {
         method: "POST",
@@ -469,7 +373,7 @@ export default function AdmissionFormPage() {
     <div className="flex flex-col min-h-screen bg-[#F5F6F8] text-[#132A4C] antialiased selection:bg-[#AD8A4E]/20">
       <Navbar />
 
-      <main className="flex-1 py-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
+      <main className="flex-1 pt-28 pb-14 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
         {/* ================= MASTHEAD ================= */}
         <div className="relative overflow-hidden bg-[#132A4C] text-white rounded-2xl p-6 sm:p-8 mb-8 shadow-xl border border-[#132A4C]/20">
           <div className="absolute -right-10 -top-10 w-64 h-64 rounded-full bg-radial from-[#AD8A4E]/30 to-transparent pointer-events-none" />
@@ -628,42 +532,15 @@ export default function AdmissionFormPage() {
                     </div>
 
                     <div className="p-6 sm:p-8 space-y-8">
-                      {/* Campus & Identity */}
+                      {/* Personal Identity */}
                       <fieldset>
                         <legend className="text-xs font-bold uppercase tracking-wider text-[#3A4A66] pb-3 border-b border-[#DDE2EA] w-full mb-6">
-                          Campus &amp; Identity
+                          Personal &amp; Identity
                         </legend>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                          {/* Campus */}
-                          <div className="sm:col-span-2 space-y-1.5">
-                            <label className="text-xs font-bold text-[#132A4C]">
-                              Applying to Campus <span className="text-[#B23B3B]">*</span>
-                            </label>
-                            <select
-                              value={campus}
-                              onChange={(e) => setCampus(e.target.value)}
-                              className={`w-full p-3 rounded-lg border bg-[#FBFCFD] text-sm text-[#132A4C] outline-none focus:border-[#AD8A4E] focus:bg-white focus:ring-2 focus:ring-[#AD8A4E]/15 transition-all ${
-                                errors.campus
-                                  ? "border-[#B23B3B] bg-[#FBEAEA]"
-                                  : "border-[#DDE2EA]"
-                              }`}
-                            >
-                              <option value="">Select a campus</option>
-                              {CAMPUSES.map((c) => (
-                                <option key={c} value={c}>
-                                  {c}
-                                </option>
-                              ))}
-                            </select>
-                            {errors.campus && (
-                              <p className="text-xs text-[#B23B3B]">
-                                {errors.campus}
-                              </p>
-                            )}
-                          </div>
-
                           {/* Student Name */}
+
                           <div className="space-y-1.5">
                             <label className="text-xs font-bold text-[#132A4C]">
                               Student&apos;s Full Name{" "}
@@ -847,29 +724,6 @@ export default function AdmissionFormPage() {
                             </div>
                           </div>
 
-                          {/* Blood Group */}
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-[#132A4C]">
-                              Blood Group{" "}
-                              <span className="text-[#3A4A66] font-normal">
-                                (Optional)
-                              </span>
-                            </label>
-                            <select
-                              value={bloodGroup}
-                              onChange={(e) => setBloodGroup(e.target.value)}
-                              className="w-full p-3 rounded-lg border border-[#DDE2EA] bg-[#FBFCFD] text-sm text-[#132A4C] outline-none focus:border-[#AD8A4E] focus:bg-white focus:ring-2 focus:ring-[#AD8A4E]/15 transition-all"
-                            >
-                              <option value="">Not sure</option>
-                              {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map(
-                                (b) => (
-                                  <option key={b} value={b}>
-                                    {b}
-                                  </option>
-                                )
-                              )}
-                            </select>
-                          </div>
                         </div>
                       </fieldset>
 
@@ -1113,37 +967,6 @@ export default function AdmissionFormPage() {
                             </div>
                           </div>
 
-                          {/* Organization */}
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-[#132A4C]">
-                              Organization / Business Name
-                            </label>
-                            <input
-                              type="text"
-                              value={organization}
-                              onChange={(e) => setOrganization(e.target.value)}
-                              placeholder="Employer or business"
-                              className="w-full p-3 rounded-lg border border-[#DDE2EA] bg-[#FBFCFD] text-sm text-[#132A4C] outline-none focus:border-[#AD8A4E] focus:bg-white focus:ring-2 focus:ring-[#AD8A4E]/15 transition-all"
-                            />
-                          </div>
-
-                          {/* Designation */}
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-[#132A4C]">
-                              Designation{" "}
-                              <span className="text-[#3A4A66] font-normal">
-                                (If employed)
-                              </span>
-                            </label>
-                            <input
-                              type="text"
-                              value={designation}
-                              onChange={(e) => setDesignation(e.target.value)}
-                              placeholder="Job title"
-                              className="w-full p-3 rounded-lg border border-[#DDE2EA] bg-[#FBFCFD] text-sm text-[#132A4C] outline-none focus:border-[#AD8A4E] focus:bg-white focus:ring-2 focus:ring-[#AD8A4E]/15 transition-all"
-                            />
-                          </div>
-
                           {/* Guardian Mobile */}
                           <div className="sm:col-span-2 space-y-1.5">
                             <label className="text-xs font-bold text-[#132A4C]">
@@ -1171,89 +994,8 @@ export default function AdmissionFormPage() {
                         </div>
                       </fieldset>
 
-                      {/* Sibling Details */}
-                      <fieldset>
-                        <legend className="text-xs font-bold uppercase tracking-wider text-[#3A4A66] pb-3 border-b border-[#DDE2EA] w-full mb-6">
-                          Sibling(s) Currently Enrolled{" "}
-                          <span className="font-normal text-[11px] normal-case">
-                            (Optional)
-                          </span>
-                        </legend>
-
-                        <div className="space-y-3">
-                          {siblings.map((sib) => (
-                            <div
-                              key={sib.id}
-                              className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-center"
-                            >
-                              <div className="sm:col-span-4">
-                                <input
-                                  type="text"
-                                  value={sib.name}
-                                  onChange={(e) =>
-                                    updateSiblingField(
-                                      sib.id,
-                                      "name",
-                                      e.target.value
-                                    )
-                                  }
-                                  placeholder="Sibling's name"
-                                  className="w-full p-2.5 rounded-lg border border-[#DDE2EA] bg-[#FBFCFD] text-xs"
-                                />
-                              </div>
-                              <div className="sm:col-span-3">
-                                <input
-                                  type="text"
-                                  value={sib.class}
-                                  onChange={(e) =>
-                                    updateSiblingField(
-                                      sib.id,
-                                      "class",
-                                      e.target.value
-                                    )
-                                  }
-                                  placeholder="Class"
-                                  className="w-full p-2.5 rounded-lg border border-[#DDE2EA] bg-[#FBFCFD] text-xs"
-                                />
-                              </div>
-                              <div className="sm:col-span-4">
-                                <input
-                                  type="text"
-                                  value={sib.inst}
-                                  onChange={(e) =>
-                                    updateSiblingField(
-                                      sib.id,
-                                      "inst",
-                                      e.target.value
-                                    )
-                                  }
-                                  placeholder="Campus / School"
-                                  className="w-full p-2.5 rounded-lg border border-[#DDE2EA] bg-[#FBFCFD] text-xs"
-                                />
-                              </div>
-                              <div className="sm:col-span-1 flex justify-end">
-                                <button
-                                  type="button"
-                                  onClick={() => removeSiblingRow(sib.id)}
-                                  className="p-2 text-[#B23B3B] hover:bg-[#FBEAEA] rounded-lg transition-colors cursor-pointer"
-                                  title="Remove sibling"
-                                >
-                                  <Trash2 className="w-4 h-4" />
-                                </button>
-                              </div>
-                            </div>
-                          ))}
-
-                          <button
-                            type="button"
-                            onClick={addSiblingRow}
-                            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#AD8A4E] hover:underline mt-2 cursor-pointer"
-                          >
-                            <Plus className="w-4 h-4" /> Add sibling
-                          </button>
-                        </div>
-                      </fieldset>
                     </div>
+
 
                     {/* Step 1 Footer */}
                     <div className="p-6 sm:p-8 bg-[#FBFCFD] border-t border-[#DDE2EA] flex justify-end">
@@ -1499,108 +1241,6 @@ export default function AdmissionFormPage() {
                         </fieldset>
                       )}
 
-                      {/* Previous School / College */}
-                      <fieldset>
-                        <legend className="text-xs font-bold uppercase tracking-wider text-[#3A4A66] pb-3 border-b border-[#DDE2EA] w-full mb-6">
-                          Previous School / College
-                        </legend>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                          <div className="sm:col-span-2 space-y-1.5">
-                            <label className="text-xs font-bold text-[#132A4C]">
-                              Name of Last Institute Attended
-                            </label>
-                            <input
-                              type="text"
-                              value={prevInstitute}
-                              onChange={(e) => setPrevInstitute(e.target.value)}
-                              placeholder="School / college name"
-                              className="w-full p-3 rounded-lg border border-[#DDE2EA] bg-[#FBFCFD] text-sm text-[#132A4C] outline-none focus:border-[#AD8A4E] focus:bg-white focus:ring-2 focus:ring-[#AD8A4E]/15 transition-all"
-                            />
-                          </div>
-
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-[#132A4C]">
-                              Last Class Attended
-                            </label>
-                            <input
-                              type="text"
-                              value={lastClass}
-                              onChange={(e) => setLastClass(e.target.value)}
-                              placeholder="e.g. 8th, Prep"
-                              className="w-full p-3 rounded-lg border border-[#DDE2EA] bg-[#FBFCFD] text-sm text-[#132A4C] outline-none focus:border-[#AD8A4E] focus:bg-white focus:ring-2 focus:ring-[#AD8A4E]/15 transition-all"
-                            />
-                          </div>
-
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-[#132A4C]">
-                              Marks Obtained
-                            </label>
-                            <input
-                              type="number"
-                              value={marksObtained}
-                              onChange={(e) => setMarksObtained(e.target.value)}
-                              placeholder="e.g. 780"
-                              className="w-full p-3 rounded-lg border border-[#DDE2EA] bg-[#FBFCFD] text-sm text-[#132A4C] outline-none focus:border-[#AD8A4E] focus:bg-white focus:ring-2 focus:ring-[#AD8A4E]/15 transition-all"
-                            />
-                          </div>
-
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-[#132A4C]">
-                              Total Marks
-                            </label>
-                            <input
-                              type="number"
-                              value={marksTotal}
-                              onChange={(e) => setMarksTotal(e.target.value)}
-                              placeholder="e.g. 1100"
-                              className="w-full p-3 rounded-lg border border-[#DDE2EA] bg-[#FBFCFD] text-sm text-[#132A4C] outline-none focus:border-[#AD8A4E] focus:bg-white focus:ring-2 focus:ring-[#AD8A4E]/15 transition-all"
-                            />
-                          </div>
-
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-[#132A4C]">
-                              Percentage
-                            </label>
-                            <input
-                              type="text"
-                              value={percentage}
-                              readOnly
-                              placeholder="Auto-calculated"
-                              className="w-full p-3 rounded-lg border border-[#DDE2EA] bg-[#F0F2F5] text-sm font-mono text-[#132A4C] outline-none"
-                            />
-                          </div>
-
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-[#132A4C]">
-                              Year of Passing
-                            </label>
-                            <input
-                              type="number"
-                              value={passYear}
-                              onChange={(e) => setPassYear(e.target.value)}
-                              placeholder="e.g. 2025"
-                              className="w-full p-3 rounded-lg border border-[#DDE2EA] bg-[#FBFCFD] text-sm text-[#132A4C] outline-none focus:border-[#AD8A4E] focus:bg-white focus:ring-2 focus:ring-[#AD8A4E]/15 transition-all"
-                            />
-                          </div>
-
-                          <div className="sm:col-span-2 space-y-1.5">
-                            <label className="text-xs font-bold text-[#132A4C]">
-                              Board / Registration No.{" "}
-                              <span className="text-[#3A4A66] font-normal">
-                                (Optional)
-                              </span>
-                            </label>
-                            <input
-                              type="text"
-                              value={boardReg}
-                              onChange={(e) => setBoardReg(e.target.value)}
-                              placeholder="If applicable"
-                              className="w-full p-3 rounded-lg border border-[#DDE2EA] bg-[#FBFCFD] text-sm text-[#132A4C] outline-none focus:border-[#AD8A4E] focus:bg-white focus:ring-2 focus:ring-[#AD8A4E]/15 transition-all"
-                            />
-                          </div>
-                        </div>
-                      </fieldset>
                     </div>
 
                     {/* Step 2 Footer */}
@@ -1920,55 +1560,8 @@ export default function AdmissionFormPage() {
                           </p>
                         )}
 
-                        {/* Signatures */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-5">
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-[#132A4C]">
-                              Signature of Parent / Guardian{" "}
-                              <span className="text-[#B23B3B]">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              value={sigParent}
-                              onChange={(e) => setSigParent(e.target.value)}
-                              placeholder="Type full name to sign"
-                              className={`w-full p-3 rounded-lg border bg-[#FBFCFD] text-sm text-[#132A4C] outline-none focus:border-[#AD8A4E] focus:bg-white focus:ring-2 focus:ring-[#AD8A4E]/15 transition-all ${
-                                errors.sigParent
-                                  ? "border-[#B23B3B] bg-[#FBEAEA]"
-                                  : "border-[#DDE2EA]"
-                              }`}
-                            />
-                            {errors.sigParent && (
-                              <p className="text-xs text-[#B23B3B]">
-                                {errors.sigParent}
-                              </p>
-                            )}
-                          </div>
-
-                          <div className="space-y-1.5">
-                            <label className="text-xs font-bold text-[#132A4C]">
-                              Signature of Student{" "}
-                              <span className="text-[#B23B3B]">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              value={sigStudent}
-                              onChange={(e) => setSigStudent(e.target.value)}
-                              placeholder="Type full name to sign"
-                              className={`w-full p-3 rounded-lg border bg-[#FBFCFD] text-sm text-[#132A4C] outline-none focus:border-[#AD8A4E] focus:bg-white focus:ring-2 focus:ring-[#AD8A4E]/15 transition-all ${
-                                errors.sigStudent
-                                  ? "border-[#B23B3B] bg-[#FBEAEA]"
-                                  : "border-[#DDE2EA]"
-                              }`}
-                            />
-                            {errors.sigStudent && (
-                              <p className="text-xs text-[#B23B3B]">
-                                {errors.sigStudent}
-                              </p>
-                            )}
-                          </div>
-                        </div>
                       </fieldset>
+
                     </div>
 
                     {/* Step 3 Footer */}
@@ -2029,10 +1622,7 @@ export default function AdmissionFormPage() {
                 <span className="text-[#3A4A66]">Student Name</span>
                 <b className="text-[#132A4C]">{studentName}</b>
               </div>
-              <div className="flex justify-between py-1 border-b border-dashed border-[#DDE2EA]">
-                <span className="text-[#3A4A66]">Campus</span>
-                <b className="text-[#132A4C]">{campus || "Main Campus"}</b>
-              </div>
+
               <div className="flex justify-between py-1 border-b border-dashed border-[#DDE2EA]">
                 <span className="text-[#3A4A66]">Program</span>
                 <b className="text-[#132A4C]">

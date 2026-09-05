@@ -4,8 +4,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    await connectDB();
-
     const body = await request.json();
     const { name, email, message } = body;
 
@@ -15,6 +13,8 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    await connectDB();
 
     const contactMessage = new ContactMessage({
       name,

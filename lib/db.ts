@@ -1,9 +1,5 @@
-import dns from "node:dns/promises";
-dns.setServers(["8.8.8.8", "8.8.4.4"]);
-
 import mongoose from 'mongoose';
 const MONGODB_URI = process.env.MONGODB_URI;
-console.log(MONGODB_URI);
 if (!MONGODB_URI) {
   throw new Error('Please define MONGODB_URI in .env.local');
 }
@@ -27,11 +23,18 @@ export async function connectDB() {
   }
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI!).then((mongoose) => {
-      console.log('Connected');
-      
-      return mongoose;
-    });
+    cached.promise = mongoose
+      .connect(MONGODB_URI!, {
+        serverSelectionTimeoutMS: 3000,
+      })
+      .then((m) => {
+        console.log('Connected to MongoDB');
+        return m;
+      })
+      .catch((err) => {
+        cached.promise = null;
+        throw err;
+      });
   }
 
   cached.conn = await cached.promise;

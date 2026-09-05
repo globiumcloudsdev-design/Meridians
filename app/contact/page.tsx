@@ -51,11 +51,28 @@ export default function Contact() {
     }));
   };
 
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  const validateForm = () => {
+    const errs: Record<string, string> = {};
+    if (!formData.name.trim()) errs.name = "Name is required.";
+    if (!formData.email.trim()) {
+      errs.email = "Email is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      errs.email = "Please enter a valid email address.";
+    }
+    if (!formData.message.trim()) errs.message = "Message is required.";
+    else if (formData.message.trim().length < 10)
+      errs.message = "Message must be at least 10 characters.";
+    setFieldErrors(errs);
+    return Object.keys(errs).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.email || !formData.message) {
-      toast.error("Please fill in all fields");
+    if (!validateForm()) {
+      toast.error("Please fix the highlighted fields before submitting.");
       return;
     }
 
@@ -64,20 +81,33 @@ export default function Contact() {
       const response = await fetch(API_CONTACT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          message: formData.message.trim(),
+        }),
       });
 
+      const data = await response.json().catch(() => ({}));
+
       if (response.ok) {
-        toast.success(
-          "Message sent successfully! We will get back to you soon.",
-        );
+        toast.success("Message sent! We'll get back to you soon.");
         setFormData({ name: "", email: "", message: "" });
+        setFieldErrors({});
+      } else if (response.status === 422 || response.status === 400) {
+        toast.error(data.error || "Please check your input and try again.");
+      } else if (response.status >= 500) {
+        toast.error("Server error. Please try again later.");
       } else {
-        toast.error("Failed to send message. Please try again.");
+        toast.error(data.error || "Failed to send message. Please try again.");
       }
     } catch (error) {
-      console.error("Error sending message:", error);
-      toast.error("Error sending message. Please try again.");
+      if (error instanceof TypeError) {
+        toast.error("No internet connection. Please check your network.");
+      } else {
+        console.error("Contact form error:", error);
+        toast.error("Something went wrong. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -222,7 +252,7 @@ export default function Contact() {
                       </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-8">
+                    <form onSubmit={handleSubmit} noValidate className="space-y-8">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-3">
                           <Label
@@ -240,12 +270,19 @@ export default function Contact() {
                               name="name"
                               type="text"
                               value={formData.name}
-                              onChange={handleChange}
+                              onChange={(e) => {
+                                handleChange(e);
+                                if (fieldErrors.name) setFieldErrors((p) => ({ ...p, name: "" }));
+                              }}
                               placeholder="e.g. John Doe"
-                              required
-                              className="pl-12 h-14 rounded-2xl border-primary/10 bg-primary/5 focus:bg-white transition-all focus:ring-2 focus:ring-primary/20"
+                              aria-invalid={!!fieldErrors.name}
+                              aria-describedby={fieldErrors.name ? "name-error" : undefined}
+                              className={`pl-12 h-14 rounded-2xl bg-primary/5 focus:bg-white transition-all focus:ring-2 ${fieldErrors.name ? "border-red-500 focus:ring-red-500/20" : "border-primary/10 focus:ring-primary/20"}`}
                             />
                           </div>
+                          {fieldErrors.name && (
+                            <p id="name-error" className="text-xs text-red-500 font-medium ml-1">{fieldErrors.name}</p>
+                          )}
                         </div>
 
                         <div className="space-y-3">
@@ -264,12 +301,19 @@ export default function Contact() {
                               name="email"
                               type="email"
                               value={formData.email}
-                              onChange={handleChange}
+                              onChange={(e) => {
+                                handleChange(e);
+                                if (fieldErrors.email) setFieldErrors((p) => ({ ...p, email: "" }));
+                              }}
                               placeholder="john@example.com"
-                              required
-                              className="pl-12 h-14 rounded-2xl border-primary/10 bg-primary/5 focus:bg-white transition-all focus:ring-2 focus:ring-primary/20"
+                              aria-invalid={!!fieldErrors.email}
+                              aria-describedby={fieldErrors.email ? "email-error" : undefined}
+                              className={`pl-12 h-14 rounded-2xl bg-primary/5 focus:bg-white transition-all focus:ring-2 ${fieldErrors.email ? "border-red-500 focus:ring-red-500/20" : "border-primary/10 focus:ring-primary/20"}`}
                             />
                           </div>
+                          {fieldErrors.email && (
+                            <p id="email-error" className="text-xs text-red-500 font-medium ml-1">{fieldErrors.email}</p>
+                          )}
                         </div>
                       </div>
 
@@ -288,23 +332,36 @@ export default function Contact() {
                             id="message"
                             name="message"
                             value={formData.message}
-                            onChange={handleChange}
+                            onChange={(e) => {
+                              handleChange(e);
+                              if (fieldErrors.message) setFieldErrors((p) => ({ ...p, message: "" }));
+                            }}
                             placeholder="How can we help you today?"
                             rows={6}
-                            required
-                            className="pl-12 pt-4 rounded-[24px] border-primary/10 bg-primary/5 focus:bg-white transition-all focus:ring-2 focus:ring-primary/20 min-h-[160px]"
+                            aria-invalid={!!fieldErrors.message}
+                            aria-describedby={fieldErrors.message ? "message-error" : undefined}
+                            className={`pl-12 pt-4 rounded-[24px] bg-primary/5 focus:bg-white transition-all focus:ring-2 min-h-[160px] ${fieldErrors.message ? "border-red-500 focus:ring-red-500/20" : "border-primary/10 focus:ring-primary/20"}`}
                           />
                         </div>
+                        {fieldErrors.message && (
+                          <p id="message-error" className="text-xs text-red-500 font-medium ml-1">{fieldErrors.message}</p>
+                        )}
                       </div>
 
                       <div className="flex flex-col md:flex-row items-center gap-6 pt-4">
                         <Button
                           type="submit"
                           disabled={isLoading}
-                          className="w-full md:w-auto min-w-[200px] h-16 bg-primary hover:bg-primary/90 text-white rounded-2xl font-black text-lg shadow-xl shadow-primary/20 group hover:scale-[1.02] transition-all duration-300"
+                          className="w-full md:w-auto min-w-[200px] h-16 bg-primary hover:bg-primary/90 text-white rounded-2xl font-black text-lg shadow-xl shadow-primary/20 group hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-2"
                         >
                           {isLoading ? (
-                            "Sending..."
+                            <>
+                              <svg className="animate-spin w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                              </svg>
+                              Sending…
+                            </>
                           ) : (
                             <span className="flex items-center gap-2">
                               Send Message{" "}
@@ -349,7 +406,7 @@ export default function Contact() {
                           "hover:bg-gradient-to-tr hover:from-[#F58529] hover:via-[#DD2A7B] hover:to-[#8134AF]",
                         link: "https://www.instagram.com/meridiansgroupofeducation?fbclid=IwY2xjawQ4g5BleHRuA2FlbQIxMABicmlkETFSZDl6NFlzMjVnbkFjUVhHc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHsloEWwEW3_psm30P4ECMHbJ9O6LuHnTsUWYyv46PHJGmJ5xkym-jf1ud8eV_aem_knxBwc3v2ZC5FEgPA__n1w",
                       },
-                      { icon: Youtube, color: "hover:bg-[#FF0000]", link: "https://www.youtube.com/@meridiansgroupofeducation6030" },
+                      { icon: Youtube, color: "hover:bg-[#FF0000]", link: "https://www.youtube.com/@Meridians_Group_of_Education" },
                       { icon: Twitter, color: "hover:bg-[#1DA1F2]", link: "#" },
                       { icon: Linkedin, color: "hover:bg-[#0A66C2]", link: "#" },
                       { icon: MessageCircle, color: "hover:bg-[#25D366]", link: "https://wa.me/923033569000" },
